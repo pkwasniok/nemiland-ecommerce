@@ -4,6 +4,8 @@ import { MedusaProvider } from "medusa-react";
 import { QueryClient } from "@tanstack/react-query";
 import { ChakraProvider } from "@chakra-ui/react";
 
+import { RootLayout } from "@/features/layout";
+
 const client = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -13,7 +15,9 @@ export default function App({ Component, pageProps }: AppProps) {
       baseUrl="http://localhost:9000"
     >
       <ChakraProvider>
-        <Component {...pageProps} />
+        <RootLayout>
+          <Component {...pageProps} />
+        </RootLayout>
       </ChakraProvider>
     </MedusaProvider>
   );

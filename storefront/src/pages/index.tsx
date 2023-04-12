@@ -1,6 +1,7 @@
-import { Box } from "@chakra-ui/react";
 import { useProducts } from "medusa-react";
 import { useEffect } from "react";
+
+import { PageLayout } from "@/features/layout";
 
 const HomePage = () => {
   const { products } = useProducts();
@@ -9,11 +10,7 @@ const HomePage = () => {
     console.log(products);
   }, [products]);
 
-  return (
-    <Box>
-      <Box></Box>
-    </Box>
-  );
+  return <PageLayout>Strona główna</PageLayout>;
 };
 
 export default HomePage;
