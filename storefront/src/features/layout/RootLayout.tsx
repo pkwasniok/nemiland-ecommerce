@@ -115,7 +115,9 @@ const RootLayout = ({ children }: RootLayoutProps) => {
 
         <Box h={isMobile ? 12 : 14} />
 
-        <Flex flex={1}>{children}</Flex>
+        <Flex flex={1} direction="column" alignItems="center">
+          {children}
+        </Flex>
       </Flex>
 
       <Drawer

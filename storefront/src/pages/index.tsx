@@ -10,7 +10,7 @@ const HomePage = () => {
     console.log(products);
   }, [products]);
 
-  return <PageLayout>Strona główna</PageLayout>;
+  return <PageLayout></PageLayout>;
 };
 
 export default HomePage;
