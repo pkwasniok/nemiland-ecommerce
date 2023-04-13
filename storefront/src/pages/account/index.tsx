@@ -13,7 +13,13 @@ import {
 } from "@chakra-ui/react";
 import { PageLayout } from "@/features/layout";
 
-import { FiEdit3, FiHome, FiPackage, FiLogOut } from "react-icons/fi";
+import {
+  FiSettings,
+  FiHome,
+  FiPackage,
+  FiLogOut,
+  FiHelpCircle,
+} from "react-icons/fi";
 
 const AccountPage = () => {
   const router = useRouter();
@@ -50,7 +56,13 @@ const AccountPage = () => {
         </Text>
       </Flex>
 
-      <Button variant="outline" leftIcon={<FiPackage />} justifyContent="start">
+      <Button
+        variant="outline"
+        leftIcon={<FiPackage />}
+        justifyContent="start"
+        as={NextLink}
+        href="/account/order"
+      >
         Zamówienia
       </Button>
 
@@ -64,8 +76,24 @@ const AccountPage = () => {
         Adresy
       </Button>
 
-      <Button variant="outline" leftIcon={<FiEdit3 />} justifyContent="start">
-        Moje dane
+      <Button
+        variant="outline"
+        leftIcon={<FiSettings />}
+        justifyContent="start"
+        as={NextLink}
+        href="/account/settings"
+      >
+        Ustawienia konta
+      </Button>
+
+      <Button
+        variant="outline"
+        leftIcon={<FiHelpCircle />}
+        justifyContent="start"
+        as={NextLink}
+        href="/help"
+      >
+        Pomoc i kontakt
       </Button>
 
       <Spacer />

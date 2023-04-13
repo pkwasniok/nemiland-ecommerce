@@ -31,7 +31,6 @@ export const AddressForm = ({ isLoading, ...props }: AddressFormProps) => {
       {...props}
     >
       <Form>
-        <FormValue name="countryCode" value="PL" />
         <Flex gap={4}>
           <FormInput name="firstName" label="Imię*" />
           <FormInput name="lastName" label="Nazwisko*" />
