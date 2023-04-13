@@ -16,7 +16,7 @@ const CreateAddressPage = () => {
     setLoading(true);
 
     try {
-      await client.customers.addresses.addAddress({
+      const res = await client.customers.addresses.addAddress({
         address: {
           country_code: values.contryCode,
           first_name: values.firstName,
