@@ -2,16 +2,19 @@ import { Formik, FormikConfig } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { z } from "zod";
 
-import { Form, FormInput, FormSubmit } from "@/components/form";
+import { Flex } from "@chakra-ui/react";
+import { Form, FormInput, FormSubmit, FormValue } from "@/components/form";
 
 export const addressFormSchema = z.object({
   firstName: z.string().trim(),
   lastName: z.string().trim(),
+  company: z.string().trim().optional().default(""),
   address1: z.string().trim(),
-  address2: z.string().trim().optional(),
+  address2: z.string().trim().optional().default(""),
   city: z.string().trim(),
   postalCode: z.string().trim(),
   province: z.string().trim(),
+  contryCode: z.string().trim(),
   phone: z.string().trim(),
 });
 
@@ -28,14 +31,19 @@ export const AddressForm = ({ isLoading, ...props }: AddressFormProps) => {
       {...props}
     >
       <Form>
-        <FormInput name="firstName" label="Imię" />
-        <FormInput name="lastName" label="Nazwisko" />
-        <FormInput name="address1" label="Adres" />
+        <FormValue name="countryCode" value="PL" />
+        <Flex gap={4}>
+          <FormInput name="firstName" label="Imię*" />
+          <FormInput name="lastName" label="Nazwisko*" />
+        </Flex>
+        <FormInput name="address1" label="Adres*" />
         <FormInput name="address2" />
-        <FormInput name="city" label="Miasto" />
-        <FormInput name="postalCode" label="Kod pocztowy" />
-        <FormInput name="province" label="Województwo" />
-        <FormInput name="phone" label="Numer telefonu" />
+        <Flex gap={4}>
+          <FormInput name="postalCode" label="Kod pocztowy*" />
+          <FormInput name="city" label="Miasto*" />
+        </Flex>
+        <FormInput name="province" label="Województwo*" />
+        <FormInput name="phone" label="Numer telefonu*" />
         <FormSubmit isLoading={isLoading}>Zapisz</FormSubmit>
       </Form>
     </Formik>
