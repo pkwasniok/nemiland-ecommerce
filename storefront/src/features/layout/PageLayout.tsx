@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import Head from "next/head";
 import NextLink from "next/link";
 
-import { Flex, Heading } from "@chakra-ui/react";
+import { Flex, Heading, Spinner } from "@chakra-ui/react";
 
 import { FiChevronLeft } from "react-icons/fi";
 
@@ -11,6 +11,7 @@ interface PageLayoutProps {
   title?: string;
   backlinkHref?: string;
   showTitle?: boolean;
+  isLoading?: boolean;
 }
 
 const PageLayout = ({
@@ -18,6 +19,7 @@ const PageLayout = ({
   title,
   backlinkHref,
   showTitle,
+  isLoading,
 }: PageLayoutProps) => {
   return (
     <>
@@ -68,9 +70,17 @@ const PageLayout = ({
         </Flex>
       )}
 
-      <Flex flex={1} maxW="1536px" w="100%" p={4} gap={4} direction="column">
-        {children}
-      </Flex>
+      {isLoading == true && (
+        <Flex flex={1} alignItems="center" justifyContent="center">
+          <Spinner />
+        </Flex>
+      )}
+
+      {(isLoading == false || isLoading == undefined) && (
+        <Flex flex={1} maxW="1536px" w="100%" p={4} gap={4} direction="column">
+          {children}
+        </Flex>
+      )}
     </>
   );
 };

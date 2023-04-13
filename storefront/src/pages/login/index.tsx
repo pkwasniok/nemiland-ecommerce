@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import NextLink from "next/link";
 import client from "@/lib/client";
 
@@ -6,11 +7,13 @@ import { PageLayout } from "@/features/layout";
 import { LoginForm, LoginFormValues } from "@/features/forms";
 
 const LoginPage = () => {
+  const router = useRouter();
   const toast = useToast();
 
   const handleLogin = async (values: LoginFormValues) => {
     try {
       await client.auth.authenticate(values);
+      router.push("/account");
     } catch (e) {
       toast({
         title: "Coś poszło nie tak...",
