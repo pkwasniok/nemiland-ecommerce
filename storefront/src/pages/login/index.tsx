@@ -1,14 +1,23 @@
 import NextLink from "next/link";
 import client from "@/lib/client";
 
-import { Button, Flex, Divider } from "@chakra-ui/react";
+import { useToast, Button, Flex, Divider } from "@chakra-ui/react";
 import { PageLayout } from "@/features/layout";
 import { LoginForm, LoginFormValues } from "@/features/forms";
 
 const LoginPage = () => {
+  const toast = useToast();
+
   const handleLogin = async (values: LoginFormValues) => {
-    const r = await client.auth.authenticate(values);
-    console.log(r);
+    try {
+      await client.auth.authenticate(values);
+    } catch (e) {
+      toast({
+        title: "Coś poszło nie tak...",
+        description: "Sprawdź poprawność danych logowania",
+        status: "error",
+      });
+    }
   };
 
   return (
