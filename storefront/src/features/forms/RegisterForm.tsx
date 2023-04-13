@@ -13,9 +13,11 @@ export const registerFormSchema = z.object({
 
 export type RegisterFormValues = z.infer<typeof registerFormSchema>;
 
-export const RegisterForm = ({
-  ...props
-}: FormikConfig<RegisterFormValues>) => {
+interface RegisterFormProps extends FormikConfig<RegisterFormValues> {
+  isLoading?: boolean;
+}
+
+export const RegisterForm = ({ isLoading, ...props }: RegisterFormProps) => {
   return (
     <Formik
       validationSchema={toFormikValidationSchema(registerFormSchema)}
@@ -26,7 +28,7 @@ export const RegisterForm = ({
         <FormInput name="lastName" label="Nazwisko" />
         <FormInput name="email" label="Adres email" />
         <FormInput name="password" type="password" label="Hasło" />
-        <FormSubmit>Zarejestruj się</FormSubmit>
+        <FormSubmit isLoading={isLoading}>Zarejestruj się</FormSubmit>
       </Form>
     </Formik>
   );

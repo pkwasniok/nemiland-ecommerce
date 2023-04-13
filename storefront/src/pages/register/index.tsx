@@ -39,6 +39,7 @@ const RegisterPage = () => {
     <PageLayout title="Rejestracja" backlinkHref="/login" showTitle>
       <RegisterForm
         initialValues={{ firstName: "", lastName: "", email: "", password: "" }}
+        isLoading={register.isLoading}
         onSubmit={handleRegister}
       />
     </PageLayout>

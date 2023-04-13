@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useRouter } from "next/router";
 import NextLink from "next/link";
 import client from "@/lib/client";
@@ -10,7 +11,11 @@ const LoginPage = () => {
   const router = useRouter();
   const toast = useToast();
 
+  const [isLoading, setLoading] = useState(false);
+
   const handleLogin = async (values: LoginFormValues) => {
+    setLoading(true);
+
     try {
       await client.auth.authenticate(values);
       router.push("/account");
@@ -21,12 +26,15 @@ const LoginPage = () => {
         status: "error",
       });
     }
+
+    setLoading(true);
   };
 
   return (
     <PageLayout title="Logowanie" showTitle>
       <LoginForm
         initialValues={{ email: "", password: "" }}
+        isLoading={isLoading}
         onSubmit={handleLogin}
       />
 

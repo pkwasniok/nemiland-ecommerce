@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useRouter } from "next/router";
 import client from "@/lib/client";
 
@@ -12,9 +13,13 @@ const PasswordResetPage = () => {
   const router = useRouter();
   const toast = useToast();
 
+  const [isLoadig, setLoading] = useState(false);
+
   const handleRequestPasswordReset = async (
     values: RequestPasswordResetFormValues
   ) => {
+    setLoading(true);
+
     try {
       await client.customers.generatePasswordToken(values);
       toast({
@@ -30,12 +35,15 @@ const PasswordResetPage = () => {
         status: "error",
       });
     }
+
+    setLoading(false);
   };
 
   return (
     <PageLayout title="Resetowanie hasła" backlinkHref="/login" showTitle>
       <RequestPasswordResetForm
         initialValues={{ email: "" }}
+        isLoading={isLoadig}
         onSubmit={handleRequestPasswordReset}
       />
     </PageLayout>

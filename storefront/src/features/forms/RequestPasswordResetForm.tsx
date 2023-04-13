@@ -12,9 +12,15 @@ export type RequestPasswordResetFormValues = z.infer<
   typeof requestPasswordResetFormSchema
 >;
 
+interface RequestPasswordResetFormProps
+  extends FormikConfig<RequestPasswordResetFormValues> {
+  isLoading?: boolean;
+}
+
 export const RequestPasswordResetForm = ({
+  isLoading,
   ...props
-}: FormikConfig<RequestPasswordResetFormValues>) => {
+}: RequestPasswordResetFormProps) => {
   return (
     <Formik
       validationSchema={toFormikValidationSchema(
@@ -24,7 +30,7 @@ export const RequestPasswordResetForm = ({
     >
       <Form>
         <FormInput name="email" label="Adres email" />
-        <FormSubmit>Wyślij</FormSubmit>
+        <FormSubmit isLoading={isLoading}>Wyślij</FormSubmit>
       </Form>
     </Formik>
   );
