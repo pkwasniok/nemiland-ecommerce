@@ -70,6 +70,8 @@ const RootLayout = ({ children }: RootLayoutProps) => {
                 variant="ghost"
                 icon={<FiShoppingBag size={22} />}
                 aria-label="Cart"
+                as={NextLink}
+                href="/cart"
               />
             </Flex>
           )}
@@ -101,12 +103,16 @@ const RootLayout = ({ children }: RootLayoutProps) => {
                   variant="ghost"
                   icon={<FiUser size={20} />}
                   aria-label="Account"
+                  as={NextLink}
+                  href="/login"
                 />
 
                 <IconButton
                   variant="ghost"
                   icon={<FiShoppingBag size={20} />}
                   aria-label="Cart"
+                  as={NextLink}
+                  href="/cart"
                 />
               </Flex>
             </Flex>

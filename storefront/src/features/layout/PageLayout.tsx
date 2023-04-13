@@ -68,7 +68,7 @@ const PageLayout = ({
         </Flex>
       )}
 
-      <Flex flex={1} maxW="1536px" w="100%" px={4} direction="column">
+      <Flex flex={1} maxW="1536px" w="100%" p={4} direction="column">
         {children}
       </Flex>
     </>
