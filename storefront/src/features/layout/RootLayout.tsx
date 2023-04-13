@@ -29,11 +29,18 @@ const RootLayout = ({ children }: RootLayoutProps) => {
 
   return (
     <>
-      <Flex direction="column" w="100vw" h="100vh">
+      <Flex
+        direction="column"
+        w="100vw"
+        h="100vh"
+        overflow="auto"
+        pt={isMobile ? 12 : 14}
+      >
         <Flex
           position="fixed"
           top={0}
           left={0}
+          zIndex={10}
           w="100vw"
           justifyContent="center"
           borderBottom="1px"
@@ -46,6 +53,9 @@ const RootLayout = ({ children }: RootLayoutProps) => {
               p={2}
               alignItems="center"
               justifyContent="space-between"
+              bgColor="whiteAlpha.900"
+              backdropFilter="auto"
+              backdropBlur="sm"
             >
               <IconButton
                 variant="ghost"
@@ -84,6 +94,9 @@ const RootLayout = ({ children }: RootLayoutProps) => {
               p={4}
               alignItems="center"
               justifyContent="space-between"
+              bgColor="whiteAlpha.900"
+              backdropFilter="auto"
+              backdropBlur="sm"
             >
               <Heading size="lg" as={NextLink} href="/">
                 Nemiland
@@ -118,8 +131,6 @@ const RootLayout = ({ children }: RootLayoutProps) => {
             </Flex>
           )}
         </Flex>
-
-        <Box h={isMobile ? 12 : 14} />
 
         <Flex flex={1} direction="column" alignItems="center">
           {children}

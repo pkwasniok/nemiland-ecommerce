@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import NextLink from "next/link";
 import client from "@/lib/client";
 import { useMeCustomer } from "medusa-react";
 
@@ -53,7 +54,13 @@ const AccountPage = () => {
         Zamówienia
       </Button>
 
-      <Button variant="outline" leftIcon={<FiHome />} justifyContent="start">
+      <Button
+        variant="outline"
+        leftIcon={<FiHome />}
+        justifyContent="start"
+        as={NextLink}
+        href="/account/address"
+      >
         Adresy
       </Button>
 
