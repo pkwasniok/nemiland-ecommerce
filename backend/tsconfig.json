@@ -1,25 +1,20 @@
 {
   "compilerOptions": {
-    "lib": ["es5", "es6"],
-    "target": "esnext",
-    "allowJs": true,
-    "esModuleInterop": false,
     "module": "commonjs",
-    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
-    "declaration": false,
+    "strictPropertyInitialization": false,
+    "target": "es2019",
+    "strict": true,
     "sourceMap": false,
+    "skipLibCheck": true,
     "outDir": "./dist",
-    "rootDir": "src",
-    "baseUrl": "src"
+    "baseUrl": "./"
   },
-  "include": ["src"],
-  "exclude": [
-    "**/__tests__",
-    "**/__fixtures__",
-    "node_modules"
-  ]
+  "exclude": ["node_modules", "migration.ts"],
+  "ts-node": {
+    "files": true
+  }
 }

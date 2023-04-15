@@ -1,60 +1,71 @@
-import { useState } from "react";
 import { useRouter } from "next/router";
 import NextLink from "next/link";
-import client from "@/lib/client";
+import { useMutation } from "@apollo/client";
+import { GQL_MUTATION_LOGIN } from "@/lib/vendure";
 
-import { useToast, Button, Flex, Divider } from "@chakra-ui/react";
 import { PageLayout } from "@/features/layout";
-import { LoginForm, LoginFormValues } from "@/features/forms";
+import { LoginForm, LoginFormValues } from "@/features/form";
+import { useToast, Flex, Text, Divider, Button } from "@chakra-ui/react";
 
 const LoginPage = () => {
   const router = useRouter();
   const toast = useToast();
 
-  const [isLoading, setLoading] = useState(false);
+  const [loginMutation] = useMutation(GQL_MUTATION_LOGIN, {
+    onCompleted: (data) => {
+      const result = data.login.__typename;
 
-  const handleLogin = async (values: LoginFormValues) => {
-    setLoading(true);
+      if (result == "CurrentUser") {
+        toast({
+          title: "Zalogowano",
+          status: "success",
+        });
+        router.push("/account");
+      } else if (result == "InvalidCredentialsError") {
+        toast({
+          title: "Nie udało się zalgować",
+          description: "Sprawdź poprawność danych logowania.",
+          status: "warning",
+        });
+      } else if (result == "NotVerifiedError") {
+        toast({
+          title: "Nie udało się zalgować",
+          description: "Twoje konto nie zostało zweryfikowane.",
+          status: "warning",
+        });
+      } else {
+        toast({
+          title: "Coś poszło nie tak...",
+          description: "Sprobój ponownie później.",
+          status: "error",
+        });
+      }
+    },
+  });
 
-    try {
-      await client.auth.authenticate(values);
-      router.push("/account");
-    } catch (e) {
-      toast({
-        title: "Coś poszło nie tak...",
-        description: "Sprawdź poprawność danych logowania",
-        status: "error",
-      });
-    }
-
-    setLoading(true);
+  const handleLogin = (values: LoginFormValues) => {
+    loginMutation({ variables: values });
   };
 
   return (
     <PageLayout title="Logowanie" showTitle>
       <LoginForm
         initialValues={{ email: "", password: "" }}
-        isLoading={isLoading}
         onSubmit={handleLogin}
       />
 
-      <Flex
-        direction="row"
-        alignItems="center"
-        gap={2}
-        fontSize="sm"
-        textColor="gray.500"
-      >
+      <Flex alignItems="center" gap={4}>
         <Divider />
-        Lub
+        <Text fontSize="sm" textColor="gray.400">
+          Lub
+        </Text>
         <Divider />
       </Flex>
 
-      <Button as={NextLink} href="/register">
+      <Button variant="ghost" as={NextLink} href="/register">
         Zarejestruj się
       </Button>
-
-      <Button as={NextLink} href="/password-reset">
+      <Button variant="ghost" as={NextLink} href="/password-reset">
         Zresetuj hasło
       </Button>
     </PageLayout>

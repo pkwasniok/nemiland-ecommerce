@@ -1,45 +1,45 @@
 import { useRouter } from "next/router";
-import { useCreateCustomer } from "medusa-react";
+import { useMutation } from "@apollo/client";
+import { GQL_MUTATION_REGISTER } from "@/lib/vendure";
 
-import { useToast } from "@chakra-ui/react";
 import { PageLayout } from "@/features/layout";
-import { RegisterForm, RegisterFormValues } from "@/features/forms";
+import { RegisterForm, RegisterFormValues } from "@/features/form";
+import { useToast } from "@chakra-ui/toast";
 
 const RegisterPage = () => {
   const router = useRouter();
   const toast = useToast();
 
-  const register = useCreateCustomer({
-    onSuccess: () => {
-      toast({
-        title: "Zarejestrowano",
-        description: "Teraz możesz się zalogować",
-        status: "success",
-      });
-      router.push("/login");
-    },
-    onError: (error) => {
-      toast({
-        title: "Coś poszło nie tak...",
-        status: "error",
-      });
+  const [registerMutation] = useMutation(GQL_MUTATION_REGISTER, {
+    onCompleted: (data) => {
+      const result = data.registerCustomerAccount.__typename;
+
+      if (result == "Success") {
+        toast({
+          title: "Udało się",
+          description:
+            "Wysłaliśmy Ci maila z dalszymi instrukcjami do rejestracji konta.",
+          status: "success",
+        });
+        router.push("/login");
+      } else {
+        toast({
+          title: "Coś poszło nie tak...",
+          description: "Sprobuj ponownie później.",
+          status: "error",
+        });
+      }
     },
   });
 
-  const handleRegister = async (values: RegisterFormValues) => {
-    register.mutate({
-      first_name: values.firstName,
-      last_name: values.lastName,
-      email: values.email,
-      password: values.password,
-    });
+  const handleRegister = (values: RegisterFormValues) => {
+    registerMutation({ variables: values });
   };
 
   return (
     <PageLayout title="Rejestracja" backlinkHref="/login" showTitle>
       <RegisterForm
         initialValues={{ firstName: "", lastName: "", email: "", password: "" }}
-        isLoading={register.isLoading}
         onSubmit={handleRegister}
       />
     </PageLayout>
