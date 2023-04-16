@@ -15,13 +15,13 @@
     "migration:revert": "ts-node migration revert"
   },
   "dependencies": {
-    "@vendure/admin-ui-plugin": "1.9.5",
-    "@vendure/asset-server-plugin": "1.9.5",
-    "@vendure/core": "1.9.5",
-    "@vendure/email-plugin": "1.9.5",
-    "better-sqlite3": "7.6.2",
+    "@vendure/admin-ui-plugin": "2.0.0-beta.1",
+    "@vendure/asset-server-plugin": "2.0.0-beta.1",
+    "@vendure/core": "2.0.0-beta.1",
+    "@vendure/email-plugin": "2.0.0-beta.1",
+    "better-sqlite3": "8.3.0",
     "dotenv": "16.0.3",
-    "typescript": "4.3.5"
+    "typescript": "4.9.5"
   },
   "devDependencies": {
     "concurrently": "8.0.1",
