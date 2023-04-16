@@ -17,7 +17,7 @@ Useful links:
 ## Development
 
 ```
-yarn dev
+npm run dev
 ```
 
 will start the Vendure server and [worker](https://www.vendure.io/docs/developer-guide/vendure-worker/) processes from
@@ -26,7 +26,7 @@ the `src` directory.
 ## Build
 
 ```
-yarn build
+npm run build
 ```
 
 will compile the TypeScript sources into the `/dist` directory.
@@ -41,7 +41,7 @@ hosting environment.
 You can run the built files directly with the `start` script:
 
 ```
-yarn start
+npm run start
 ```
 
 You could also consider using a process manager like [pm2](https://pm2.keymetrics.io/) to run and manage
@@ -97,7 +97,7 @@ will be required whenever you make changes to the `customFields` config or defin
 The following npm scripts can be used to generate migrations:
 
 ```
-yarn migration:generate [name]
+npm run migration:generate [name]
 ```
 
 The generated migration file will be found in the `./src/migrations/` directory, and should be committed to source control.
@@ -114,11 +114,11 @@ data that you cannot lose.
 You can also run any pending migrations manually, without starting the server by running:
 
 ```
-yarn migration:run
+npm run migration:run
 ```
 
 You can revert the most recently-applied migration with:
 
 ```
-yarn migration:revert
+npm run migration:revert
 ```
