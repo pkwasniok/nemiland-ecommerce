@@ -4,8 +4,9 @@ const config: CodegenConfig = {
   schema: "http://localhost:3000/shop-api",
   documents: ["src/**/*.{ts,tsx}"],
   generates: {
-    "./src/__graphql__/": {
+    "./src/__generated__/": {
       preset: "client",
+      plugins: [],
       presetConfig: {
         gqlTagName: "gql",
       },

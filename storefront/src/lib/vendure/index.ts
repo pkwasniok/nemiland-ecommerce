@@ -1,4 +1,4 @@
-export { gql } from "@/__graphql__";
+export { gql } from "@/__generated__";
 export { client } from "./client";
 
 export * from "./queries/customer";

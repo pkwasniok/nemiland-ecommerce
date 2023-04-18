@@ -1,4 +1,4 @@
-import { gql } from "@/__graphql__";
+import { gql } from "@/__generated__/gql";
 
 export const GQL_MUTATION_REGISTER = gql(`
   mutation Register($firstName: String!, $lastName: String!, $email: String!, $password: String!) {
@@ -65,6 +65,16 @@ export const GQL_QUERY_ACTIVE_CUSTOMER = gql(`
   query ActiveCustomer {
     activeCustomer {
       id,
+      firstName,
+      lastName,
+    }
+  }
+`);
+
+export const GQL_QUERY_ACTIVE_CHANNEL = gql(`
+  query ActiveChannel {
+    activeChannel {
+      id
     }
   }
 `);
