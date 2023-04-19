@@ -1,15 +1,50 @@
 import { useRouter } from "next/router";
 import NextLink from "next/link";
+import { useMutation } from "urql";
+import { GQL_MUTATION_LOGIN } from "@/lib/vendure";
 
 import { PageLayout } from "@/features/layout";
-import { LoginForm, LoginFormValues } from "@/features/form";
+import { LoginForm, LoginFormValues, loginFormSchema } from "@/features/form";
 import { useToast, Flex, Text, Divider, Button } from "@chakra-ui/react";
 
 const LoginPage = () => {
   const router = useRouter();
   const toast = useToast();
 
-  const handleLogin = (values: LoginFormValues) => {};
+  const [_, loginMutation] = useMutation(GQL_MUTATION_LOGIN);
+
+  const handleLogin = async (values: LoginFormValues) => {
+    const response = await loginMutation(values, {
+      requestPolicy: "network-only",
+    });
+
+    const result = response.data?.login.__typename;
+    if (result == "CurrentUser") {
+      toast({
+        title: "Zalogowano",
+        status: "success",
+      });
+      router.replace("/account");
+    } else if (result == "InvalidCredentialsError") {
+      toast({
+        title: "Coś poszło nie tak...",
+        description: "Sprawdź poprawność danych logowania.",
+        status: "warning",
+      });
+    } else if (result == "NotVerifiedError") {
+      toast({
+        title: "Coś poszło nie tak...",
+        description: "Twoje konto nie zostało zweryfikowane.",
+        status: "warning",
+      });
+    } else {
+      toast({
+        title: "Coś poszło nie tak...",
+        description: "Spróbuj ponownie później.",
+        status: "error",
+      });
+    }
+  };
 
   return (
     <PageLayout title="Logowanie" showTitle>
