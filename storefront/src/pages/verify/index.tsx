@@ -1,36 +1,20 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useMutation } from "urql";
-import {
-  GQL_MUTATION_REQUEST_VERIFICATION,
-  GQL_MUTATION_VERIFY,
-} from "@/lib/vendure";
+import { GQL_MUTATION_VERIFY } from "@/lib/vendure";
 
 import { PageLayout } from "@/features/layout";
-import {
-  RequestVerificationForm,
-  RequestVerificationFormValues,
-} from "@/features/form";
+import { RequestVerificationWidget } from "@/features/account";
 import { useToast } from "@chakra-ui/react";
 
 const VerificationPage = () => {
   const router = useRouter();
   const toast = useToast();
 
-  const [, requestVerificationMutation] = useMutation(
-    GQL_MUTATION_REQUEST_VERIFICATION
-  );
-
-  const [, verifyMutation] = useMutation(GQL_MUTATION_VERIFY);
-
-  useEffect(() => {
-    if (router.isReady && router.query.token != undefined) {
-      handleVerification({ token: router.query.token as string });
-    }
-  }, [router]);
+  const [, verificationMutation] = useMutation(GQL_MUTATION_VERIFY);
 
   const handleVerification = async ({ token }: { token: string }) => {
-    const response = await verifyMutation({ token });
+    const response = await verificationMutation({ token });
 
     const result = response.data?.verifyCustomerAccount.__typename;
     if (result == "CurrentUser") {
@@ -39,53 +23,34 @@ const VerificationPage = () => {
         description: "Teraz możesz się zalogować.",
         status: "success",
       });
-      router.replace("/login");
+      router.push("/login");
     } else if (
       result == "VerificationTokenExpiredError" ||
       result == "VerificationTokenInvalidError"
     ) {
       toast({
-        title: "Coś poszło nie tak...",
-        description: "Link do weryfikacji konta jest nieprawidłowy.",
+        title: "Link jest nieprawidłowy",
+        description: "",
         status: "warning",
       });
     } else {
       toast({
-        title: "Coś poszło nie tak...",
+        title: "Wystąpił nieoczekiwany błąd",
         description: "Spróbuj ponownie później.",
         status: "error",
       });
     }
   };
 
-  const handleRequestVerification = async (
-    values: RequestVerificationFormValues
-  ) => {
-    const response = await requestVerificationMutation(values);
-
-    const result = response.data?.refreshCustomerVerification.__typename;
-    if (result == "Success") {
-      toast({
-        title: "Wysłano",
-        description: "Wysłaliśmy Ci linka do weryfikacji konta.",
-        status: "success",
-      });
-      router.replace("/login");
-    } else {
-      toast({
-        title: "Coś poszło nie tak...",
-        description: "Spróbuj ponownie później.",
-        status: "error",
-      });
+  useEffect(() => {
+    if (router.isReady && router.query.token != undefined) {
+      handleVerification({ token: router.query.token as string });
     }
-  };
+  }, [router]);
 
   return (
     <PageLayout title="Weryfikacja konta" backlinkHref="/login" showTitle>
-      <RequestVerificationForm
-        initialValues={{ email: "" }}
-        onSubmit={handleRequestVerification}
-      />
+      <RequestVerificationWidget onSuccess={() => router.push("/login")} />
     </PageLayout>
   );
 };

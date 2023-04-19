@@ -24,7 +24,7 @@ export const PasswordResetForm = ({
       {...props}
     >
       <Form>
-        <FormInput name="newPassword" label="Nowe hasło" />
+        <FormInput name="newPassword" type="password" label="Nowe hasło" />
         <FormSubmit isLoading={isLoading}>Zmień hasło</FormSubmit>
       </Form>
     </Formik>
