@@ -23,12 +23,22 @@ const LoginPage = () => {
         <Divider />
       </Flex>
 
-      <Button variant="ghost" as={NextLink} href="/register">
-        Zarejestruj się
+      <Button
+        variant="ghost"
+        justifyContent="start"
+        as={NextLink}
+        href="/register"
+      >
+        Nie masz konta? Zarejestruj się
       </Button>
 
-      <Button variant="ghost" as={NextLink} href="/password-reset">
-        Zresetuj hasło
+      <Button
+        variant="ghost"
+        justifyContent="start"
+        as={NextLink}
+        href="/password-reset"
+      >
+        Nie pamiętasz hasła? Zresetuj hasło
       </Button>
     </PageLayout>
   );
