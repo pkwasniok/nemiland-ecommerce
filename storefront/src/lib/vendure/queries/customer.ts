@@ -1,77 +1,84 @@
-import { gql } from "@/__generated__/gql";
+import { graphql } from "@/__graphql__";
 
-export const GQL_MUTATION_REGISTER = gql(`
-  mutation Register($firstName: String!, $lastName: String!, $email: String!, $password: String!) {
-    registerCustomerAccount(input: {
-      firstName: $firstName,
-      lastName: $lastName,
-      emailAddress: $email,
-      password: $password,
-    }) {
-      __typename,
+export const GQL_MUTATION_REGISTER = graphql(`
+  mutation Register(
+    $firstName: String!
+    $lastName: String!
+    $email: String!
+    $password: String!
+  ) {
+    registerCustomerAccount(
+      input: {
+        firstName: $firstName
+        lastName: $lastName
+        emailAddress: $email
+        password: $password
+      }
+    ) {
+      __typename
     }
   }
 `);
 
-export const GQL_MUTATION_LOGIN = gql(`
+export const GQL_MUTATION_LOGIN = graphql(`
   mutation Login($email: String!, $password: String!) {
     login(username: $email, password: $password) {
-      __typename,
+      __typename
     }
   }
 `);
 
-export const GQL_MUTATION_LOGOUT = gql(`
+export const GQL_MUTATION_LOGOUT = graphql(`
   mutation Logout {
     logout {
-      __typename,
+      __typename
     }
   }
 `);
 
-export const GQL_MUTATION_REQUEST_PASSWORD_RESET = gql(`
+export const GQL_MUTATION_REQUEST_PASSWORD_RESET = graphql(`
   mutation RequestPasswordReset($email: String!) {
     requestPasswordReset(emailAddress: $email) {
-      __typename,
+      __typename
     }
   }
 `);
 
-export const GQL_MUTATION_RESET_PASSWORD = gql(`
+export const GQL_MUTATION_RESET_PASSWORD = graphql(`
   mutation ResetPassword($token: String!, $newPassword: String!) {
     resetPassword(token: $token, password: $newPassword) {
-      __typename,
+      __typename
     }
   }
 `);
 
-export const GQL_MUTATION_REQUEST_VERIFICATION = gql(`
+export const GQL_MUTATION_REQUEST_VERIFICATION = graphql(`
   mutation RequestVerification($email: String!) {
     refreshCustomerVerification(emailAddress: $email) {
-      __typename,
+      __typename
     }
   }
 `);
 
-export const GQL_MUTATION_VERIFY = gql(`
+export const GQL_MUTATION_VERIFY = graphql(`
   mutation Verify($token: String!) {
     verifyCustomerAccount(token: $token) {
-      __typename,
+      __typename
     }
   }
 `);
 
-export const GQL_QUERY_ACTIVE_CUSTOMER = gql(`
+export const GQL_QUERY_ACTIVE_CUSTOMER = graphql(`
   query ActiveCustomer {
     activeCustomer {
-      id,
-      firstName,
-      lastName,
+      id
+      firstName
+      lastName
     }
   }
 `);
 
-export const GQL_QUERY_ACTIVE_CHANNEL = gql(`
+export const GQL_QUERY_ACTIVE_CHANNEL = graphql(`
   query ActiveChannel {
     activeChannel {
       id
