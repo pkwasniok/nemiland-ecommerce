@@ -3,6 +3,7 @@ import RegisterWidget from "./RegisterWidget";
 import RequestPasswordResetWidget from "./RequestPasswordResetWidget";
 import RequestVerificationWidget from "./RequestVerificationWidget";
 import PasswordResetWidget from "./PasswordResetWidget";
+import UpdateCustomerWidget from "./UpdateCustomerWidget";
 
 export {
   LoginWidget,
@@ -10,4 +11,5 @@ export {
   RequestPasswordResetWidget,
   RequestVerificationWidget,
   PasswordResetWidget,
+  UpdateCustomerWidget,
 };

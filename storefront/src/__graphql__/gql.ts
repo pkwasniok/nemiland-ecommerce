@@ -26,6 +26,7 @@ const documents = {
     "\n  mutation Verify($token: String!) {\n    verifyCustomerAccount(token: $token) {\n      __typename\n    }\n  }\n": types.VerifyDocument,
     "\n  query ActiveCustomer {\n    activeCustomer {\n      id\n      firstName\n      lastName\n    }\n  }\n": types.ActiveCustomerDocument,
     "\n  query ActiveChannel {\n    activeChannel {\n      id\n    }\n  }\n": types.ActiveChannelDocument,
+    "\n  mutation UpdateCustomer($firstName: String, $lastName: String!) {\n    updateCustomer(input: { firstName: $firstName, lastName: $lastName }) {\n      __typename\n    }\n  }\n": types.UpdateCustomerDocument,
 };
 
 /**
@@ -94,6 +95,10 @@ export function graphql(source: "\n  query ActiveCustomer {\n    activeCustomer 
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query ActiveChannel {\n    activeChannel {\n      id\n    }\n  }\n"): (typeof documents)["\n  query ActiveChannel {\n    activeChannel {\n      id\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation UpdateCustomer($firstName: String, $lastName: String!) {\n    updateCustomer(input: { firstName: $firstName, lastName: $lastName }) {\n      __typename\n    }\n  }\n"): (typeof documents)["\n  mutation UpdateCustomer($firstName: String, $lastName: String!) {\n    updateCustomer(input: { firstName: $firstName, lastName: $lastName }) {\n      __typename\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

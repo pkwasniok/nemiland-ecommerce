@@ -85,3 +85,11 @@ export const GQL_QUERY_ACTIVE_CHANNEL = graphql(`
     }
   }
 `);
+
+export const GQL_MUTATION_UPDATE_CUSTOMER = graphql(`
+  mutation UpdateCustomer($firstName: String, $lastName: String!) {
+    updateCustomer(input: { firstName: $firstName, lastName: $lastName }) {
+      __typename
+    }
+  }
+`);
