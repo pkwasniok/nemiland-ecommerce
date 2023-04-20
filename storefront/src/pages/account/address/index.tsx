@@ -2,7 +2,7 @@ import { useQuery } from "urql";
 import { GQL_QUERY_ADDRESSES } from "@/lib/vendure";
 
 import { PageLayout } from "@/features/layout";
-import { AddressForm } from "@/features/form";
+import { CreateAddressWidget } from "@/features/address";
 import {
   useDisclosure,
   Button,
@@ -47,18 +47,7 @@ const AddressesPage = () => {
           <ModalHeader>Dodaj nowy adres</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <AddressForm
-              initialValues={{
-                fullName: "",
-                streetLine1: "",
-                streetLine2: "",
-                phoneNumber: "",
-                city: "",
-                postalCode: "",
-                countryCode: "PL",
-              }}
-              onSubmit={(values) => console.log(values)}
-            />
+            <CreateAddressWidget onSuccess={createAddressModal.onClose} />
           </ModalBody>
           <ModalFooter></ModalFooter>
         </ModalContent>

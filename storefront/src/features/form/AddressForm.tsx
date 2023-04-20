@@ -12,7 +12,6 @@ export const addressFormSchema = z.object({
   streetLine2: z.string().trim().optional().default(""),
   postalCode: z.string().trim(),
   city: z.string().trim(),
-  countryCode: z.string().trim().optional().default("PL"),
 });
 
 export type AddressFormValues = z.infer<typeof addressFormSchema>;
@@ -36,7 +35,7 @@ export const AddressForm = ({ isLoading, ...props }: AddressFormProps) => {
           <FormInput name="postalCode" label="Kod pocztowy" />
           <FormInput name="city" label="Knurów" />
         </Flex>
-        <FormSubmit isLoading={isLoading}>Zarejestruj się</FormSubmit>
+        <FormSubmit isLoading={isLoading}>Zapisz</FormSubmit>
       </Form>
     </Formik>
   );
