@@ -1,10 +1,14 @@
 import { useState } from "react";
-import { useQuery } from "urql";
-import { GQL_QUERY_ADDRESSES } from "@/lib/vendure";
+import { useQuery, useMutation } from "urql";
+import {
+  GQL_MUTATION_DELETE_ADDRESS,
+  GQL_QUERY_ADDRESSES,
+} from "@/lib/vendure";
 
 import { PageLayout } from "@/features/layout";
 import { CreateAddressWidget, UpdateAddressWidget } from "@/features/address";
 import {
+  useToast,
   useDisclosure,
   Button,
   Modal,
@@ -19,14 +23,41 @@ import {
   Text,
   Flex,
 } from "@chakra-ui/react";
-import { FiPlus } from "react-icons/fi";
+import { FiPlus, FiTrash } from "react-icons/fi";
 
 const AddressesPage = () => {
+  const toast = useToast();
+
   const [selectedAddress, setAddress] = useState<undefined | string>(undefined);
   const createAddressModal = useDisclosure();
 
-  const [{ data, fetching }] = useQuery({ query: GQL_QUERY_ADDRESSES });
+  const [{ data, fetching }, refetchAddresses] = useQuery({
+    query: GQL_QUERY_ADDRESSES,
+  });
   const addresses = data?.activeCustomer?.addresses ?? undefined;
+
+  const [, deleteAddressMutation] = useMutation(GQL_MUTATION_DELETE_ADDRESS);
+
+  const handleDeleteAddress = async (addressId: string) => {
+    const response = await deleteAddressMutation({ id: addressId });
+
+    const result = response.data?.deleteCustomerAddress.success;
+    if (result) {
+      toast({
+        title: "Usunięto adres",
+        status: "success",
+      });
+
+      setAddress(undefined);
+      refetchAddresses({ requestPolicy: "network-only" });
+    } else {
+      toast({
+        title: "Wystąpił nieoczekiwany błąd",
+        description: "Spróbuj ponownie później.",
+        status: "error",
+      });
+    }
+  };
 
   return (
     <>
@@ -88,7 +119,17 @@ const AddressesPage = () => {
           <ModalHeader>Edytuj adres</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <UpdateAddressWidget addressId={selectedAddress!} />
+            <Flex direction="column" gap={2}>
+              <UpdateAddressWidget addressId={selectedAddress!} />
+              <Button
+                variant="ghost"
+                colorScheme="red"
+                leftIcon={<FiTrash />}
+                onClick={() => handleDeleteAddress(selectedAddress!)}
+              >
+                Usuń adres
+              </Button>
+            </Flex>
           </ModalBody>
           <ModalFooter></ModalFooter>
         </ModalContent>

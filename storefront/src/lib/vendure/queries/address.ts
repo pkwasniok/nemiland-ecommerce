@@ -76,3 +76,11 @@ export const GQL_MUTATION_UPDATE_ADDRESS = graphql(`
     }
   }
 `);
+
+export const GQL_MUTATION_DELETE_ADDRESS = graphql(`
+  mutation DeleteAddress($id: ID!) {
+    deleteCustomerAddress(id: $id) {
+      success
+    }
+  }
+`);
