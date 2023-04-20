@@ -1,20 +1,16 @@
 import { ReactNode } from "react";
 import NextLink from "next/link";
 
+import { MobileNavigationDrawer } from "@/features/navigation/mobile";
+import { DesktopNavigationBar } from "@/features/navigation/desktop";
+
+import { Logo } from "../marketing";
 import {
   useBreakpointValue,
   useDisclosure,
   Flex,
-  Box,
   Heading,
   IconButton,
-  Drawer,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  DrawerHeader,
-  DrawerBody,
-  DrawerFooter,
 } from "@chakra-ui/react";
 
 import { FiMenu, FiShoppingBag, FiUser } from "react-icons/fi";
@@ -64,17 +60,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
                 onClick={drawer.onOpen}
               />
 
-              <Heading
-                size="lg"
-                position="absolute"
-                left="50%"
-                transform="auto"
-                translateX="-50%"
-                as={NextLink}
-                href="/"
-              >
-                Nemiland
-              </Heading>
+              <Logo isRedirect />
 
               <IconButton
                 variant="ghost"
@@ -108,7 +94,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
                 transform="auto"
                 translateX="-50%"
               >
-                <Box />
+                <DesktopNavigationBar />
               </Flex>
 
               <Flex gap={4}>
@@ -137,20 +123,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
         </Flex>
       </Flex>
 
-      <Drawer
-        placement="left"
-        size="lg"
-        isOpen={drawer.isOpen}
-        onClose={drawer.onClose}
-      >
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerCloseButton />
-          <DrawerHeader></DrawerHeader>
-          <DrawerBody></DrawerBody>
-          <DrawerFooter></DrawerFooter>
-        </DrawerContent>
-      </Drawer>
+      <MobileNavigationDrawer isOpen={drawer.isOpen} onClose={drawer.onClose} />
     </>
   );
 };
