@@ -15,7 +15,6 @@ const CreateAddressWidget = ({ onSuccess }: CreateAddressWidgetProps) => {
 
   const handleCreateAddress = async (values: AddressFormValues) => {
     const response = await createAddressMutation(values);
-    console.log(response);
 
     const result = response.data?.createCustomerAddress.__typename;
     if (result == "Address") {

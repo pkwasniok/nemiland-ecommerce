@@ -1,3 +1,4 @@
 import CreateAddressWidget from "./CreateAddressWidget";
+import UpdateAddressWidget from "./UpdateAddressWidget";
 
-export { CreateAddressWidget };
+export { CreateAddressWidget, UpdateAddressWidget };

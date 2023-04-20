@@ -16,7 +16,7 @@ export const addressFormSchema = z.object({
 
 export type AddressFormValues = z.infer<typeof addressFormSchema>;
 
-interface AddressFormProps extends FormikConfig<AddressFormValues> {
+export interface AddressFormProps extends FormikConfig<AddressFormValues> {
   isLoading?: boolean;
 }
 

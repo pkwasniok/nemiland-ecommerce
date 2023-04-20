@@ -1,8 +1,9 @@
+import { useState } from "react";
 import { useQuery } from "urql";
 import { GQL_QUERY_ADDRESSES } from "@/lib/vendure";
 
 import { PageLayout } from "@/features/layout";
-import { CreateAddressWidget } from "@/features/address";
+import { CreateAddressWidget, UpdateAddressWidget } from "@/features/address";
 import {
   useDisclosure,
   Button,
@@ -13,13 +14,19 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
+  Card,
+  Heading,
+  Text,
+  Flex,
 } from "@chakra-ui/react";
 import { FiPlus } from "react-icons/fi";
 
 const AddressesPage = () => {
+  const [selectedAddress, setAddress] = useState<undefined | string>(undefined);
   const createAddressModal = useDisclosure();
 
   const [{ data, fetching }] = useQuery({ query: GQL_QUERY_ADDRESSES });
+  const addresses = data?.activeCustomer?.addresses ?? undefined;
 
   return (
     <>
@@ -29,7 +36,24 @@ const AddressesPage = () => {
         isLoading={fetching}
         showTitle
       >
-        {data?.activeCustomer?.addresses?.length}
+        {addresses?.map((address, index) => (
+          <Card
+            key={index}
+            variant="outline"
+            p={4}
+            onClick={() => setAddress(address.id)}
+          >
+            <Flex direction="column" gap={1}>
+              <Heading size="sm">{address.fullName}</Heading>
+
+              <Text size="sm">{address.phoneNumber}</Text>
+              <Text size="sm">
+                {address.postalCode} {address.city}
+              </Text>
+              <Text size="sm">{address.streetLine1}</Text>
+            </Flex>
+          </Card>
+        ))}
 
         <Button leftIcon={<FiPlus />} onClick={createAddressModal.onOpen}>
           Dodaj nowy adres
@@ -48,6 +72,23 @@ const AddressesPage = () => {
           <ModalCloseButton />
           <ModalBody>
             <CreateAddressWidget onSuccess={createAddressModal.onClose} />
+          </ModalBody>
+          <ModalFooter></ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      <Modal
+        isOpen={selectedAddress != undefined}
+        onClose={() => setAddress(undefined)}
+        size="sm"
+        isCentered
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Edytuj adres</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <UpdateAddressWidget addressId={selectedAddress!} />
           </ModalBody>
           <ModalFooter></ModalFooter>
         </ModalContent>
