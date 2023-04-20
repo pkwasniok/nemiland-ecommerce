@@ -13,6 +13,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    "\n  query Addresses {\n    activeCustomer {\n      addresses {\n        id\n        createdAt\n        updatedAt\n        fullName\n        streetLine1\n        streetLine2\n        city\n        province\n        postalCode\n        country {\n          code\n          name\n        }\n        phoneNumber\n        defaultShippingAddress\n        defaultBillingAddress\n      }\n    }\n  }\n": types.AddressesDocument,
     "\n  mutation Register(\n    $firstName: String!\n    $lastName: String!\n    $email: String!\n    $password: String!\n  ) {\n    registerCustomerAccount(\n      input: {\n        firstName: $firstName\n        lastName: $lastName\n        emailAddress: $email\n        password: $password\n      }\n    ) {\n      __typename\n    }\n  }\n": types.RegisterDocument,
     "\n  mutation Login($email: String!, $password: String!) {\n    login(username: $email, password: $password) {\n      __typename\n    }\n  }\n": types.LoginDocument,
     "\n  mutation Logout {\n    logout {\n      __typename\n    }\n  }\n": types.LogoutDocument,
@@ -38,6 +39,10 @@ const documents = {
  */
 export function graphql(source: string): unknown;
 
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query Addresses {\n    activeCustomer {\n      addresses {\n        id\n        createdAt\n        updatedAt\n        fullName\n        streetLine1\n        streetLine2\n        city\n        province\n        postalCode\n        country {\n          code\n          name\n        }\n        phoneNumber\n        defaultShippingAddress\n        defaultBillingAddress\n      }\n    }\n  }\n"): (typeof documents)["\n  query Addresses {\n    activeCustomer {\n      addresses {\n        id\n        createdAt\n        updatedAt\n        fullName\n        streetLine1\n        streetLine2\n        city\n        province\n        postalCode\n        country {\n          code\n          name\n        }\n        phoneNumber\n        defaultShippingAddress\n        defaultBillingAddress\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
