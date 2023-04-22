@@ -1,3 +1,6 @@
+import { useMutation, useQuery } from "urql";
+import { GQL_QUERY_ACTIVE_CUSTOMER } from "@/lib/vendure";
+
 import { Logo } from "@/features/marketing";
 import NavigationItem from "./NavigationItems";
 
@@ -18,6 +21,9 @@ import { FiUser } from "react-icons/fi";
 interface MobileNavigationDrawerProps extends Omit<DrawerProps, "children"> {}
 
 const MobileNavigationDrawer = ({ ...props }: MobileNavigationDrawerProps) => {
+  const [{ data }] = useQuery({ query: GQL_QUERY_ACTIVE_CUSTOMER });
+  const activeCustomer = data?.activeCustomer ?? undefined;
+
   return (
     <Drawer placement="left" size="lg" {...props}>
       <DrawerOverlay />
@@ -35,7 +41,10 @@ const MobileNavigationDrawer = ({ ...props }: MobileNavigationDrawerProps) => {
 
         <DrawerFooter>
           <Flex flex={1} direction="column">
-            <NavigationItem href="/login" leftIcon={<FiUser size={20} />}>
+            <NavigationItem
+              href={activeCustomer == undefined ? "/login" : "/account"}
+              leftIcon={<FiUser size={20} />}
+            >
               Moje konto
             </NavigationItem>
           </Flex>

@@ -1,5 +1,5 @@
-import { useMutation } from "urql";
-import { GQL_MUTATION_LOGOUT } from "@/lib/vendure";
+import { useMutation, useQuery } from "urql";
+import { GQL_MUTATION_LOGOUT, GQL_QUERY_ACTIVE_CUSTOMER } from "@/lib/vendure";
 
 import { useToast, Button } from "@chakra-ui/react";
 import { FiLogOut } from "react-icons/fi";
@@ -11,6 +11,11 @@ interface LogoutWidgetProps {
 const LogoutWidget = ({ onSuccess }: LogoutWidgetProps) => {
   const toast = useToast();
 
+  const [, refetchActiveCustomer] = useQuery({
+    query: GQL_QUERY_ACTIVE_CUSTOMER,
+    requestPolicy: "network-only",
+    pause: true,
+  });
   const [, logoutMutation] = useMutation(GQL_MUTATION_LOGOUT);
 
   const handleLogout = async () => {
@@ -23,6 +28,7 @@ const LogoutWidget = ({ onSuccess }: LogoutWidgetProps) => {
         status: "success",
       });
 
+      refetchActiveCustomer();
       onSuccess?.();
     } else {
       toast({
