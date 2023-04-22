@@ -1,19 +1,8 @@
 import { ReactNode } from "react";
-import NextLink from "next/link";
 
-import { MobileNavigationDrawer } from "@/features/navigation/mobile";
+import { MobileNavigationBar } from "@/features/navigation/mobile";
 import { DesktopNavigationBar } from "@/features/navigation/desktop";
-
-import { Logo } from "../marketing";
-import {
-  useBreakpointValue,
-  useDisclosure,
-  Flex,
-  Heading,
-  IconButton,
-} from "@chakra-ui/react";
-
-import { FiMenu, FiShoppingBag, FiUser } from "react-icons/fi";
+import { useBreakpointValue, Flex } from "@chakra-ui/react";
 
 interface RootLayoutProps {
   children?: ReactNode;
@@ -21,7 +10,6 @@ interface RootLayoutProps {
 
 const RootLayout = ({ children }: RootLayoutProps) => {
   const isMobile = useBreakpointValue({ base: true, lg: false });
-  const drawer = useDisclosure();
 
   return (
     <>
@@ -43,78 +31,15 @@ const RootLayout = ({ children }: RootLayoutProps) => {
           borderBottomColor="gray.100"
         >
           {isMobile == true && (
-            <Flex
-              h={12}
-              w="100%"
-              p={2}
-              alignItems="center"
-              justifyContent="space-between"
-              bgColor="whiteAlpha.900"
-              backdropFilter="auto"
-              backdropBlur="sm"
-            >
-              <IconButton
-                variant="ghost"
-                icon={<FiMenu size={22} />}
-                aria-label="Navigation"
-                onClick={drawer.onOpen}
-              />
-
-              <Logo isRedirect />
-
-              <IconButton
-                variant="ghost"
-                icon={<FiShoppingBag size={22} />}
-                aria-label="Cart"
-                as={NextLink}
-                href="/cart"
-              />
-            </Flex>
+            <MobileNavigationBar
+              links={[{ label: "Strona główna", href: "/" }]}
+            />
           )}
 
           {isMobile == false && (
-            <Flex
-              h={14}
-              maxW="1536px"
-              w="100%"
-              p={4}
-              alignItems="center"
-              justifyContent="space-between"
-              bgColor="whiteAlpha.900"
-              backdropFilter="auto"
-              backdropBlur="sm"
-            >
-              <Heading size="lg" as={NextLink} href="/">
-                Nemiland
-              </Heading>
-
-              <Flex
-                position="absolute"
-                left="50%"
-                transform="auto"
-                translateX="-50%"
-              >
-                <DesktopNavigationBar />
-              </Flex>
-
-              <Flex gap={4}>
-                <IconButton
-                  variant="ghost"
-                  icon={<FiUser size={20} />}
-                  aria-label="Account"
-                  as={NextLink}
-                  href="/login"
-                />
-
-                <IconButton
-                  variant="ghost"
-                  icon={<FiShoppingBag size={20} />}
-                  aria-label="Cart"
-                  as={NextLink}
-                  href="/cart"
-                />
-              </Flex>
-            </Flex>
+            <DesktopNavigationBar
+              links={[{ label: "Strona główna", href: "/" }]}
+            />
           )}
         </Flex>
 
@@ -122,8 +47,6 @@ const RootLayout = ({ children }: RootLayoutProps) => {
           {children}
         </Flex>
       </Flex>
-
-      <MobileNavigationDrawer isOpen={drawer.isOpen} onClose={drawer.onClose} />
     </>
   );
 };

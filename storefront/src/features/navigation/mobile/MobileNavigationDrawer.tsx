@@ -18,11 +18,14 @@ import {
 
 import { FiUser } from "react-icons/fi";
 
-interface MobileNavigationDrawerProps extends Omit<DrawerProps, "children"> {}
+interface MobileNavigationDrawerProps extends DrawerProps {}
 
-const MobileNavigationDrawer = ({ ...props }: MobileNavigationDrawerProps) => {
-  const [{ data }] = useQuery({ query: GQL_QUERY_ACTIVE_CUSTOMER });
-  const activeCustomer = data?.activeCustomer ?? undefined;
+const MobileNavigationDrawer = ({
+  children,
+  ...props
+}: MobileNavigationDrawerProps) => {
+  const [activeCustomerQuery] = useQuery({ query: GQL_QUERY_ACTIVE_CUSTOMER });
+  const activeCustomer = activeCustomerQuery.data?.activeCustomer ?? undefined;
 
   return (
     <Drawer placement="left" size="lg" {...props}>
@@ -35,7 +38,7 @@ const MobileNavigationDrawer = ({ ...props }: MobileNavigationDrawerProps) => {
 
         <DrawerBody>
           <Flex direction="column" gap={4}>
-            <NavigationItem href="/">Strona główna</NavigationItem>
+            {children}
           </Flex>
         </DrawerBody>
 
@@ -45,7 +48,9 @@ const MobileNavigationDrawer = ({ ...props }: MobileNavigationDrawerProps) => {
               href={activeCustomer == undefined ? "/login" : "/account"}
               leftIcon={<FiUser size={20} />}
             >
-              Moje konto
+              {activeCustomer == undefined
+                ? "Moje konto"
+                : `${activeCustomer.firstName} ${activeCustomer.lastName}`}
             </NavigationItem>
           </Flex>
         </DrawerFooter>

@@ -1,3 +1,3 @@
-import MobileNavigationDrawer from "./MobileNavigationDrawer";
+import MobileNavigationBar from "./MobileNavigationBar";
 
-export { MobileNavigationDrawer };
+export { MobileNavigationBar };
