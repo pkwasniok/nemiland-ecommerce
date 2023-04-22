@@ -28,6 +28,8 @@ const documents = {
     "\n  query ActiveCustomer {\n    activeCustomer {\n      id\n      firstName\n      lastName\n    }\n  }\n": types.ActiveCustomerDocument,
     "\n  query ActiveChannel {\n    activeChannel {\n      id\n    }\n  }\n": types.ActiveChannelDocument,
     "\n  mutation UpdateCustomer($firstName: String, $lastName: String!) {\n    updateCustomer(input: { firstName: $firstName, lastName: $lastName }) {\n      __typename\n    }\n  }\n": types.UpdateCustomerDocument,
+    "\n  query CollectionPagePaths {\n    collections {\n      items {\n        slug\n      }\n    }\n  }\n": types.CollectionPagePathsDocument,
+    "\n  query CollectionPageProps($slug: String!) {\n    collection(slug: $slug) {\n      id\n      createdAt\n      updatedAt\n      slug\n      name\n    }\n  }\n": types.CollectionPagePropsDocument,
 };
 
 /**
@@ -104,6 +106,14 @@ export function graphql(source: "\n  query ActiveChannel {\n    activeChannel {\
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation UpdateCustomer($firstName: String, $lastName: String!) {\n    updateCustomer(input: { firstName: $firstName, lastName: $lastName }) {\n      __typename\n    }\n  }\n"): (typeof documents)["\n  mutation UpdateCustomer($firstName: String, $lastName: String!) {\n    updateCustomer(input: { firstName: $firstName, lastName: $lastName }) {\n      __typename\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query CollectionPagePaths {\n    collections {\n      items {\n        slug\n      }\n    }\n  }\n"): (typeof documents)["\n  query CollectionPagePaths {\n    collections {\n      items {\n        slug\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query CollectionPageProps($slug: String!) {\n    collection(slug: $slug) {\n      id\n      createdAt\n      updatedAt\n      slug\n      name\n    }\n  }\n"): (typeof documents)["\n  query CollectionPageProps($slug: String!) {\n    collection(slug: $slug) {\n      id\n      createdAt\n      updatedAt\n      slug\n      name\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};
