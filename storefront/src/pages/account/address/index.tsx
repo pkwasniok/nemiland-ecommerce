@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useQuery, useMutation } from "urql";
+import { useQuery, useMutation } from "@apollo/client";
 import {
   GQL_MUTATION_DELETE_ADDRESS,
   GQL_QUERY_ADDRESSES,
@@ -31,32 +31,32 @@ const AddressesPage = () => {
   const [selectedAddress, setAddress] = useState<undefined | string>(undefined);
   const createAddressModal = useDisclosure();
 
-  const [{ data, fetching }, refetchAddresses] = useQuery({
-    query: GQL_QUERY_ADDRESSES,
-  });
-  const addresses = data?.activeCustomer?.addresses ?? undefined;
+  const { data: addressesData, loading } = useQuery(GQL_QUERY_ADDRESSES);
+  const addresses = addressesData?.activeCustomer?.addresses ?? undefined;
 
-  const [, deleteAddressMutation] = useMutation(GQL_MUTATION_DELETE_ADDRESS);
+  const [deleteAddressMutation] = useMutation(GQL_MUTATION_DELETE_ADDRESS, {
+    refetchQueries: [GQL_QUERY_ADDRESSES],
+    onCompleted: (data) => {
+      const result = data.deleteCustomerAddress.success;
+      if (result) {
+        toast({
+          title: "Usunięto adres",
+          status: "success",
+        });
+
+        setAddress(undefined);
+      } else {
+        toast({
+          title: "Wystąpił nieoczekiwany błąd",
+          description: "Spróbuj ponownie później.",
+          status: "error",
+        });
+      }
+    },
+  });
 
   const handleDeleteAddress = async (addressId: string) => {
-    const response = await deleteAddressMutation({ id: addressId });
-
-    const result = response.data?.deleteCustomerAddress.success;
-    if (result) {
-      toast({
-        title: "Usunięto adres",
-        status: "success",
-      });
-
-      setAddress(undefined);
-      refetchAddresses({ requestPolicy: "network-only" });
-    } else {
-      toast({
-        title: "Wystąpił nieoczekiwany błąd",
-        description: "Spróbuj ponownie później.",
-        status: "error",
-      });
-    }
+    deleteAddressMutation({ variables: { id: addressId } });
   };
 
   return (
@@ -64,7 +64,7 @@ const AddressesPage = () => {
       <PageLayout
         title="Moje adresy"
         backlinkHref="/account"
-        isLoading={fetching}
+        isLoading={loading}
         showTitle
       >
         {addresses?.map((address, index) => (

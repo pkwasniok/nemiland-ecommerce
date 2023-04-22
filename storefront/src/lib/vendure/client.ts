@@ -1,9 +1,9 @@
-import { Client, cacheExchange, fetchExchange } from "urql";
+import { ApolloClient, InMemoryCache } from "@apollo/client";
 
-export const client = new Client({
-  url: "http://localhost:3000/shop-api",
-  exchanges: [cacheExchange, fetchExchange],
-  fetchOptions: {
-    credentials: "include",
-  },
+const client = new ApolloClient({
+  uri: "http://localhost:3000/shop-api",
+  cache: new InMemoryCache(),
+  credentials: "include",
 });
+
+export default client;

@@ -1,5 +1,7 @@
 export { graphql } from "@/__graphql__";
-export { client } from "./client";
+import client from "./client";
 
+export { client };
 export * from "./queries/customer";
 export * from "./queries/address";
+export * from "./queries/collection";

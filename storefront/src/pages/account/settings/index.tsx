@@ -1,4 +1,4 @@
-import { useQuery } from "urql";
+import { useQuery } from "@apollo/client";
 import { GQL_QUERY_ACTIVE_CUSTOMER } from "@/lib/vendure";
 
 import { PageLayout } from "@/features/layout";
@@ -12,8 +12,10 @@ import {
 } from "@chakra-ui/react";
 
 const SettingsPage = () => {
-  const [{ data, fetching }] = useQuery({ query: GQL_QUERY_ACTIVE_CUSTOMER });
-  const activeCustomer = data?.activeCustomer ?? undefined;
+  const { data: activeCustomerData, loading } = useQuery(
+    GQL_QUERY_ACTIVE_CUSTOMER
+  );
+  const activeCustomer = activeCustomerData?.activeCustomer ?? undefined;
 
   if (activeCustomer == undefined) {
     return <div></div>;
@@ -24,7 +26,7 @@ const SettingsPage = () => {
       title="Ustawienia konta"
       backlinkHref="/account"
       showTitle
-      isLoading={fetching}
+      isLoading={loading}
     >
       <Accordion defaultIndex={0}>
         <AccordionItem>

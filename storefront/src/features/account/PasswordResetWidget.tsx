@@ -1,4 +1,4 @@
-import { useMutation } from "urql";
+import { useMutation } from "@apollo/client";
 import { GQL_MUTATION_RESET_PASSWORD } from "@/lib/vendure";
 
 import { PasswordResetForm, PasswordResetFormValues } from "../form";
@@ -17,43 +17,45 @@ const PasswordResetWidget = ({
 }: PasswordResetWidgetProps) => {
   const toast = useToast();
 
-  const [, passwordResetMutation] = useMutation(GQL_MUTATION_RESET_PASSWORD);
+  const [passwordResetMutation] = useMutation(GQL_MUTATION_RESET_PASSWORD, {
+    onCompleted: (data) => {
+      const result = data.resetPassword.__typename;
+      if (result == "CurrentUser") {
+        toast({
+          title: "Zresetowano hasło",
+          status: "success",
+        });
+
+        onSuccess?.();
+      } else if (
+        result == "PasswordResetTokenExpiredError" ||
+        result == "PasswordResetTokenInvalidError"
+      ) {
+        toast({
+          title: "Link do resetowania hasła jest nierpawidłowy",
+          status: "warning",
+        });
+
+        onError?.("InvalidTokenError");
+      } else if (result == "NotVerifiedError") {
+        toast({
+          title: "Konto nie zostało zweryfikowane",
+          status: "warning",
+        });
+
+        onError?.("NotVerifiedError");
+      } else {
+        toast({
+          title: "Wystąpił nieoczekiwany błąd",
+          description: "Spróbuj ponownie później",
+          status: "error",
+        });
+      }
+    },
+  });
 
   const handlePasswordReset = async (values: PasswordResetFormValues) => {
-    const response = await passwordResetMutation({ token, ...values });
-
-    const result = response.data?.resetPassword.__typename;
-    if (result == "CurrentUser") {
-      toast({
-        title: "Zresetowano hasło",
-        status: "success",
-      });
-
-      onSuccess?.();
-    } else if (
-      result == "PasswordResetTokenExpiredError" ||
-      result == "PasswordResetTokenInvalidError"
-    ) {
-      toast({
-        title: "Link do resetowania hasła jest nierpawidłowy",
-        status: "warning",
-      });
-
-      onError?.("InvalidTokenError");
-    } else if (result == "NotVerifiedError") {
-      toast({
-        title: "Konto nie zostało zweryfikowane",
-        status: "warning",
-      });
-
-      onError?.("NotVerifiedError");
-    } else {
-      toast({
-        title: "Wystąpił nieoczekiwany błąd",
-        description: "Spróbuj ponownie później",
-        status: "error",
-      });
-    }
+    passwordResetMutation({ variables: { token, ...values } });
   };
 
   return (

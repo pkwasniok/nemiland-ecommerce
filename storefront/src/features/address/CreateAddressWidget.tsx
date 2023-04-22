@@ -1,5 +1,8 @@
-import { useMutation } from "urql";
-import { GQL_MUTATION_CREATE_ADDRESS } from "@/lib/vendure";
+import { useMutation } from "@apollo/client";
+import {
+  GQL_MUTATION_CREATE_ADDRESS,
+  GQL_QUERY_ADDRESSES,
+} from "@/lib/vendure";
 
 import { AddressForm, AddressFormValues } from "@/features/form";
 import { useToast } from "@chakra-ui/react";
@@ -11,26 +14,29 @@ interface CreateAddressWidgetProps {
 const CreateAddressWidget = ({ onSuccess }: CreateAddressWidgetProps) => {
   const toast = useToast();
 
-  const [, createAddressMutation] = useMutation(GQL_MUTATION_CREATE_ADDRESS);
+  const [createAddressMutation] = useMutation(GQL_MUTATION_CREATE_ADDRESS, {
+    refetchQueries: [GQL_QUERY_ADDRESSES],
+    onCompleted: (data) => {
+      const result = data.createCustomerAddress.__typename;
+      if (result == "Address") {
+        toast({
+          title: "Zapisano nowy adres",
+          status: "success",
+        });
+
+        onSuccess?.();
+      } else {
+        toast({
+          title: "Wystąpił nieoczekiwany błąd",
+          description: "Spróbuj ponownie później.",
+          status: "error",
+        });
+      }
+    },
+  });
 
   const handleCreateAddress = async (values: AddressFormValues) => {
-    const response = await createAddressMutation(values);
-
-    const result = response.data?.createCustomerAddress.__typename;
-    if (result == "Address") {
-      toast({
-        title: "Zapisano nowy adres",
-        status: "success",
-      });
-
-      onSuccess?.();
-    } else {
-      toast({
-        title: "Wystąpił nieoczekiwany błąd",
-        description: "Spróbuj ponownie później.",
-        status: "error",
-      });
-    }
+    createAddressMutation({ variables: values });
   };
 
   return (

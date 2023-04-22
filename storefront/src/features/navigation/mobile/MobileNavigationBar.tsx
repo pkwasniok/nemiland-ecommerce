@@ -46,7 +46,9 @@ const MobileNavigationBar = ({ links }: MobileNavigationBarProps) => {
 
       <MobileNavigationDrawer isOpen={drawer.isOpen} onClose={drawer.onClose}>
         {links?.map((link, index) => (
-          <NavigationItem href={link.href}>{link.label}</NavigationItem>
+          <NavigationItem key={index} href={link.href}>
+            {link.label}
+          </NavigationItem>
         ))}
       </MobileNavigationDrawer>
     </>

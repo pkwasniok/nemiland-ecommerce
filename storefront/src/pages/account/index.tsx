@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import NextLink from "next/link";
-import { useQuery } from "urql";
+import { useQuery } from "@apollo/client";
 import { GQL_QUERY_ACTIVE_CUSTOMER } from "@/lib/vendure";
 
 import { PageLayout } from "@/features/layout";
@@ -11,17 +11,13 @@ import { FiPackage, FiHome, FiSettings, FiLogOut } from "react-icons/fi";
 const AccountPage = () => {
   const router = useRouter();
 
-  const [activeCustomerQuery] = useQuery({
-    query: GQL_QUERY_ACTIVE_CUSTOMER,
-  });
-  const activeCustomer = activeCustomerQuery.data?.activeCustomer ?? undefined;
+  const { data: activeCustomerData, loading } = useQuery(
+    GQL_QUERY_ACTIVE_CUSTOMER
+  );
+  const activeCustomer = activeCustomerData?.activeCustomer ?? undefined;
 
   return (
-    <PageLayout
-      title="Moje konto"
-      showTitle
-      isLoading={activeCustomerQuery.fetching}
-    >
+    <PageLayout title="Moje konto" showTitle isLoading={loading}>
       <Flex direction="column" alignItems="center" gap={1}>
         <Heading size="sm" textAlign="center">
           Cześć, {activeCustomer?.firstName}!

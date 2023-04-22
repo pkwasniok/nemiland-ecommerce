@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "urql";
+import { useMutation, useQuery } from "@apollo/client";
 import {
   GQL_MUTATION_UPDATE_ADDRESS,
   GQL_QUERY_ADDRESSES,
@@ -18,28 +18,31 @@ const UpdateAddressWidget = ({
 }: UpdateAddressWidgetProps) => {
   const toast = useToast();
 
-  const [{ data }] = useQuery({ query: GQL_QUERY_ADDRESSES });
-  const addresses = data?.activeCustomer?.addresses ?? undefined;
+  const { data: addressesData } = useQuery(GQL_QUERY_ADDRESSES);
+  const addresses = addressesData?.activeCustomer?.addresses ?? undefined;
   const address = addresses?.find((address) => address.id == addressId);
 
-  const [, updateAddressMutation] = useMutation(GQL_MUTATION_UPDATE_ADDRESS);
+  const [updateAddressMutation] = useMutation(GQL_MUTATION_UPDATE_ADDRESS, {
+    refetchQueries: [GQL_QUERY_ADDRESSES],
+    onCompleted: (data) => {
+      const result = data.updateCustomerAddress.__typename;
+      if (result == "Address") {
+        toast({
+          title: "Zapisano",
+          status: "success",
+        });
+      } else {
+        toast({
+          title: "Wystąpił nieoczekiwany błąd",
+          description: "Spróbuj ponownie później",
+          status: "error",
+        });
+      }
+    },
+  });
 
   const handleUpdateAddress = async (values: AddressFormValues) => {
-    const response = await updateAddressMutation({ id: addressId, ...values });
-
-    const result = response.data?.updateCustomerAddress.__typename;
-    if (result == "Address") {
-      toast({
-        title: "Zapisano",
-        status: "success",
-      });
-    } else {
-      toast({
-        title: "Wystąpił nieoczekiwany błąd",
-        description: "Spróbuj ponownie później",
-        status: "error",
-      });
-    }
+    updateAddressMutation({ variables: { id: addressId, ...values } });
   };
 
   if (address == undefined) {

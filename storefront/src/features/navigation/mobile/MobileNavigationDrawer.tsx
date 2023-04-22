@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "urql";
+import { useQuery } from "@apollo/client";
 import { GQL_QUERY_ACTIVE_CUSTOMER } from "@/lib/vendure";
 
 import { Logo } from "@/features/marketing";
@@ -24,8 +24,8 @@ const MobileNavigationDrawer = ({
   children,
   ...props
 }: MobileNavigationDrawerProps) => {
-  const [activeCustomerQuery] = useQuery({ query: GQL_QUERY_ACTIVE_CUSTOMER });
-  const activeCustomer = activeCustomerQuery.data?.activeCustomer ?? undefined;
+  const { data: activeCustomerData } = useQuery(GQL_QUERY_ACTIVE_CUSTOMER);
+  const activeCustomer = activeCustomerData?.activeCustomer ?? undefined;
 
   return (
     <Drawer placement="left" size="lg" {...props}>

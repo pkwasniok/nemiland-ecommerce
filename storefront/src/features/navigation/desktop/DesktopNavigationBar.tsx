@@ -1,5 +1,5 @@
 import NextLink from "next/link";
-import { useQuery } from "urql";
+import { useQuery } from "@apollo/client";
 import { GQL_QUERY_ACTIVE_CUSTOMER } from "@/lib/vendure";
 
 import { Logo } from "@/features/marketing";
@@ -13,8 +13,8 @@ interface DesktopNavigationBarProps {
 }
 
 const DesktopNavigationBar = ({ links }: DesktopNavigationBarProps) => {
-  const [activeCustomerQuery] = useQuery({ query: GQL_QUERY_ACTIVE_CUSTOMER });
-  const activeCustomer = activeCustomerQuery.data?.activeCustomer ?? undefined;
+  const { data: activeCustomerData } = useQuery(GQL_QUERY_ACTIVE_CUSTOMER);
+  const activeCustomer = activeCustomerData?.activeCustomer ?? undefined;
 
   return (
     <Flex
@@ -38,7 +38,9 @@ const DesktopNavigationBar = ({ links }: DesktopNavigationBarProps) => {
         gap={4}
       >
         {links?.map((link, index) => (
-          <NavigationItem href={link.href}>{link.label}</NavigationItem>
+          <NavigationItem key={index} href={link.href}>
+            {link.label}
+          </NavigationItem>
         ))}
       </Flex>
 

@@ -1,4 +1,6 @@
 import { ReactNode } from "react";
+import { useQuery } from "@apollo/client";
+import { GQL_QUERY_COLLECTIONS } from "@/lib/vendure";
 
 import { MobileNavigationBar } from "@/features/navigation/mobile";
 import { DesktopNavigationBar } from "@/features/navigation/desktop";
@@ -10,6 +12,9 @@ interface RootLayoutProps {
 
 const RootLayout = ({ children }: RootLayoutProps) => {
   const isMobile = useBreakpointValue({ base: true, lg: false });
+
+  const { data: collectionsData } = useQuery(GQL_QUERY_COLLECTIONS);
+  const collections = collectionsData?.collections.items ?? undefined;
 
   return (
     <>
@@ -32,13 +37,19 @@ const RootLayout = ({ children }: RootLayoutProps) => {
         >
           {isMobile == true && (
             <MobileNavigationBar
-              links={[{ label: "Strona główna", href: "/" }]}
+              links={collections?.map((collection) => ({
+                label: collection.name,
+                href: `/collection/${collection.slug}`,
+              }))}
             />
           )}
 
           {isMobile == false && (
             <DesktopNavigationBar
-              links={[{ label: "Strona główna", href: "/" }]}
+              links={collections?.map((collection) => ({
+                label: collection.name,
+                href: `/collection/${collection.slug}`,
+              }))}
             />
           )}
         </Flex>

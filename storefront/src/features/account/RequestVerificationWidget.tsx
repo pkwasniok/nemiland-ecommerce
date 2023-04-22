@@ -1,4 +1,4 @@
-import { useMutation } from "urql";
+import { useMutation } from "@apollo/client";
 import { GQL_MUTATION_REQUEST_VERIFICATION } from "@/lib/vendure";
 
 import {
@@ -16,30 +16,33 @@ const RequestVerificationWidget = ({
 }: RequestVerificationWidgetProps) => {
   const toast = useToast();
 
-  const [, requestVerificationMutation] = useMutation(
-    GQL_MUTATION_REQUEST_VERIFICATION
+  const [requestVerificationMutation] = useMutation(
+    GQL_MUTATION_REQUEST_VERIFICATION,
+    {
+      onCompleted: (data) => {
+        const result = data.refreshCustomerVerification.__typename;
+        if (result == "Success") {
+          toast({
+            title: "Wysłaliśmy Ci wiadomość",
+            status: "success",
+          });
+
+          onSuccess?.();
+        } else {
+          toast({
+            title: "Coś poszło nie tak...",
+            description: "Spróbuj ponownie później.",
+            status: "error",
+          });
+        }
+      },
+    }
   );
 
   const handleRequestVerification = async (
     values: RequestVerificationFormValues
   ) => {
-    const response = await requestVerificationMutation(values);
-
-    const result = response.data?.refreshCustomerVerification.__typename;
-    if (result == "Success") {
-      toast({
-        title: "Wysłaliśmy Ci wiadomość",
-        status: "success",
-      });
-
-      onSuccess?.();
-    } else {
-      toast({
-        title: "Coś poszło nie tak...",
-        description: "Spróbuj ponownie później.",
-        status: "error",
-      });
-    }
+    requestVerificationMutation({ variables: values });
   };
 
   return (
