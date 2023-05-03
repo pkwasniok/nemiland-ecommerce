@@ -18,12 +18,7 @@ import {
 
 import { FiUser } from "react-icons/fi";
 
-interface MobileNavigationDrawerProps extends DrawerProps {}
-
-const MobileNavigationDrawer = ({
-  children,
-  ...props
-}: MobileNavigationDrawerProps) => {
+const MobileNavigationDrawer = ({ children, ...props }: DrawerProps) => {
   const { data: activeCustomerData } = useQuery(GQL_QUERY_ACTIVE_CUSTOMER);
   const activeCustomer = activeCustomerData?.activeCustomer ?? undefined;
 

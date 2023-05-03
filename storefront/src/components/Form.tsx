@@ -3,11 +3,9 @@ import { Form as FormikForm } from "formik";
 
 import { Flex } from "@chakra-ui/react";
 
-interface FormProps extends FormHTMLAttributes<HTMLFormElement> {}
-
-const Form = ({ children, ...props }: FormProps) => {
+const Form = ({ children, ...props }: FormHTMLAttributes<HTMLFormElement>) => {
   return (
-    <FormikForm>
+    <FormikForm {...props}>
       <Flex direction="column" gap={4}>
         {children}
       </Flex>

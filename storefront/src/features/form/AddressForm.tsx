@@ -3,7 +3,7 @@ import { toFormikValidationSchema } from "zod-formik-adapter";
 import { z } from "zod";
 
 import { Form, FormInput, FormSubmit } from "@/components";
-import { Flex, InputGroup, InputLeftAddon } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 
 export const addressFormSchema = z.object({
   fullName: z.string().trim(),

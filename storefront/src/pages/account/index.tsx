@@ -6,7 +6,7 @@ import { GQL_QUERY_ACTIVE_CUSTOMER } from "@/lib/vendure";
 import { PageLayout } from "@/features/layout";
 import { LogoutWidget } from "@/features/account";
 import { Button, Flex, Heading, Spacer, Text } from "@chakra-ui/react";
-import { FiPackage, FiHome, FiSettings, FiLogOut } from "react-icons/fi";
+import { FiPackage, FiHome, FiSettings } from "react-icons/fi";
 
 const AccountPage = () => {
   const router = useRouter();

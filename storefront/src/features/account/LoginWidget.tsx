@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { GQL_MUTATION_LOGIN, GQL_QUERY_ACTIVE_CUSTOMER } from "@/lib/vendure";
 
 import { LoginForm, LoginFormValues } from "@/features/form";
@@ -12,18 +11,6 @@ interface LoginWidgetProps {
 
 const LoginWidget = ({ onSuccess, onError }: LoginWidgetProps) => {
   const toast = useToast();
-
-  const { refetch: refetchActiveCustomer } = useQuery(
-    GQL_QUERY_ACTIVE_CUSTOMER,
-    {
-      fetchPolicy: "network-only",
-      onCompleted: (data) => {
-        if (data.activeCustomer != undefined) {
-          onSuccess?.();
-        }
-      },
-    }
-  );
 
   const [loginMutation] = useMutation(GQL_MUTATION_LOGIN, {
     refetchQueries: [GQL_QUERY_ACTIVE_CUSTOMER],

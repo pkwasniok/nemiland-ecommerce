@@ -119,17 +119,19 @@ const AddressesPage = () => {
           <ModalHeader>Edytuj adres</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Flex direction="column" gap={2}>
-              <UpdateAddressWidget addressId={selectedAddress!} />
-              <Button
-                variant="ghost"
-                colorScheme="red"
-                leftIcon={<FiTrash />}
-                onClick={() => handleDeleteAddress(selectedAddress!)}
-              >
-                Usuń adres
-              </Button>
-            </Flex>
+            {selectedAddress != undefined && (
+              <Flex direction="column" gap={2}>
+                <UpdateAddressWidget addressId={selectedAddress} />
+                <Button
+                  variant="ghost"
+                  colorScheme="red"
+                  leftIcon={<FiTrash />}
+                  onClick={() => handleDeleteAddress(selectedAddress)}
+                >
+                  Usuń adres
+                </Button>
+              </Flex>
+            )}
           </ModalBody>
           <ModalFooter></ModalFooter>
         </ModalContent>

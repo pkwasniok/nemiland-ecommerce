@@ -1,6 +1,7 @@
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 
-import { graphql, client } from "@/lib/vendure";
+import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { graphql } from "@/lib/vendure";
 import { CollectionPagePropsQuery } from "@/__graphql__/graphql";
 
 import { PageLayout } from "@/features/layout";
@@ -8,6 +9,8 @@ import { PageLayout } from "@/features/layout";
 const CollectionPage = ({
   collection,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  if (collection == undefined) return <div></div>;
+
   return (
     <PageLayout title={`Kolekcja ${collection.name}`} showTitle></PageLayout>
   );
@@ -16,6 +19,12 @@ const CollectionPage = ({
 export default CollectionPage;
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  const client = new ApolloClient({
+    uri: "http://localhost:3000/shop-api",
+    cache: new InMemoryCache(),
+    ssrMode: true,
+  });
+
   const response = await client.query({
     query: GQL_QUERY_PAGE_COLLECTION_PATHS,
   });
@@ -45,6 +54,12 @@ export const getStaticProps: GetStaticProps<
   },
   { slug: string }
 > = async ({ params }) => {
+  const client = new ApolloClient({
+    uri: "http://localhost:3000/shop-api",
+    cache: new InMemoryCache(),
+    ssrMode: true,
+  });
+
   if (params?.slug == undefined) {
     return {
       notFound: true,

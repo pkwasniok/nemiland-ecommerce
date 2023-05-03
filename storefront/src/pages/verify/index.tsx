@@ -40,15 +40,13 @@ const VerificationPage = () => {
     },
   });
 
-  const handleVerification = async ({ token }: { token: string }) => {
-    verificationMutation({ variables: { token } });
-  };
-
   useEffect(() => {
     if (router.isReady && router.query.token != undefined) {
-      handleVerification({ token: router.query.token as string });
+      verificationMutation({
+        variables: { token: router.query.token as string },
+      });
     }
-  }, [router]);
+  }, [router.isReady, router.query, verificationMutation]);
 
   return (
     <PageLayout title="Weryfikacja konta" backlinkHref="/login" showTitle>

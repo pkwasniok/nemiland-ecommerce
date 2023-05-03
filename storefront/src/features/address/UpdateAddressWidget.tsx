@@ -31,6 +31,8 @@ const UpdateAddressWidget = ({
           title: "Zapisano",
           status: "success",
         });
+
+        onSuccess?.();
       } else {
         toast({
           title: "Wystąpił nieoczekiwany błąd",
@@ -51,14 +53,7 @@ const UpdateAddressWidget = ({
 
   return (
     <AddressForm
-      initialValues={{
-        fullName: address.fullName!,
-        phoneNumber: address.phoneNumber!,
-        streetLine1: address.streetLine1,
-        streetLine2: address.streetLine2!,
-        postalCode: address.postalCode!,
-        city: address.city!,
-      }}
+      initialValues={address as AddressFormValues}
       onSubmit={handleUpdateAddress}
     />
   );

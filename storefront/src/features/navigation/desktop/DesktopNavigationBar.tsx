@@ -3,7 +3,7 @@ import { useQuery } from "@apollo/client";
 import { GQL_QUERY_ACTIVE_CUSTOMER } from "@/lib/vendure";
 
 import { Logo } from "@/features/marketing";
-import { Flex, IconButton, Button } from "@chakra-ui/react";
+import { Flex, IconButton } from "@chakra-ui/react";
 import { FiUser, FiShoppingBag } from "react-icons/fi";
 
 import NavigationItem from "./NavigationItems";
