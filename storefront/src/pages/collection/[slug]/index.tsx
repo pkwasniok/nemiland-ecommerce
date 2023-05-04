@@ -4,17 +4,10 @@ import { ApolloClient, InMemoryCache } from "@apollo/client";
 import { graphql } from "@/lib/vendure";
 import { CollectionPagePropsQuery } from "@/__graphql__/graphql";
 
-import Image from "next/image";
+import { Image, Price } from "@/features/utils";
 import NextLink from "next/link";
 import { PageLayout } from "@/features/layout";
-import {
-  Box,
-  SimpleGrid,
-  AspectRatio,
-  Text,
-  VStack,
-  LinkOverlay,
-} from "@chakra-ui/react";
+import { Box, SimpleGrid, AspectRatio, Text, VStack } from "@chakra-ui/react";
 
 const CollectionPage = ({
   collection,
@@ -31,7 +24,7 @@ const CollectionPage = ({
               {product.productAsset != undefined && (
                 <AspectRatio ratio={1}>
                   <Image
-                    src={`${product.productAsset.preview}?mode=resize&w=500&h=500`}
+                    src={product.productAsset.preview}
                     width={500}
                     height={500}
                     alt=""
@@ -47,7 +40,13 @@ const CollectionPage = ({
                   </Text>
                 </VStack>
 
-                <Text textColor="black">120,00 PLN</Text>
+                <Price
+                  price={
+                    product.priceWithTax.__typename == "PriceRange"
+                      ? product.priceWithTax.min
+                      : 0
+                  }
+                />
               </VStack>
             </NextLink>
           </Box>
@@ -145,6 +144,15 @@ const GQL_QUERY_PAGE_COLLECTION_PROPS = graphql(`
         productAsset {
           id
           preview
+        }
+        priceWithTax {
+          ... on SinglePrice {
+            value
+          }
+          ... on PriceRange {
+            min
+            max
+          }
         }
       }
     }
