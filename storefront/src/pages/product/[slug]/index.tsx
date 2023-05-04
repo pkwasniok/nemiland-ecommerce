@@ -4,13 +4,14 @@ import {
   InferGetServerSidePropsType,
 } from "next";
 
-import { ApolloClient, InMemoryCache } from "@apollo/client";
-import { graphql } from "@/lib/vendure";
+import { ApolloClient, InMemoryCache, useMutation } from "@apollo/client";
+import { GQL_MUTATION_ADD_ITEM_TO_ORDER, graphql } from "@/lib/vendure";
 import { ProductPagePropsQuery } from "@/__graphql__/graphql";
 
 import { Image, Price } from "@/features/utils";
 import { PageLayout } from "@/features/layout";
 import {
+  useToast,
   AspectRatio,
   Box,
   Button,
@@ -24,6 +25,36 @@ import { FiTruck, FiDollarSign } from "react-icons/fi";
 const ProductPage = ({
   product,
 }: InferGetServerSidePropsType<typeof getStaticProps>) => {
+  const toast = useToast();
+
+  const [addItemToOrderMutation] = useMutation(GQL_MUTATION_ADD_ITEM_TO_ORDER, {
+    onCompleted: (data) => {
+      const result = data.addItemToOrder.__typename;
+      console.log(result);
+      if (result == "Order") {
+        toast({
+          title: "Dodano do koszyka",
+          status: "success",
+        });
+      } else if (result == "InsufficientStockError") {
+        toast({
+          title: "Nie można dodać do koszyka",
+          description: "Niewystarczająca ilość w magazynie",
+          status: "warning",
+        });
+      }
+    },
+  });
+
+  const addItemToOrder = () => {
+    addItemToOrderMutation({
+      variables: {
+        productVariantId: product.variants[0].id,
+        quantity: 1,
+      },
+    });
+  };
+
   if (product == undefined) return <div></div>;
 
   return (
@@ -60,7 +91,9 @@ const ProductPage = ({
 
         <Box h={1} />
 
-        <Button colorScheme="green">Dodaj do koszyka</Button>
+        <Button colorScheme="green" onClick={addItemToOrder}>
+          Dodaj do koszyka
+        </Button>
 
         <Box h={1} />
 
@@ -197,6 +230,7 @@ export const getStaticProps: GetStaticProps<
 const GQL_QUERY_PAGE_PRODUCT_PROPS = graphql(`
   query ProductPageProps($slug: String!) {
     product(slug: $slug) {
+      id
       slug
       name
       description
@@ -209,6 +243,10 @@ const GQL_QUERY_PAGE_PRODUCT_PROPS = graphql(`
           name
         }
         code
+        name
+      }
+      variants {
+        id
         name
       }
       collections {

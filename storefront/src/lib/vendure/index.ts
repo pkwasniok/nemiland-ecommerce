@@ -5,3 +5,4 @@ export { client };
 export * from "./queries/customer";
 export * from "./queries/address";
 export * from "./queries/collection";
+export * from "./queries/order";
