@@ -16,7 +16,7 @@ const CollectionPage = ({
   if (collection == undefined) return <div></div>;
 
   return (
-    <PageLayout title={`Kolekcja ${collection.name}`} showTitle>
+    <PageLayout title={`Kolekcja ${collection.name}`}>
       <SimpleGrid columns={1} gap={4}>
         {products.map((product, index) => (
           <Box key={index} bgColor="red.50" borderRadius={6}>

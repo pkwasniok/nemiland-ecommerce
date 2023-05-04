@@ -10,17 +10,24 @@ import { ProductPagePropsQuery } from "@/__graphql__/graphql";
 
 import { Image, Price } from "@/features/utils";
 import { PageLayout } from "@/features/layout";
-import { AspectRatio, Box, Button, Flex, Text } from "@chakra-ui/react";
+import {
+  AspectRatio,
+  Box,
+  Button,
+  Divider,
+  Flex,
+  Heading,
+  Text,
+} from "@chakra-ui/react";
+import { FiTruck, FiDollarSign } from "react-icons/fi";
 
 const ProductPage = ({
   product,
 }: InferGetServerSidePropsType<typeof getStaticProps>) => {
   if (product == undefined) return <div></div>;
 
-  console.log(product.facetValues);
-
   return (
-    <PageLayout title={`Produkt ${product.name}`}>
+    <PageLayout title={product.name}>
       {product.assets.length > 0 && (
         <AspectRatio ratio={1} bgColor="gray.50" borderRadius={6}>
           <Image
@@ -38,11 +45,9 @@ const ProductPage = ({
             (facetValue) => facetValue.facet.code == "category"
           ) != undefined && (
             <Text fontSize="xs">
-              {
-                product.facetValues.find(
-                  (facetValue) => facetValue.facet.code == "category"
-                )?.name
-              }
+              {product.facetValues
+                .find((facetValue) => facetValue.facet.code == "category")
+                ?.name.toUpperCase()}
             </Text>
           )}
 
@@ -53,11 +58,70 @@ const ProductPage = ({
 
         <Price fontSize="2xl" price={12000} />
 
-        <Box h={4} />
+        <Box h={1} />
 
         <Button colorScheme="green">Dodaj do koszyka</Button>
 
-        <Box h={4} />
+        <Box h={1} />
+
+        <Box>
+          <Flex
+            direction="column"
+            border="1px"
+            borderRadius={6}
+            borderColor="gray.200"
+          >
+            <Flex
+              direction="row"
+              gap={2}
+              py={1}
+              px={2}
+              fontSize="sm"
+              alignItems="center"
+              textColor="gray.700"
+            >
+              <FiTruck />
+              Dostawa w 24h
+            </Flex>
+
+            <Divider />
+
+            <Flex
+              direction="row"
+              gap={2}
+              py={1}
+              px={2}
+              fontSize="sm"
+              alignItems="center"
+              textColor="gray.700"
+            >
+              <FiDollarSign />
+              Szybkie płatności Przelewy24
+            </Flex>
+
+            <Divider />
+
+            <Flex
+              direction="row"
+              gap={2}
+              py={1}
+              px={2}
+              fontSize="sm"
+              alignItems="center"
+              textColor="gray.700"
+            >
+              Wysyłka do Paczkomat InPost
+            </Flex>
+          </Flex>
+        </Box>
+
+        <Box h={1} />
+
+        <Flex direction="column" gap={2}>
+          <Heading size="sm">Opis</Heading>
+          <Divider />
+          <Box dangerouslySetInnerHTML={{ __html: product.description }} />
+        </Flex>
       </Flex>
     </PageLayout>
   );
