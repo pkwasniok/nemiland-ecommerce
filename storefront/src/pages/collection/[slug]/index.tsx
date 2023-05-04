@@ -4,15 +4,56 @@ import { ApolloClient, InMemoryCache } from "@apollo/client";
 import { graphql } from "@/lib/vendure";
 import { CollectionPagePropsQuery } from "@/__graphql__/graphql";
 
+import Image from "next/image";
+import NextLink from "next/link";
 import { PageLayout } from "@/features/layout";
+import {
+  Box,
+  SimpleGrid,
+  AspectRatio,
+  Text,
+  VStack,
+  LinkOverlay,
+} from "@chakra-ui/react";
 
 const CollectionPage = ({
   collection,
+  products,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   if (collection == undefined) return <div></div>;
 
   return (
-    <PageLayout title={`Kolekcja ${collection.name}`} showTitle></PageLayout>
+    <PageLayout title={`Kolekcja ${collection.name}`} showTitle>
+      <SimpleGrid columns={1} gap={4}>
+        {products.map((product, index) => (
+          <Box key={index} bgColor="red.50" borderRadius={6}>
+            <NextLink href={`/product/${product.slug}`}>
+              {product.productAsset != undefined && (
+                <AspectRatio ratio={1}>
+                  <Image
+                    src={`${product.productAsset.preview}?mode=resize&w=500&h=500`}
+                    width={500}
+                    height={500}
+                    alt=""
+                  />
+                </AspectRatio>
+              )}
+
+              <VStack pb={4} spacing={1}>
+                <VStack spacing={0}>
+                  <Text fontSize="xs">{collection.name}</Text>
+                  <Text fontWeight="semibold" textColor="black">
+                    {product.productName.toUpperCase()}
+                  </Text>
+                </VStack>
+
+                <Text textColor="black">120,00 PLN</Text>
+              </VStack>
+            </NextLink>
+          </Box>
+        ))}
+      </SimpleGrid>
+    </PageLayout>
   );
 };
 
@@ -51,6 +92,7 @@ const GQL_QUERY_PAGE_COLLECTION_PATHS = graphql(`
 export const getStaticProps: GetStaticProps<
   {
     collection: NonNullable<CollectionPagePropsQuery["collection"]>;
+    products: NonNullable<CollectionPagePropsQuery["search"]["items"]>;
   },
   { slug: string }
 > = async ({ params }) => {
@@ -71,6 +113,7 @@ export const getStaticProps: GetStaticProps<
     variables: { slug: params.slug },
   });
   const collection = response.data.collection ?? undefined;
+  const products = response.data.search.items ?? undefined;
 
   if (collection == undefined) {
     return {
@@ -81,7 +124,7 @@ export const getStaticProps: GetStaticProps<
 
   return {
     revalidate: 60,
-    props: { collection },
+    props: { collection, products },
   };
 };
 
@@ -93,6 +136,17 @@ const GQL_QUERY_PAGE_COLLECTION_PROPS = graphql(`
       updatedAt
       slug
       name
+    }
+    search(input: { collectionSlug: $slug, groupByProduct: true }) {
+      items {
+        slug
+        productId
+        productName
+        productAsset {
+          id
+          preview
+        }
+      }
     }
   }
 `);
