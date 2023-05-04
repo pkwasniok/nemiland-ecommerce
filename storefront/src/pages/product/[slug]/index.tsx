@@ -5,7 +5,11 @@ import {
 } from "next";
 
 import { ApolloClient, InMemoryCache, useMutation } from "@apollo/client";
-import { GQL_MUTATION_ADD_ITEM_TO_ORDER, graphql } from "@/lib/vendure";
+import {
+  GQL_MUTATION_ADD_ITEM_TO_ORDER,
+  GQL_QUERY_ACTIVE_ORDER,
+  graphql,
+} from "@/lib/vendure";
 import { ProductPagePropsQuery } from "@/__graphql__/graphql";
 
 import { Image, Price } from "@/features/utils";
@@ -28,6 +32,7 @@ const ProductPage = ({
   const toast = useToast();
 
   const [addItemToOrderMutation] = useMutation(GQL_MUTATION_ADD_ITEM_TO_ORDER, {
+    refetchQueries: [GQL_QUERY_ACTIVE_ORDER],
     onCompleted: (data) => {
       const result = data.addItemToOrder.__typename;
       console.log(result);

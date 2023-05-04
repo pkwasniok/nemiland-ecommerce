@@ -1,5 +1,8 @@
-import { useQuery } from "@apollo/client";
-import { GQL_QUERY_ACTIVE_ORDER } from "@/lib/vendure";
+import { useMutation, useQuery } from "@apollo/client";
+import {
+  GQL_MUTATION_ADJUST_ORDER_LINE,
+  GQL_QUERY_ACTIVE_ORDER,
+} from "@/lib/vendure";
 
 import { PageLayout } from "@/features/layout";
 import { Image, Price } from "@/features/utils";
@@ -18,6 +21,22 @@ import { FiPlus, FiMinus, FiX } from "react-icons/fi";
 const CartPage = () => {
   const { data: activeOrderData } = useQuery(GQL_QUERY_ACTIVE_ORDER);
   const activeOrder = activeOrderData?.activeOrder ?? undefined;
+
+  const [adjustOrderLineMutation] = useMutation(
+    GQL_MUTATION_ADJUST_ORDER_LINE,
+    {
+      refetchQueries: [GQL_QUERY_ACTIVE_ORDER],
+    }
+  );
+
+  const adjustOrderLine = (id: string, quantity: number) => {
+    adjustOrderLineMutation({
+      variables: {
+        orderLineId: id,
+        quantity: quantity,
+      },
+    });
+  };
 
   if (activeOrder == undefined || activeOrder.lines.length == 0) {
     return (
@@ -51,24 +70,33 @@ const CartPage = () => {
                 {orderLine.productVariant.name.toUpperCase()}
               </Text>
 
-              <IconButton
-                icon={<FiX size={16} />}
-                aria-label="Delete item"
-                size="xs"
-                variant="ghost"
-              />
+              <Price price={orderLine.linePriceWithTax} />
             </Flex>
 
-            <Price fontSize="lg" price={12000} />
+            <Price fontSize="sm" price={orderLine.unitPriceWithTax} />
 
             <Spacer />
 
             <Flex alignItems="center" gap={2}>
-              <IconButton icon={<FiMinus />} aria-label="-" size="xs" />
+              <IconButton
+                icon={<FiMinus />}
+                aria-label="-"
+                size="xs"
+                onClick={() =>
+                  adjustOrderLine(orderLine.id, orderLine.quantity - 1)
+                }
+              />
               <Text w="18px" textAlign="center">
                 {orderLine.quantity}
               </Text>
-              <IconButton icon={<FiPlus />} aria-label="+" size="xs" />
+              <IconButton
+                icon={<FiPlus />}
+                aria-label="+"
+                size="xs"
+                onClick={() =>
+                  adjustOrderLine(orderLine.id, orderLine.quantity + 1)
+                }
+              />
             </Flex>
           </Flex>
         </Flex>
@@ -80,7 +108,7 @@ const CartPage = () => {
         <Flex direction="column" gap={1} fontSize="sm">
           <Flex justifyContent="space-between" alignItems="end">
             <Text>Przedmioty</Text>
-            <Text fontSize="lg">120,00 PLN</Text>
+            <Price fontSize="lg" price={activeOrder.subTotalWithTax} />
           </Flex>
 
           <Flex justifyContent="space-between" alignItems="end">
@@ -96,7 +124,7 @@ const CartPage = () => {
             fontWeight="semibold"
           >
             <Text>Suma</Text>
-            <Text fontSize="xl">112,00 PLN</Text>
+            <Price fontSize="xl" price={activeOrder.subTotalWithTax + 1200} />
           </Flex>
         </Flex>
       </Box>
