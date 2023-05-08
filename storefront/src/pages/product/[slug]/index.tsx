@@ -64,17 +64,118 @@ const ProductPage = ({
 
   return (
     <PageLayout title={product.name}>
-      {product.assets.length > 0 && (
-        <AspectRatio ratio={1} bgColor="gray.50" borderRadius={6}>
-          <Image
-            src={product.assets[0].source}
-            width={500}
-            height={500}
-            alt=""
-          />
-        </AspectRatio>
-      )}
+      <Flex flex={1} direction="column" alignItems="center" gap={4}>
+        <Flex
+          w="100%"
+          maxW="1200px"
+          direction={["column", "column", "row"]}
+          justifyContent="center"
+          gap={6}
+        >
+          <Flex flex={1} direction="column">
+            {product.assets.length > 0 && (
+              <AspectRatio ratio={1} bgColor="gray.50" borderRadius={6}>
+                <Image
+                  src={product.assets[0].source}
+                  width={3000}
+                  height={3000}
+                  alt=""
+                />
+              </AspectRatio>
+            )}
+          </Flex>
 
+          <Flex flex={0.7} direction="column" gap={4}>
+            <Flex direction="column" gap={0}>
+              {product.facetValues.find(
+                (facetValue) => facetValue.facet.code == "category"
+              ) != undefined && (
+                <Text fontSize="xs">
+                  {product.facetValues
+                    .find((facetValue) => facetValue.facet.code == "category")
+                    ?.name.toUpperCase()}
+                </Text>
+              )}
+
+              <Text fontSize="2xl" fontWeight="semibold" textColor="black">
+                {product.name.toUpperCase()}
+              </Text>
+            </Flex>
+
+            <Price fontSize="2xl" price={12000} />
+
+            <Box h={1} />
+
+            <Button colorScheme="green" onClick={addItemToOrder}>
+              Dodaj do koszyka
+            </Button>
+
+            <Box h={1} />
+
+            <Box>
+              <Flex
+                direction="column"
+                border="1px"
+                borderRadius={6}
+                borderColor="gray.200"
+              >
+                <Flex
+                  direction="row"
+                  gap={2}
+                  py={1}
+                  px={2}
+                  fontSize="sm"
+                  alignItems="center"
+                  textColor="gray.700"
+                >
+                  <FiTruck />
+                  Dostawa w 24h
+                </Flex>
+
+                <Divider />
+
+                <Flex
+                  direction="row"
+                  gap={2}
+                  py={1}
+                  px={2}
+                  fontSize="sm"
+                  alignItems="center"
+                  textColor="gray.700"
+                >
+                  <FiDollarSign />
+                  Szybkie płatności Przelewy24
+                </Flex>
+
+                <Divider />
+
+                <Flex
+                  direction="row"
+                  gap={2}
+                  py={1}
+                  px={2}
+                  fontSize="sm"
+                  alignItems="center"
+                  textColor="gray.700"
+                >
+                  Wysyłka do Paczkomat InPost
+                </Flex>
+              </Flex>
+            </Box>
+          </Flex>
+        </Flex>
+
+        <Flex w="100%" maxW="1200px" direction="column" gap={2}>
+          <Heading size="md">Opis</Heading>
+          <Divider />
+          <Box dangerouslySetInnerHTML={{ __html: product.description }} />
+        </Flex>
+      </Flex>
+    </PageLayout>
+  );
+
+  return (
+    <PageLayout title={product.name}>
       <Flex direction="column" gap={4}>
         <Flex direction="column" gap={0}>
           {product.facetValues.find(

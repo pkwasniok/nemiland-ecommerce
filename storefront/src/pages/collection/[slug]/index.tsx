@@ -17,7 +17,7 @@ const CollectionPage = ({
 
   return (
     <PageLayout title={`Kolekcja ${collection.name}`}>
-      <SimpleGrid columns={1} gap={4}>
+      <SimpleGrid columns={[1, 2, 3, 4]} gap={4}>
         {products.map((product, index) => (
           <Box key={index} bgColor="red.50" borderRadius={6}>
             <NextLink href={`/product/${product.slug}`}>
