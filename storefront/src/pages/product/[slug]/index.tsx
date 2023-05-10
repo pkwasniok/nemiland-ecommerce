@@ -64,10 +64,9 @@ const ProductPage = ({
 
   return (
     <PageLayout title={product.name}>
-      <Flex height="100%" bgColor="red.200">
-        Test
-      </Flex>
-      <Flex height="100%" bgColor="blue.200">
+      <Flex height="95vh">Test</Flex>
+
+      <Flex bgColor="white" p={6}>
         Test
       </Flex>
 

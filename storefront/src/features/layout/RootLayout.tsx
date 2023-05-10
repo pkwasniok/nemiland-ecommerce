@@ -20,6 +20,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
     <Box height="100vh" display="block" pt={12}>
       <Flex
         position="fixed"
+        zIndex={50}
         top={0}
         left={0}
         width="100vw"
@@ -46,7 +47,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
         )}
       </Flex>
 
-      <Box height="100%" display="block">
+      <Box height="100%" overflow="hidden" display="block" bgColor="gray.50">
         {children}
       </Box>
     </Box>
