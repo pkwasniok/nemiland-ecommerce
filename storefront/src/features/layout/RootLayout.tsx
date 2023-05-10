@@ -54,7 +54,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
           )}
         </Flex>
 
-        <Flex flex={1} direction="column" alignItems="center">
+        <Flex flex={1} direction="column" alignItems="center" bgColor="gray.50">
           {children}
         </Flex>
       </Flex>

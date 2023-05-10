@@ -17,14 +17,14 @@ import { PageLayout } from "@/features/layout";
 import {
   useToast,
   AspectRatio,
-  Box,
   Button,
-  Divider,
   Flex,
-  Heading,
   Text,
+  Badge,
+  Divider,
+  Box,
 } from "@chakra-ui/react";
-import { FiTruck, FiDollarSign } from "react-icons/fi";
+import { FiPackage, FiTruck, FiDollarSign } from "react-icons/fi";
 
 const ProductPage = ({
   product,
@@ -64,202 +64,93 @@ const ProductPage = ({
 
   return (
     <PageLayout title={product.name}>
-      <Flex flex={1} direction="column" alignItems="center" gap={4}>
+      <Flex minH="inherit" flex={1} direction="row">
         <Flex
-          w="100%"
-          maxW="1200px"
-          direction={["column", "column", "row"]}
+          flex={1}
+          alignItems="center"
           justifyContent="center"
-          gap={6}
+          direction="column"
         >
-          <Flex flex={1} direction="column">
-            {product.assets.length > 0 && (
-              <AspectRatio ratio={1} bgColor="gray.50" borderRadius={6}>
-                <Image
-                  src={product.assets[0].source}
-                  width={3000}
-                  height={3000}
-                  alt=""
-                />
-              </AspectRatio>
-            )}
-          </Flex>
+          <AspectRatio w="100%" ratio={1} bgColor="green.200" border="1px">
+            <div>A</div>
+          </AspectRatio>
+        </Flex>
 
-          <Flex flex={0.7} direction="column" gap={4}>
-            <Flex direction="column" gap={0}>
-              {product.facetValues.find(
-                (facetValue) => facetValue.facet.code == "category"
-              ) != undefined && (
-                <Text fontSize="xs">
-                  {product.facetValues
-                    .find((facetValue) => facetValue.facet.code == "category")
-                    ?.name.toUpperCase()}
+        <Flex
+          flex={1}
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Flex maxW="450px" w="100%" direction="column" gap={10}>
+            <Flex direction="row" flexWrap="wrap" gap={2}>
+              <Badge colorScheme="yellow">NOWOŚĆ</Badge>
+              <Badge colorScheme="red">PROMOCJA</Badge>
+            </Flex>
+
+            <Flex justifyContent="space-between" alignItems="center">
+              <Flex direction="column">
+                <Text>Workoplecak</Text>
+                <Text lineHeight={0.9} fontSize="2xl" fontWeight="semibold">
+                  CYTRYNA
                 </Text>
-              )}
+              </Flex>
 
-              <Text fontSize="2xl" fontWeight="semibold" textColor="black">
-                {product.name.toUpperCase()}
+              <Flex>
+                <Text fontSize="2xl" fontWeight="bold">
+                  Nemiland
+                </Text>
+              </Flex>
+            </Flex>
+
+            <Flex direction="column">
+              <Text fontSize="2xl" fontWeight="semibold">
+                120,00 PLN
+              </Text>
+
+              <Text fontSize="xs" textColor="gray.500">
+                Najniższa cena z ostatnich 30 dni: 120,00 PLN
               </Text>
             </Flex>
 
-            <Price fontSize="2xl" price={12000} />
+            <Flex direction="column">
+              <Button size="lg" colorScheme="green">
+                Dodaj do koszyka
+              </Button>
+            </Flex>
 
-            <Box h={1} />
-
-            <Button colorScheme="green" onClick={addItemToOrder}>
-              Dodaj do koszyka
-            </Button>
-
-            <Box h={1} />
-
-            <Box>
-              <Flex
-                direction="column"
-                border="1px"
-                borderRadius={6}
-                borderColor="gray.200"
-              >
-                <Flex
-                  direction="row"
-                  gap={2}
-                  py={1}
-                  px={2}
-                  fontSize="sm"
-                  alignItems="center"
-                  textColor="gray.700"
-                >
-                  <FiTruck />
-                  Dostawa w 24h
-                </Flex>
-
-                <Divider />
-
-                <Flex
-                  direction="row"
-                  gap={2}
-                  py={1}
-                  px={2}
-                  fontSize="sm"
-                  alignItems="center"
-                  textColor="gray.700"
-                >
-                  <FiDollarSign />
-                  Szybkie płatności Przelewy24
-                </Flex>
-
-                <Divider />
-
-                <Flex
-                  direction="row"
-                  gap={2}
-                  py={1}
-                  px={2}
-                  fontSize="sm"
-                  alignItems="center"
-                  textColor="gray.700"
-                >
-                  Wysyłka do Paczkomat InPost
+            <Flex
+              direction="column"
+              border="1px"
+              borderColor="gray.300"
+              fontSize="sm"
+              fontWeight="medium"
+              textColor="gray.600"
+              borderRadius={6}
+            >
+              <Flex px={2} py={1} alignItems="center" gap={2}>
+                <FiPackage />
+                <Flex gap={1}>
+                  <Text>Dostępność:</Text>
+                  <Text textColor="green.600">w magazynie</Text>
                 </Flex>
               </Flex>
-            </Box>
-          </Flex>
-        </Flex>
 
-        <Flex w="100%" maxW="1200px" direction="column" gap={2}>
-          <Heading size="md">Opis</Heading>
-          <Divider />
-          <Box dangerouslySetInnerHTML={{ __html: product.description }} />
-        </Flex>
-      </Flex>
-    </PageLayout>
-  );
+              <Divider />
 
-  return (
-    <PageLayout title={product.name}>
-      <Flex direction="column" gap={4}>
-        <Flex direction="column" gap={0}>
-          {product.facetValues.find(
-            (facetValue) => facetValue.facet.code == "category"
-          ) != undefined && (
-            <Text fontSize="xs">
-              {product.facetValues
-                .find((facetValue) => facetValue.facet.code == "category")
-                ?.name.toUpperCase()}
-            </Text>
-          )}
+              <Flex px={2} py={1} alignItems="center" gap={2}>
+                <FiTruck />
+                Wysyłka do Paczkomat InPost
+              </Flex>
 
-          <Text fontSize="2xl" fontWeight="semibold" textColor="black">
-            {product.name.toUpperCase()}
-          </Text>
-        </Flex>
+              <Divider />
 
-        <Price fontSize="2xl" price={12000} />
-
-        <Box h={1} />
-
-        <Button colorScheme="green" onClick={addItemToOrder}>
-          Dodaj do koszyka
-        </Button>
-
-        <Box h={1} />
-
-        <Box>
-          <Flex
-            direction="column"
-            border="1px"
-            borderRadius={6}
-            borderColor="gray.200"
-          >
-            <Flex
-              direction="row"
-              gap={2}
-              py={1}
-              px={2}
-              fontSize="sm"
-              alignItems="center"
-              textColor="gray.700"
-            >
-              <FiTruck />
-              Dostawa w 24h
-            </Flex>
-
-            <Divider />
-
-            <Flex
-              direction="row"
-              gap={2}
-              py={1}
-              px={2}
-              fontSize="sm"
-              alignItems="center"
-              textColor="gray.700"
-            >
-              <FiDollarSign />
-              Szybkie płatności Przelewy24
-            </Flex>
-
-            <Divider />
-
-            <Flex
-              direction="row"
-              gap={2}
-              py={1}
-              px={2}
-              fontSize="sm"
-              alignItems="center"
-              textColor="gray.700"
-            >
-              Wysyłka do Paczkomat InPost
+              <Flex px={2} py={1} alignItems="center" gap={2}>
+                <FiDollarSign />
+                Szybkie płatności Przelewy24
+              </Flex>
             </Flex>
           </Flex>
-        </Box>
-
-        <Box h={1} />
-
-        <Flex direction="column" gap={2}>
-          <Heading size="sm">Opis</Heading>
-          <Divider />
-          <Box dangerouslySetInnerHTML={{ __html: product.description }} />
         </Flex>
       </Flex>
     </PageLayout>
