@@ -47,7 +47,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
         )}
       </Flex>
 
-      <Box height="100%" overflow="hidden" display="block" bgColor="gray.50">
+      <Box height="100%" overflow="hidden" display="block" bgColor="#fbfbfb">
         {children}
       </Box>
     </Box>

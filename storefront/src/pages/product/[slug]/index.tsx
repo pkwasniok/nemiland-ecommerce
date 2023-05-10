@@ -12,7 +12,6 @@ import {
 } from "@/lib/vendure";
 import { ProductPagePropsQuery } from "@/__graphql__/graphql";
 
-import { Image, Price } from "@/features/utils";
 import { PageLayout } from "@/features/layout";
 import {
   useToast,
@@ -22,7 +21,6 @@ import {
   Text,
   Badge,
   Divider,
-  Box,
 } from "@chakra-ui/react";
 import { FiPackage, FiTruck, FiDollarSign } from "react-icons/fi";
 
@@ -76,7 +74,7 @@ const ProductPage = ({
           direction="column"
         >
           <AspectRatio w="100%" ratio={1} bgColor="green.200" border="1px">
-            <div>A</div>
+            <div>PLACEHOLDER</div>
           </AspectRatio>
         </Flex>
 
@@ -158,7 +156,7 @@ const ProductPage = ({
         </Flex>
       </Flex>
 
-      <Flex direction="column" p={6} bgColor="white" gap={3}>
+      <Flex direction="column" p={6} bgColor="white" gap={3} borderRadius={6}>
         <Text fontSize="lg" fontWeight="semibold">
           Opis produktu
         </Text>
@@ -170,115 +168,6 @@ const ProductPage = ({
           fugiat maxime voluptas!
         </Text>
       </Flex>
-
-      {/* <Flex
-        minH={["", "", "", "100%"]}
-        direction={["column", "column", "column", "row"]}
-        gap={[4, 4, 4, 10]}
-      >
-        <Flex
-          flex={[0, 0, 0, 1]}
-          alignItems="center"
-          justifyContent="center"
-          direction="column"
-        >
-          <AspectRatio w="100%" ratio={1} bgColor="green.200" border="1px">
-            <div>A</div>
-          </AspectRatio>
-        </Flex>
-
-        <Flex
-          flex={[0, 0, 0, 1]}
-          alignItems="center"
-          justifyContent="center"
-          direction="column"
-        >
-          <Flex maxW="450px" w="100%" direction="column" gap={10}>
-            <Flex direction="row" flexWrap="wrap" gap={2}>
-              <Badge colorScheme="yellow">NOWOŚĆ</Badge>
-              <Badge colorScheme="red">PROMOCJA</Badge>
-            </Flex>
-
-            <Flex justifyContent="space-between" alignItems="center">
-              <Flex direction="column">
-                <Text>Workoplecak</Text>
-                <Text lineHeight={0.9} fontSize="2xl" fontWeight="semibold">
-                  CYTRYNA
-                </Text>
-              </Flex>
-
-              <Flex>
-                <Text fontSize="2xl" fontWeight="bold">
-                  Nemiland
-                </Text>
-              </Flex>
-            </Flex>
-
-            <Flex direction="column">
-              <Text fontSize="2xl" fontWeight="semibold">
-                120,00 PLN
-              </Text>
-
-              <Text fontSize="xs" textColor="gray.500">
-                Najniższa cena z ostatnich 30 dni: 120,00 PLN
-              </Text>
-            </Flex>
-
-            <Flex direction="column">
-              <Button size="lg" colorScheme="green">
-                Dodaj do koszyka
-              </Button>
-            </Flex>
-
-            <Flex
-              direction="column"
-              border="1px"
-              borderColor="gray.300"
-              fontSize="sm"
-              fontWeight="medium"
-              textColor="gray.600"
-              borderRadius={6}
-            >
-              <Flex px={2} py={1} alignItems="center" gap={2}>
-                <FiPackage />
-                <Flex gap={1}>
-                  <Text>Dostępność:</Text>
-                  <Text textColor="green.600">w magazynie</Text>
-                </Flex>
-              </Flex>
-
-              <Divider />
-
-              <Flex px={2} py={1} alignItems="center" gap={2}>
-                <FiTruck />
-                Wysyłka do Paczkomat InPost
-              </Flex>
-
-              <Divider />
-
-              <Flex px={2} py={1} alignItems="center" gap={2}>
-                <FiDollarSign />
-                Szybkie płatności Przelewy24
-              </Flex>
-            </Flex>
-          </Flex>
-        </Flex>
-      </Flex>
-
-      <Flex direction="column" mt={[6, 6, 6, 0]}>
-        <Text fontSize="xl" fontWeight="semibold">
-          Opis produktu
-        </Text>
-
-        <Text>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore
-          similique deleniti nihil veniam, aspernatur debitis odio recusandae
-          molestias deserunt corporis libero dolore sed repudiandae doloremque
-          accusamus rem quidem ipsa optio. Lorem ipsum dolor sit amet
-          consectetur adipisicing elit. Officiis quasi amet odio explicabo quod,
-          culpa ducimus laborum dicta. Quibusdam tempora optio possimus quia?
-        </Text>
-      </Flex> */}
     </PageLayout>
   );
 };
