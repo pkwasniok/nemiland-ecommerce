@@ -25,7 +25,7 @@ const PageLayout = ({ children, title }: PageLayoutProps) => {
         alignItems="center"
         overflow="auto"
       >
-        <Flex maxWidth="1536px" w="100%" direction="column">
+        <Flex maxWidth="1536px" w="100%" direction="column" gap={10}>
           {children}
         </Flex>
       </Flex>
