@@ -64,9 +64,13 @@ const ProductPage = ({
 
   return (
     <PageLayout title={product.name}>
-      <Flex minH="inherit" flex={1} direction="row">
+      <Flex
+        minH={["", "", "", "100%"]}
+        direction={["column", "column", "column", "row"]}
+        gap={[2, 2, 2, 10]}
+      >
         <Flex
-          flex={1}
+          flex={[0, 0, 0, 1]}
           alignItems="center"
           justifyContent="center"
           direction="column"
@@ -77,10 +81,10 @@ const ProductPage = ({
         </Flex>
 
         <Flex
-          flex={1}
-          direction="column"
+          flex={[0, 0, 0, 1]}
           alignItems="center"
           justifyContent="center"
+          direction="column"
         >
           <Flex maxW="450px" w="100%" direction="column" gap={10}>
             <Flex direction="row" flexWrap="wrap" gap={2}>
@@ -152,6 +156,32 @@ const ProductPage = ({
             </Flex>
           </Flex>
         </Flex>
+      </Flex>
+
+      <Flex direction="column" mt={[6, 6, 6, 0]}>
+        <Text fontSize="xl" fontWeight="semibold">
+          Opis produktu
+        </Text>
+
+        <Text>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore
+          similique deleniti nihil veniam, aspernatur debitis odio recusandae
+          molestias deserunt corporis libero dolore sed repudiandae doloremque
+          accusamus rem quidem ipsa optio. Lorem ipsum dolor sit amet
+          consectetur adipisicing elit. Officiis quasi amet odio explicabo quod,
+          culpa ducimus laborum dicta. Quibusdam tempora optio possimus quia?
+          Ratione, asperiores odio? Dolore hic animi dolor? Lorem ipsum, dolor
+          sit amet consectetur adipisicing elit. Illum, unde rerum? Magni natus
+          aperiam id nemo fugit maiores dolores eligendi reprehenderit commodi
+          temporibus ratione, at inventore eum ipsa dicta repellat! Lorem ipsum
+          dolor sit amet, consectetur adipisicing elit. Tenetur soluta optio
+          nobis animi explicabo. Atque et odio mollitia quo ut, consequuntur
+          assumenda deserunt soluta dignissimos ipsum dicta id nobis animi.
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas
+          consequatur neque minima quod qui obcaecati, impedit necessitatibus
+          laboriosam repellat ex nostrum fugit suscipit, voluptatibus blanditiis
+          temporibus unde numquam eaque explicabo.
+        </Text>
       </Flex>
     </PageLayout>
   );

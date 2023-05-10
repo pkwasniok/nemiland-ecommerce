@@ -34,6 +34,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
           justifyContent="center"
           borderBottom="1px"
           borderBottomColor="gray.100"
+          bgColor="white"
         >
           {isMobile == true && (
             <MobileNavigationBar
@@ -54,7 +55,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
           )}
         </Flex>
 
-        <Flex flex={1} direction="column" alignItems="center" bgColor="gray.50">
+        <Flex flex={1} direction="column" alignItems="center">
           {children}
         </Flex>
       </Flex>

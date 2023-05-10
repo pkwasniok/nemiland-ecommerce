@@ -77,18 +77,8 @@ const PageLayout = ({
       )}
 
       {(isLoading == false || isLoading == undefined) && (
-        <Flex
-          flex={1}
-          maxW="1536px"
-          w="100%"
-          p={4}
-          gap={4}
-          direction="column"
-          display="block"
-        >
-          <Flex bgColor="red.200" minHeight="100%">
-            {children}
-          </Flex>
+        <Flex flex={1} maxW="1536px" w="100%" p={4} gap={4} direction="column">
+          {children}
         </Flex>
       )}
     </>
