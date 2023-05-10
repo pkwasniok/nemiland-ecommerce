@@ -64,10 +64,29 @@ const ProductPage = ({
 
   return (
     <PageLayout title={product.name}>
-      <Flex
+      <Flex height="100%" bgColor="red.200">
+        Test
+      </Flex>
+      <Flex height="100%" bgColor="blue.200">
+        Test
+      </Flex>
+
+      {/* <Flex direction="column" bgColor="white" p={4}>
+        <Text fontSize="xl" fontWeight="semibold">
+          Opis produktu
+        </Text>
+        <Text>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum,
+          commodi ad. Porro tenetur aliquam animi, nihil est hic mollitia
+          praesentium distinctio sunt nam consectetur, qui quisquam labore,
+          fugiat maxime voluptas!
+        </Text>
+      </Flex> */}
+
+      {/* <Flex
         minH={["", "", "", "100%"]}
         direction={["column", "column", "column", "row"]}
-        gap={[2, 2, 2, 10]}
+        gap={[4, 4, 4, 10]}
       >
         <Flex
           flex={[0, 0, 0, 1]}
@@ -170,19 +189,8 @@ const ProductPage = ({
           accusamus rem quidem ipsa optio. Lorem ipsum dolor sit amet
           consectetur adipisicing elit. Officiis quasi amet odio explicabo quod,
           culpa ducimus laborum dicta. Quibusdam tempora optio possimus quia?
-          Ratione, asperiores odio? Dolore hic animi dolor? Lorem ipsum, dolor
-          sit amet consectetur adipisicing elit. Illum, unde rerum? Magni natus
-          aperiam id nemo fugit maiores dolores eligendi reprehenderit commodi
-          temporibus ratione, at inventore eum ipsa dicta repellat! Lorem ipsum
-          dolor sit amet, consectetur adipisicing elit. Tenetur soluta optio
-          nobis animi explicabo. Atque et odio mollitia quo ut, consequuntur
-          assumenda deserunt soluta dignissimos ipsum dicta id nobis animi.
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas
-          consequatur neque minima quod qui obcaecati, impedit necessitatibus
-          laboriosam repellat ex nostrum fugit suscipit, voluptatibus blanditiis
-          temporibus unde numquam eaque explicabo.
         </Text>
-      </Flex>
+      </Flex> */}
     </PageLayout>
   );
 };

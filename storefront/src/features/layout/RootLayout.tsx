@@ -4,7 +4,7 @@ import { GQL_QUERY_COLLECTIONS } from "@/lib/vendure";
 
 import { MobileNavigationBar } from "@/features/navigation/mobile";
 import { DesktopNavigationBar } from "@/features/navigation/desktop";
-import { useBreakpointValue, Flex } from "@chakra-ui/react";
+import { useBreakpointValue, Flex, Box } from "@chakra-ui/react";
 
 interface RootLayoutProps {
   children?: ReactNode;
@@ -17,49 +17,39 @@ const RootLayout = ({ children }: RootLayoutProps) => {
   const collections = collectionsData?.collections.items ?? undefined;
 
   return (
-    <>
+    <Box height="100vh" display="block" pt={12}>
       <Flex
-        direction="column"
-        w="100vw"
-        h="100vh"
-        overflow="auto"
-        pt={isMobile ? 12 : 14}
+        position="fixed"
+        top={0}
+        left={0}
+        width="100vw"
+        height={12}
+        justifyContent="center"
+        bgColor="white"
       >
-        <Flex
-          position="fixed"
-          top={0}
-          left={0}
-          zIndex={10}
-          w="100vw"
-          justifyContent="center"
-          borderBottom="1px"
-          borderBottomColor="gray.100"
-          bgColor="white"
-        >
-          {isMobile == true && (
-            <MobileNavigationBar
-              links={collections?.map((collection) => ({
-                label: collection.name,
-                href: `/collection/${collection.slug}`,
-              }))}
-            />
-          )}
+        {isMobile == false && (
+          <DesktopNavigationBar
+            links={collections?.map((collection) => ({
+              href: `/collection/${collection.slug}`,
+              label: collection.name,
+            }))}
+          />
+        )}
 
-          {isMobile == false && (
-            <DesktopNavigationBar
-              links={collections?.map((collection) => ({
-                label: collection.name,
-                href: `/collection/${collection.slug}`,
-              }))}
-            />
-          )}
-        </Flex>
-
-        <Flex flex={1} direction="column" alignItems="center">
-          {children}
-        </Flex>
+        {isMobile == true && (
+          <MobileNavigationBar
+            links={collections?.map((collection) => ({
+              href: `/collection/${collection.slug}`,
+              label: collection.name,
+            }))}
+          />
+        )}
       </Flex>
-    </>
+
+      <Box height="100%" display="block">
+        {children}
+      </Box>
+    </Box>
   );
 };
 

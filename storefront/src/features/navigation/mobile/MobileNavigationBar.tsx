@@ -17,7 +17,7 @@ const MobileNavigationBar = ({ links }: MobileNavigationBarProps) => {
   return (
     <>
       <Flex
-        h={12}
+        h="100%"
         w="100%"
         p={2}
         alignItems="center"

@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import Head from "next/head";
 import NextLink from "next/link";
 
-import { Flex, Heading, Spinner } from "@chakra-ui/react";
+import { Flex, Heading, Spinner, Box } from "@chakra-ui/react";
 
 import { FiChevronLeft } from "react-icons/fi";
 
@@ -22,67 +22,91 @@ const PageLayout = ({
   isLoading,
 }: PageLayoutProps) => {
   return (
-    <>
-      <Head>
-        <title>{title != undefined ? `${title} | Nemiland` : "Nemiland"}</title>
-      </Head>
-
-      {showTitle == true && backlinkHref == undefined && (
-        <Flex
-          w="100%"
-          justifyContent="center"
-          borderBottom="1px"
-          borderBottomColor="gray.100"
-          bgColor="gray.50"
-          textColor="gray.600"
-        >
-          <Flex maxW="1536px" w="100%" px={4} py={1}>
-            <Heading size="xs" fontWeight="semibold">
-              {title}
-            </Heading>
-          </Flex>
-        </Flex>
-      )}
-
-      {showTitle == true && backlinkHref != undefined && (
-        <Flex
-          w="100%"
-          justifyContent="center"
-          borderBottom="1px"
-          borderBottomColor="gray.100"
-          bgColor="gray.50"
-          textColor="gray.600"
-        >
-          <Flex
-            maxW="1536px"
-            w="100%"
-            px={3}
-            py={1}
-            gap={2}
-            as={NextLink}
-            href={backlinkHref}
-          >
-            <FiChevronLeft />
-            <Heading size="xs" fontWeight="semibold">
-              {title}
-            </Heading>
-          </Flex>
-        </Flex>
-      )}
-
-      {isLoading == true && (
-        <Flex flex={1} alignItems="center" justifyContent="center">
-          <Spinner />
-        </Flex>
-      )}
-
-      {(isLoading == false || isLoading == undefined) && (
-        <Flex flex={1} maxW="1536px" w="100%" p={4} gap={4} direction="column">
+    <Flex
+      minHeight="100%"
+      direction="column"
+      alignItems="center"
+      overflow="auto"
+      bgColor="gray.50"
+    >
+      <Box flex={1} maxW="1536px" w="100%" display="block" position="relative">
+        <Box position="absolute" height="100%" width="100%">
           {children}
-        </Flex>
-      )}
-    </>
+        </Box>
+      </Box>
+    </Flex>
   );
+
+  // return (
+  //   <>
+  //     <Head>
+  //       <title>{title != undefined ? `${title} | Nemiland` : "Nemiland"}</title>
+  //     </Head>
+
+  //     {showTitle == true && backlinkHref == undefined && (
+  //       <Flex
+  //         w="100%"
+  //         justifyContent="center"
+  //         borderBottom="1px"
+  //         borderBottomColor="gray.100"
+  //         bgColor="gray.50"
+  //         textColor="gray.600"
+  //       >
+  //         <Flex maxW="1536px" w="100%" px={4} py={1}>
+  //           <Heading size="xs" fontWeight="semibold">
+  //             {title}
+  //           </Heading>
+  //         </Flex>
+  //       </Flex>
+  //     )}
+
+  //     {showTitle == true && backlinkHref != undefined && (
+  //       <Flex
+  //         w="100%"
+  //         justifyContent="center"
+  //         borderBottom="1px"
+  //         borderBottomColor="gray.100"
+  //         bgColor="gray.50"
+  //         textColor="gray.600"
+  //       >
+  //         <Flex
+  //           maxW="1536px"
+  //           w="100%"
+  //           px={3}
+  //           py={1}
+  //           gap={2}
+  //           as={NextLink}
+  //           href={backlinkHref}
+  //         >
+  //           <FiChevronLeft />
+  //           <Heading size="xs" fontWeight="semibold">
+  //             {title}
+  //           </Heading>
+  //         </Flex>
+  //       </Flex>
+  //     )}
+
+  //     {isLoading == true && (
+  //       <Flex flex={1} alignItems="center" justifyContent="center">
+  //         <Spinner />
+  //       </Flex>
+  //     )}
+
+  //     {(isLoading == false || isLoading == undefined) && (
+  //       <Flex
+  //         bgColor="gray.50"
+  //         h="100%"
+  //         maxW="1536px"
+  //         w="100%"
+  //         p={4}
+  //         gap={4}
+  //         direction="column"
+  //       >
+  //         {children}
+  //       </Flex>
+  //     )}
+  //   </>
+  // );
 };
 
 export default PageLayout;

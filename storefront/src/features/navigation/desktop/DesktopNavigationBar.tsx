@@ -18,7 +18,7 @@ const DesktopNavigationBar = ({ links }: DesktopNavigationBarProps) => {
 
   return (
     <Flex
-      h={14}
+      h="100%"
       maxW="1536px"
       w="100%"
       p={4}
