@@ -24,6 +24,11 @@ import {
 } from "@chakra-ui/react";
 import { FiPackage, FiTruck, FiDollarSign } from "react-icons/fi";
 
+import { Price } from "@/features/utils";
+import { Product } from "@/features/ecommerce";
+import ProductBadges from "@/features/ecommerce/product/ProductBadges";
+import ProductDetailsRow from "@/features/ecommerce/product/ProductDetailsRow";
+
 const ProductPage = ({
   product,
 }: InferGetServerSidePropsType<typeof getStaticProps>) => {
@@ -85,73 +90,42 @@ const ProductPage = ({
           direction="column"
         >
           <Flex maxW="450px" w="100%" direction="column" gap={10}>
-            <Flex direction="row" flexWrap="wrap" gap={2}>
-              <Badge colorScheme="yellow">NOWOŚĆ</Badge>
-              <Badge colorScheme="red">PROMOCJA</Badge>
-            </Flex>
+            <Product.Badges
+              badges={[{ label: "Nowość" }, { label: "Promocja" }]}
+            />
 
-            <Flex justifyContent="space-between" alignItems="center">
-              <Flex direction="column">
-                <Text>Workoplecak</Text>
-                <Text lineHeight={0.9} fontSize="2xl" fontWeight="semibold">
-                  CYTRYNA
-                </Text>
-              </Flex>
-
-              <Flex>
+            <Product.Title
+              productName={product.name}
+              categoryName={
+                product.facetValues.find(
+                  (facetValue) => facetValue.facet.code == "category"
+                )?.name
+              }
+              logo={
                 <Text fontSize="2xl" fontWeight="bold">
                   Nemiland
                 </Text>
-              </Flex>
-            </Flex>
+              }
+            />
 
-            <Flex direction="column">
-              <Text fontSize="2xl" fontWeight="semibold">
-                120,00 PLN
-              </Text>
+            <Product.Price
+              currentPrice={product.variants[0].price}
+              lowestPrice={product.variants[0].price}
+            />
 
-              <Text fontSize="xs" textColor="gray.500">
-                Najniższa cena z ostatnich 30 dni: 120,00 PLN
-              </Text>
-            </Flex>
+            <Product.ATCButton />
 
-            <Flex direction="column">
-              <Button size="lg" colorScheme="green">
-                Dodaj do koszyka
-              </Button>
-            </Flex>
-
-            <Flex
-              direction="column"
-              border="1px"
-              borderColor="gray.300"
-              fontSize="sm"
-              fontWeight="medium"
-              textColor="gray.600"
-              borderRadius={6}
-            >
-              <Flex px={2} py={1} alignItems="center" gap={2}>
-                <FiPackage />
-                <Flex gap={1}>
-                  <Text>Dostępność:</Text>
-                  <Text textColor="green.600">w magazynie</Text>
-                </Flex>
-              </Flex>
-
-              <Divider />
-
-              <Flex px={2} py={1} alignItems="center" gap={2}>
-                <FiTruck />
+            <Product.DetailsTable>
+              <ProductDetailsRow icon={<FiPackage />}>
+                Dostępność: <Text textColor="green.700">w magazynie</Text>
+              </ProductDetailsRow>
+              <ProductDetailsRow icon={<FiTruck />}>
                 Wysyłka do Paczkomat InPost
-              </Flex>
-
-              <Divider />
-
-              <Flex px={2} py={1} alignItems="center" gap={2}>
-                <FiDollarSign />
+              </ProductDetailsRow>
+              <ProductDetailsRow icon={<FiDollarSign />}>
                 Szybkie płatności Przelewy24
-              </Flex>
-            </Flex>
+              </ProductDetailsRow>
+            </Product.DetailsTable>
           </Flex>
         </Flex>
       </Flex>
@@ -159,6 +133,19 @@ const ProductPage = ({
       <Flex direction="column" p={6} bgColor="white" gap={3} borderRadius={6}>
         <Text fontSize="lg" fontWeight="semibold">
           Opis produktu
+        </Text>
+
+        <Text>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum,
+          commodi ad. Porro tenetur aliquam animi, nihil est hic mollitia
+          praesentium distinctio sunt nam consectetur, qui quisquam labore,
+          fugiat maxime voluptas!
+        </Text>
+      </Flex>
+
+      <Flex direction="column" p={6} bgColor="white" gap={3} borderRadius={6}>
+        <Text fontSize="lg" fontWeight="semibold">
+          Ważne informacje
         </Text>
 
         <Text>
@@ -260,6 +247,8 @@ const GQL_QUERY_PAGE_PRODUCT_PROPS = graphql(`
       variants {
         id
         name
+        price
+        currencyCode
       }
       collections {
         name
