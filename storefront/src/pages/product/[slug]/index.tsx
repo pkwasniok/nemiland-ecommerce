@@ -13,21 +13,10 @@ import {
 import { ProductPagePropsQuery } from "@/__graphql__/graphql";
 
 import { PageLayout } from "@/features/layout";
-import {
-  useToast,
-  AspectRatio,
-  Button,
-  Flex,
-  Text,
-  Badge,
-  Divider,
-} from "@chakra-ui/react";
+import { useToast, AspectRatio, Flex, Text, Box } from "@chakra-ui/react";
 import { FiPackage, FiTruck, FiDollarSign } from "react-icons/fi";
 
-import { Price } from "@/features/utils";
 import { Product } from "@/features/ecommerce";
-import ProductBadges from "@/features/ecommerce/product/ProductBadges";
-import ProductDetailsRow from "@/features/ecommerce/product/ProductDetailsRow";
 
 const ProductPage = ({
   product,
@@ -68,7 +57,7 @@ const ProductPage = ({
   return (
     <PageLayout title={product.name}>
       <Flex
-        minHeight="95vh"
+        minHeight="92vh"
         direction={["column", "column", "column", "row"]}
         gap={[4, 4, 4, 10]}
       >
@@ -78,9 +67,7 @@ const ProductPage = ({
           justifyContent="center"
           direction="column"
         >
-          <AspectRatio w="100%" ratio={1} bgColor="green.200" border="1px">
-            <div>PLACEHOLDER</div>
-          </AspectRatio>
+          <Product.Gallery />
         </Flex>
 
         <Flex
@@ -116,15 +103,15 @@ const ProductPage = ({
             <Product.ATCButton />
 
             <Product.DetailsTable>
-              <ProductDetailsRow icon={<FiPackage />}>
+              <Product.DetailsRow icon={<FiPackage />}>
                 Dostępność: <Text textColor="green.700">w magazynie</Text>
-              </ProductDetailsRow>
-              <ProductDetailsRow icon={<FiTruck />}>
+              </Product.DetailsRow>
+              <Product.DetailsRow icon={<FiTruck />}>
                 Wysyłka do Paczkomat InPost
-              </ProductDetailsRow>
-              <ProductDetailsRow icon={<FiDollarSign />}>
+              </Product.DetailsRow>
+              <Product.DetailsRow icon={<FiDollarSign />}>
                 Szybkie płatności Przelewy24
-              </ProductDetailsRow>
+              </Product.DetailsRow>
             </Product.DetailsTable>
           </Flex>
         </Flex>
@@ -135,12 +122,11 @@ const ProductPage = ({
           Opis produktu
         </Text>
 
-        <Text>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum,
-          commodi ad. Porro tenetur aliquam animi, nihil est hic mollitia
-          praesentium distinctio sunt nam consectetur, qui quisquam labore,
-          fugiat maxime voluptas!
-        </Text>
+        {product.description && (
+          <Box dangerouslySetInnerHTML={{ __html: product.description }}></Box>
+        )}
+
+        {!product.description && <Box>Lorem ipsum</Box>}
       </Flex>
 
       <Flex direction="column" p={6} bgColor="white" gap={3} borderRadius={6}>
@@ -148,12 +134,7 @@ const ProductPage = ({
           Ważne informacje
         </Text>
 
-        <Text>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum,
-          commodi ad. Porro tenetur aliquam animi, nihil est hic mollitia
-          praesentium distinctio sunt nam consectetur, qui quisquam labore,
-          fugiat maxime voluptas!
-        </Text>
+        <Text>Lorem ipsum</Text>
       </Flex>
     </PageLayout>
   );

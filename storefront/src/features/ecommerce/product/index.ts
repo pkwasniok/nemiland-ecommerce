@@ -4,6 +4,7 @@ import ProductBadges from "./ProductBadges";
 import ProductATCButton from "./ProductATCButton";
 import ProductDetailsTable from "./ProductDetailsTable";
 import ProductDetailsRow from "./ProductDetailsRow";
+import ProductGallery from "./ProductGallery";
 
 const Product = {
   Title: ProductTitle,
@@ -12,6 +13,7 @@ const Product = {
   ATCButton: ProductATCButton,
   DetailsTable: ProductDetailsTable,
   DetailsRow: ProductDetailsRow,
+  Gallery: ProductGallery,
 };
 
 export default Product;
