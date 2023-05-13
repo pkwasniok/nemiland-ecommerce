@@ -10,7 +10,7 @@ interface ImageProps {
 const Image = ({ src, width, height, alt }: ImageProps) => {
   return (
     <NextImage
-      src={`${src}?mode=resize&w=${width}&h=${height}`}
+      src={`${src}?format=webp&mode=resize&w=${width}&h=${height}`}
       width={width}
       height={height}
       alt={alt}

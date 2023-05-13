@@ -57,7 +57,7 @@ const ProductPage = ({
   return (
     <PageLayout title={product.name}>
       <Flex
-        minHeight="92vh"
+        minHeight="90vh"
         direction={["column", "column", "column", "row"]}
         gap={[4, 4, 4, 10]}
       >
@@ -67,7 +67,11 @@ const ProductPage = ({
           justifyContent="center"
           direction="column"
         >
-          <Product.Gallery />
+          <Flex width={["100%", "100%", "100%", "85%"]}>
+            <Product.Gallery
+              images={product.assets.map((asset) => ({ src: asset.source }))}
+            />
+          </Flex>
         </Flex>
 
         <Flex

@@ -56,6 +56,9 @@ export const config: VendureConfig = {
       route: "assets",
       assetUploadDir: path.join(__dirname, "../static/assets"),
       assetUrlPrefix: IS_DEV ? undefined : "https://www.my-shop.com/assets",
+      cacheHeader: {
+        maxAge: 60 * 60 * 24 * 7 * 30,
+      },
     }),
     DefaultJobQueuePlugin.init({ useDatabaseForBuffer: true }),
     DefaultSearchPlugin.init({ bufferUpdates: false, indexStockStatus: true }),
