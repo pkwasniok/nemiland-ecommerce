@@ -7,7 +7,14 @@ import { CollectionPagePropsQuery } from "@/__graphql__/graphql";
 import { Image, Price } from "@/features/utils";
 import NextLink from "next/link";
 import { PageLayout } from "@/features/layout";
-import { Box, SimpleGrid, AspectRatio, Text, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  SimpleGrid,
+  AspectRatio,
+  Text,
+  VStack,
+  Flex,
+} from "@chakra-ui/react";
 
 const CollectionPage = ({
   collection,
@@ -17,7 +24,50 @@ const CollectionPage = ({
 
   return (
     <PageLayout title={`Kolekcja ${collection.name}`}>
-      <SimpleGrid columns={[1, 2, 3, 4]} gap={4}>
+      <SimpleGrid columns={4} gap={6}>
+        {products.map((product, index) => (
+          <Flex
+            key={index}
+            direction="column"
+            borderRadius={6}
+            bgColor="white"
+            as={NextLink}
+            href={`/product/${product.slug}`}
+          >
+            <AspectRatio
+              width="100%"
+              ratio={1}
+              borderRadius={6}
+              bgColor="green.100"
+            >
+              <Image
+                src={product.productAsset?.preview}
+                width={500}
+                height={500}
+                alt=""
+              />
+            </AspectRatio>
+
+            <Flex p={6} justifyContent="space-between" alignItems="end">
+              <Flex direction="column">
+                <Text fontSize="sm" textColor="gray.600">
+                  Workoplecak
+                </Text>
+                <Text lineHeight={1} fontWeight="semibold">
+                  {product.productName.toUpperCase()}
+                </Text>
+              </Flex>
+
+              <Price
+                fontWeight="semibold"
+                price={product.priceWithTax.value ?? product.priceWithTax.min}
+              />
+            </Flex>
+          </Flex>
+        ))}
+      </SimpleGrid>
+
+      {/* <SimpleGrid columns={[1, 2, 3, 4]} gap={4}>
         {products.map((product, index) => (
           <Box key={index} bgColor="green.50" borderRadius={6}>
             <NextLink href={`/product/${product.slug}`}>
@@ -51,7 +101,7 @@ const CollectionPage = ({
             </NextLink>
           </Box>
         ))}
-      </SimpleGrid>
+      </SimpleGrid> */}
     </PageLayout>
   );
 };
