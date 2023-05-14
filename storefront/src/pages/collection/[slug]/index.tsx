@@ -24,7 +24,7 @@ const CollectionPage = ({
 
   return (
     <PageLayout title={`Kolekcja ${collection.name}`}>
-      <SimpleGrid columns={4} gap={6}>
+      <SimpleGrid columns={[1, 2, 3, 4]} gap={6}>
         {products.map((product, index) => (
           <Flex
             key={index}

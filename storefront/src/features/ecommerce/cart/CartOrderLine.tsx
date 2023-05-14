@@ -19,12 +19,12 @@ const CartOrderLine = ({
   onQuantityChange,
 }: CartOrderLineProps) => {
   return (
-    <Flex width="100%" p={3} borderRadius={6} bgColor="white">
-      <AspectRatio ratio={1} width="100px" bgColor="green.100" borderRadius={3}>
-        <Image src={src} width={100} height={100} alt="" />
+    <Flex width="100%" borderRadius={6} bgColor="white">
+      <AspectRatio ratio={1} width="130px" borderRadius={6} bgColor="green.100">
+        <Image src={src} width={500} height={500} alt="" />
       </AspectRatio>
 
-      <Flex flex={1} p={3} direction="column" justifyContent="space-between">
+      <Flex flex={1} p={6} direction="column" justifyContent="space-between">
         <Flex alignItems="center" justifyContent="space-between">
           <Text fontWeight="semibold">{name}</Text>
 
