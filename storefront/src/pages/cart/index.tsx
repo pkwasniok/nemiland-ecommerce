@@ -5,18 +5,12 @@ import {
 } from "@/lib/vendure";
 
 import { PageLayout } from "@/features/layout";
-import { Image, Price } from "@/features/utils";
-import {
-  AspectRatio,
-  Flex,
-  Text,
-  IconButton,
-  Spacer,
-  Button,
-  Box,
-  Divider,
-} from "@chakra-ui/react";
-import { FiPlus, FiMinus, FiX } from "react-icons/fi";
+import { Price } from "@/features/utils";
+import { Flex, Text, Button, Divider } from "@chakra-ui/react";
+
+import { Cart } from "@/features/ecommerce";
+
+import { FiInfo } from "react-icons/fi";
 
 const CartPage = () => {
   const { data: activeOrderData } = useQuery(GQL_QUERY_ACTIVE_ORDER);
@@ -48,88 +42,107 @@ const CartPage = () => {
 
   return (
     <PageLayout title="Koszyk" showTitle>
-      {activeOrder.lines.map((orderLine, index) => (
-        <Flex key={index} gap={2}>
-          <AspectRatio
-            ratio={1}
-            width="100px"
-            bgColor="gray.50"
-            borderRadius={6}
-          >
-            <Image
-              src={orderLine.featuredAsset!.source}
-              width={100}
-              height={100}
-              alt=""
+      <Flex direction={["column", "column", "column", "row"]} gap={6}>
+        <Flex w="100%" direction="column" gap={6}>
+          {activeOrder.lines.map((orderLine, index) => (
+            <Cart.OrderLine
+              key={index}
+              src={orderLine.featuredAsset?.source}
+              name={`Workoplecak ${orderLine.productVariant.name.toUpperCase()}`}
+              quantity={orderLine.quantity}
+              price={orderLine.linePriceWithTax}
+              onQuantityChange={(quantity) =>
+                adjustOrderLine(orderLine.id, quantity)
+              }
             />
-          </AspectRatio>
-
-          <Flex flex={1} py={2} direction="column" gap={0}>
-            <Flex alignItems="center" justifyContent="space-between">
-              <Text fontWeight="semibold">
-                {orderLine.productVariant.name.toUpperCase()}
-              </Text>
-
-              <Price price={orderLine.linePriceWithTax} />
-            </Flex>
-
-            <Price fontSize="sm" price={orderLine.unitPriceWithTax} />
-
-            <Spacer />
-
-            <Flex alignItems="center" gap={2}>
-              <IconButton
-                icon={<FiMinus />}
-                aria-label="-"
-                size="xs"
-                onClick={() =>
-                  adjustOrderLine(orderLine.id, orderLine.quantity - 1)
-                }
-              />
-              <Text w="18px" textAlign="center">
-                {orderLine.quantity}
-              </Text>
-              <IconButton
-                icon={<FiPlus />}
-                aria-label="+"
-                size="xs"
-                onClick={() =>
-                  adjustOrderLine(orderLine.id, orderLine.quantity + 1)
-                }
-              />
-            </Flex>
-          </Flex>
+          ))}
         </Flex>
-      ))}
 
-      <Spacer />
+        <Flex
+          maxW={["", "", "", "450px"]}
+          width="100%"
+          direction="column"
+          gap={6}
+        >
+          <Flex
+            p={6}
+            direction="column"
+            gap={6}
+            borderRadius={6}
+            bgColor="white"
+          >
+            <Flex direction="column" gap={3}>
+              <Flex
+                fontSize={["md", "md", "lg"]}
+                justifyContent="space-between"
+              >
+                <Text>Produkty</Text>
+                <Price price={activeOrder.subTotalWithTax} />
+              </Flex>
 
-      <Box>
-        <Flex direction="column" gap={1} fontSize="sm">
-          <Flex justifyContent="space-between" alignItems="end">
-            <Text>Przedmioty</Text>
-            <Price fontSize="lg" price={activeOrder.subTotalWithTax} />
+              <Flex
+                fontSize={["md", "md", "lg"]}
+                justifyContent="space-between"
+              >
+                <Text>Dostawa</Text>
+                <Price price={1200} />
+              </Flex>
+
+              <Divider />
+
+              <Flex
+                fontSize={["md", "md", "lg"]}
+                fontWeight="semibold"
+                justifyContent="space-between"
+              >
+                <Text>Łączny koszt</Text>
+                <Price price={activeOrder.subTotalWithTax + 1200} />
+              </Flex>
+            </Flex>
+
+            <Button size={["md", "md", "lg"]} colorScheme="green">
+              Przejdź do kasy
+            </Button>
+
+            <Flex
+              px={1}
+              alignItems="center"
+              gap={1}
+              fontSize={["xs", "sm", "sm", "sm"]}
+              textColor="gray.600"
+            >
+              <FiInfo />
+              <Text>Przed zakupem zapoznaj się z regulaminem sklepu</Text>
+            </Flex>
           </Flex>
-
-          <Flex justifyContent="space-between" alignItems="end">
-            <Text>Wysyłka</Text>
-            <Text fontSize="lg">od 12,00 PLN</Text>
-          </Flex>
-
-          <Divider />
 
           <Flex
-            justifyContent="space-between"
-            alignItems="end"
-            fontWeight="semibold"
+            p={6}
+            direction="column"
+            gap={6}
+            borderRadius={6}
+            bgColor="white"
           >
-            <Text>Suma</Text>
-            <Price fontSize="xl" price={activeOrder.subTotalWithTax + 1200} />
+            <Flex direction="column">
+              <Text fontSize="sm">Dostępne metody płatności:</Text>
+              <Flex p={1} flexWrap="wrap" direction="row" gap={3}>
+                <img width="50px" src="/blik.png" />
+                <img width="50px" src="/blik.png" />
+                <img width="50px" src="/blik.png" />
+              </Flex>
+            </Flex>
+
+            <Flex direction="column">
+              <Text fontSize="sm">Dostępne metody wysyłki:</Text>
+
+              <Flex p={1} flexWrap="wrap" direction="row" gap={3}>
+                <img width="50px" src="/inpost_kurier.png" />
+                <img width="50px" src="/inpost_kurier.png" />
+              </Flex>
+            </Flex>
           </Flex>
         </Flex>
-      </Box>
-
-      <Button colorScheme="green">Przejdź do kasy</Button>
+      </Flex>
     </PageLayout>
   );
 };

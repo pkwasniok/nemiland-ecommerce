@@ -19,7 +19,7 @@ const CollectionPage = ({
     <PageLayout title={`Kolekcja ${collection.name}`}>
       <SimpleGrid columns={[1, 2, 3, 4]} gap={4}>
         {products.map((product, index) => (
-          <Box key={index} bgColor="red.50" borderRadius={6}>
+          <Box key={index} bgColor="green.50" borderRadius={6}>
             <NextLink href={`/product/${product.slug}`}>
               {product.productAsset != undefined && (
                 <AspectRatio ratio={1}>

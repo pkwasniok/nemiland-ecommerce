@@ -104,7 +104,7 @@ const ProductPage = ({
               lowestPrice={product.variants[0].price}
             />
 
-            <Product.ATCButton />
+            <Product.ATCButton onClick={addItemToOrder} />
 
             <Product.DetailsTable>
               <Product.DetailsRow icon={<FiPackage />}>
