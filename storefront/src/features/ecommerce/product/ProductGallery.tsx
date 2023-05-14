@@ -1,70 +1,81 @@
 import { useState } from "react";
-import { Flex, AspectRatio, SimpleGrid } from "@chakra-ui/react";
+import { Flex, AspectRatio, Grid, IconButton, Box } from "@chakra-ui/react";
 import { Image } from "@/features/utils";
+
+import { FiGrid } from "react-icons/fi";
 
 interface ProductGalleryProps {
   images: { src: string }[];
 }
 
 const ProductGallery = ({ images }: ProductGalleryProps) => {
-  const [show, setShow] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(0);
+  const [selectedImage, setSelectedImage] = useState<number | undefined>(0);
+
+  if (selectedImage == undefined) {
+    return (
+      <AspectRatio width="100%" ratio={1} borderRadius={6} bgColor="white">
+        <Box width="100%" height="100%" display="block">
+          <Grid
+            width="100%"
+            height="100%"
+            p={6}
+            templateColumns="repeat(2, 1fr)"
+            templateRows="repeat(2, 1fr)"
+            gap={6}
+          >
+            {images.map((image, index) => (
+              <Box
+                key={index}
+                borderRadius={3}
+                bgColor="green.100"
+                cursor="pointer"
+                onClick={() => setSelectedImage(index)}
+              >
+                <Image src={image.src} width={2000} height={2000} alt="" />
+              </Box>
+            ))}
+          </Grid>
+        </Box>
+      </AspectRatio>
+    );
+  }
 
   return (
-    <Flex position="relative" width="100%" direction="column" gap={4}>
-      <AspectRatio
-        ratio={1}
-        borderRadius={12}
-        overflow="hidden"
-        bgColor="green.100"
-      >
+    <Box
+      position="relative"
+      width="100%"
+      overflow="hidden"
+      borderRadius={6}
+      bgColor="white"
+    >
+      <AspectRatio width="100%" ratio={1} bgColor="green.100">
         <Image
           src={images[selectedImage].src}
-          width={3000}
-          height={3000}
+          width={2000}
+          height={2000}
           alt=""
         />
       </AspectRatio>
 
       <Flex
         position="absolute"
+        top={0}
+        left={0}
         width="100%"
         height="100%"
-        overflow="hidden"
-        p={5}
-        direction="column"
+        p={3}
         justifyContent="end"
-        onMouseEnter={() => setShow(true)}
-        onMouseLeave={() => setShow(false)}
       >
-        <SimpleGrid
-          width="100%"
-          p={3}
-          columns={[3, 3, 3, 5]}
-          gap={3}
-          borderRadius={6}
-          bgColor="white"
-          transform={show ? "translateY(0)" : "translateY(150%)"}
-          transition="all 0.5s"
-        >
-          {images.map((image, index) => (
-            <AspectRatio
-              key={index}
-              width="100%"
-              ratio={1}
-              borderRadius={3}
-              bgColor="green.100"
-              cursor="pointer"
-              border="2px"
-              borderColor={selectedImage == index ? "green.200" : "transparent"}
-              onMouseEnter={() => setSelectedImage(index)}
-            >
-              <Image src={image.src} width={200} height={200} alt="" />
-            </AspectRatio>
-          ))}
-        </SimpleGrid>
+        <IconButton
+          size="sm"
+          variant="ghost"
+          colorScheme="blackAlpha"
+          icon={<FiGrid size={20} />}
+          aria-label=""
+          onClick={() => setSelectedImage(undefined)}
+        />
       </Flex>
-    </Flex>
+    </Box>
   );
 };
 

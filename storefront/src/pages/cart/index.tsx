@@ -80,7 +80,7 @@ const CartPage = () => {
             />
 
             <Button
-              size={["md", "md", "lg"]}
+              size="lg"
               colorScheme="green"
               as={NextLink}
               href="/checkout"
