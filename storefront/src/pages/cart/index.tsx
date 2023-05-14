@@ -3,11 +3,10 @@ import {
   GQL_MUTATION_ADJUST_ORDER_LINE,
   GQL_QUERY_ACTIVE_ORDER,
 } from "@/lib/vendure";
+import NextLink from "next/link";
 
 import { PageLayout } from "@/features/layout";
-import { Price } from "@/features/utils";
-import { Flex, Text, Button, Divider } from "@chakra-ui/react";
-
+import { Flex, Text, Button } from "@chakra-ui/react";
 import { Cart } from "@/features/ecommerce";
 
 import { FiInfo } from "react-icons/fi";
@@ -35,7 +34,11 @@ const CartPage = () => {
   if (activeOrder == undefined || activeOrder.lines.length == 0) {
     return (
       <PageLayout title="Koszyk" showTitle>
-        Koszyk jest pusty
+        <Flex height="85vh" alignItems="center" justifyContent="center">
+          <Text fontSize="lg" fontWeight="semibold">
+            Twój koszyk jest pusty
+          </Text>
+        </Flex>
       </PageLayout>
     );
   }
@@ -71,36 +74,17 @@ const CartPage = () => {
             borderRadius={6}
             bgColor="white"
           >
-            <Flex direction="column" gap={3}>
-              <Flex
-                fontSize={["md", "md", "lg"]}
-                justifyContent="space-between"
-              >
-                <Text>Produkty</Text>
-                <Price price={activeOrder.subTotalWithTax} />
-              </Flex>
+            <Cart.PriceSummary
+              itemsPrice={activeOrder.subTotalWithTax}
+              shippingPrice={1200}
+            />
 
-              <Flex
-                fontSize={["md", "md", "lg"]}
-                justifyContent="space-between"
-              >
-                <Text>Dostawa</Text>
-                <Price price={1200} />
-              </Flex>
-
-              <Divider />
-
-              <Flex
-                fontSize={["md", "md", "lg"]}
-                fontWeight="semibold"
-                justifyContent="space-between"
-              >
-                <Text>Łączny koszt</Text>
-                <Price price={activeOrder.subTotalWithTax + 1200} />
-              </Flex>
-            </Flex>
-
-            <Button size={["md", "md", "lg"]} colorScheme="green">
+            <Button
+              size={["md", "md", "lg"]}
+              colorScheme="green"
+              as={NextLink}
+              href="/checkout"
+            >
               Przejdź do kasy
             </Button>
 
