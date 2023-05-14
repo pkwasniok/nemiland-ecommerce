@@ -14,9 +14,10 @@ import { ProductPagePropsQuery } from "@/__graphql__/graphql";
 
 import { PageLayout } from "@/features/layout";
 import { useToast, Flex, Text, Box } from "@chakra-ui/react";
-import { FiPackage, FiTruck, FiDollarSign } from "react-icons/fi";
-
 import { Product } from "@/features/ecommerce";
+import { StockLevel } from "@/features/utils";
+
+import { FiPackage, FiTruck, FiDollarSign } from "react-icons/fi";
 
 const ProductPage = ({
   product,
@@ -83,9 +84,17 @@ const ProductPage = ({
               borderRadius={6}
               bgColor="white"
             >
-              <Product.Badges
-                badges={[{ label: "Nowość" }, { label: "Promocja" }]}
-              />
+              {product.facetValues.filter(
+                (facetValue) => facetValue.facet.code == "badge"
+              ).length > 0 && (
+                <Product.Badges
+                  badges={product.facetValues
+                    .filter((facetValue) => facetValue.facet.code == "badge")
+                    .map((facetValue) => ({
+                      label: facetValue.name.toUpperCase(),
+                    }))}
+                />
+              )}
 
               <Product.Title
                 productName={product.name}
@@ -110,7 +119,8 @@ const ProductPage = ({
 
               <Product.DetailsTable>
                 <Product.DetailsRow icon={<FiPackage />}>
-                  Dostępność: <Text textColor="green.700">w magazynie</Text>
+                  Dostępność:{" "}
+                  <StockLevel stockLevel={product.variants[0].stockLevel} />
                 </Product.DetailsRow>
                 <Product.DetailsRow icon={<FiTruck />}>
                   Wysyłka do Paczkomat InPost
@@ -239,6 +249,7 @@ const GQL_QUERY_PAGE_PRODUCT_PROPS = graphql(`
         name
         price
         currencyCode
+        stockLevel
       }
       collections {
         name
