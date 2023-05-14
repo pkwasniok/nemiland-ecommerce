@@ -13,7 +13,7 @@ import {
 import { ProductPagePropsQuery } from "@/__graphql__/graphql";
 
 import { PageLayout } from "@/features/layout";
-import { useToast, AspectRatio, Flex, Text, Box } from "@chakra-ui/react";
+import { useToast, Flex, Text, Box } from "@chakra-ui/react";
 import { FiPackage, FiTruck, FiDollarSign } from "react-icons/fi";
 
 import { Product } from "@/features/ecommerce";
@@ -56,89 +56,94 @@ const ProductPage = ({
 
   return (
     <PageLayout title={product.name}>
-      <Flex
-        minHeight="90vh"
-        direction={["column", "column", "column", "row"]}
-        gap={[4, 4, 4, 10]}
-      >
+      <Flex direction="column" gap={6}>
         <Flex
-          flex={[0, 0, 0, 1]}
-          alignItems="center"
-          justifyContent="center"
-          direction="column"
+          height={["", "", "", "92vh"]}
+          direction={["column", "column", "column", "row"]}
+          gap={6}
         >
-          <Flex width={["100%", "100%", "100%", "85%"]}>
+          <Flex flex={[0, 0, 0, 1]} direction="column" justifyContent="center">
             <Product.Gallery
               images={product.assets.map((asset) => ({ src: asset.source }))}
             />
           </Flex>
-        </Flex>
 
-        <Flex
-          flex={[0, 0, 0, 1]}
-          alignItems="center"
-          justifyContent="center"
-          direction="column"
-        >
-          <Flex maxW="450px" w="100%" direction="column" gap={10}>
-            <Product.Badges
-              badges={[{ label: "Nowość" }, { label: "Promocja" }]}
-            />
+          <Flex
+            flex={[0, 0, 0, 1]}
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Flex
+              maxW={["", "", "", "470px"]}
+              w="100%"
+              p={6}
+              direction="column"
+              gap={10}
+              borderRadius={6}
+              bgColor="white"
+            >
+              <Product.Badges
+                badges={[{ label: "Nowość" }, { label: "Promocja" }]}
+              />
 
-            <Product.Title
-              productName={product.name}
-              categoryName={
-                product.facetValues.find(
-                  (facetValue) => facetValue.facet.code == "category"
-                )?.name
-              }
-              logo={
-                <Text fontSize="2xl" fontWeight="bold">
-                  Nemiland
-                </Text>
-              }
-            />
+              <Product.Title
+                productName={product.name}
+                categoryName={
+                  product.facetValues.find(
+                    (facetValue) => facetValue.facet.code == "category"
+                  )?.name
+                }
+                logo={
+                  <Text fontSize="2xl" fontWeight="bold">
+                    Nemiland
+                  </Text>
+                }
+              />
 
-            <Product.Price
-              currentPrice={product.variants[0].price}
-              lowestPrice={product.variants[0].price}
-            />
+              <Product.Price
+                currentPrice={product.variants[0].price}
+                lowestPrice={product.variants[0].price}
+              />
 
-            <Product.ATCButton onClick={addItemToOrder} />
+              <Product.ATCButton onClick={addItemToOrder} />
 
-            <Product.DetailsTable>
-              <Product.DetailsRow icon={<FiPackage />}>
-                Dostępność: <Text textColor="green.700">w magazynie</Text>
-              </Product.DetailsRow>
-              <Product.DetailsRow icon={<FiTruck />}>
-                Wysyłka do Paczkomat InPost
-              </Product.DetailsRow>
-              <Product.DetailsRow icon={<FiDollarSign />}>
-                Szybkie płatności Przelewy24
-              </Product.DetailsRow>
-            </Product.DetailsTable>
+              <Product.DetailsTable>
+                <Product.DetailsRow icon={<FiPackage />}>
+                  Dostępność: <Text textColor="green.700">w magazynie</Text>
+                </Product.DetailsRow>
+                <Product.DetailsRow icon={<FiTruck />}>
+                  Wysyłka do Paczkomat InPost
+                </Product.DetailsRow>
+                <Product.DetailsRow icon={<FiDollarSign />}>
+                  Szybkie płatności Przelewy24
+                </Product.DetailsRow>
+              </Product.DetailsTable>
+            </Flex>
           </Flex>
         </Flex>
-      </Flex>
 
-      <Flex direction="column" p={6} bgColor="white" gap={3} borderRadius={6}>
-        <Text fontSize="lg" fontWeight="semibold">
-          Opis produktu
-        </Text>
+        <Flex p={6} direction="column" gap={3} borderRadius={6} bgColor="white">
+          <Text fontSize="lg" fontWeight="semibold">
+            Opis produktu
+          </Text>
 
-        {product.description && (
-          <Box dangerouslySetInnerHTML={{ __html: product.description }}></Box>
-        )}
+          {product.description ? (
+            <Box
+              dangerouslySetInnerHTML={{ __html: product.description }}
+            ></Box>
+          ) : (
+            <Text>Brak opisu</Text>
+          )}
+        </Flex>
 
-        {!product.description && <Box>Lorem ipsum</Box>}
-      </Flex>
+        <Flex p={6} direction="column" gap={3} borderRadius={6} bgColor="white">
+          <Text fontSize="lg" fontWeight="semibold">
+            Ważne informacje
+          </Text>
 
-      <Flex direction="column" p={6} bgColor="white" gap={3} borderRadius={6}>
-        <Text fontSize="lg" fontWeight="semibold">
-          Ważne informacje
-        </Text>
-
-        <Text>Lorem ipsum</Text>
+          <Text>Lorem ipsum.</Text>
+        </Flex>
       </Flex>
     </PageLayout>
   );
