@@ -4,17 +4,8 @@ import { ApolloClient, InMemoryCache } from "@apollo/client";
 import { graphql } from "@/lib/vendure";
 import { CollectionPagePropsQuery } from "@/__graphql__/graphql";
 
-import { Image, Price } from "@/features/utils";
-import NextLink from "next/link";
 import { PageLayout } from "@/features/layout";
-import {
-  Box,
-  SimpleGrid,
-  AspectRatio,
-  Text,
-  VStack,
-  Flex,
-} from "@chakra-ui/react";
+import { ProductsGallery } from "@/features/ecommerce";
 
 const CollectionPage = ({
   collection,
@@ -24,84 +15,15 @@ const CollectionPage = ({
 
   return (
     <PageLayout title={`Kolekcja ${collection.name}`}>
-      <SimpleGrid columns={[1, 2, 3, 4]} gap={6}>
-        {products.map((product, index) => (
-          <Flex
-            key={index}
-            direction="column"
-            borderRadius={6}
-            bgColor="white"
-            as={NextLink}
-            href={`/product/${product.slug}`}
-          >
-            <AspectRatio
-              width="100%"
-              ratio={1}
-              borderRadius={6}
-              bgColor="green.100"
-            >
-              <Image
-                src={product.productAsset?.preview}
-                width={500}
-                height={500}
-                alt=""
-              />
-            </AspectRatio>
-
-            <Flex p={6} justifyContent="space-between" alignItems="end">
-              <Flex direction="column">
-                <Text fontSize="sm" textColor="gray.600">
-                  Workoplecak
-                </Text>
-                <Text lineHeight={1} fontWeight="semibold">
-                  {product.productName.toUpperCase()}
-                </Text>
-              </Flex>
-
-              <Price
-                fontWeight="semibold"
-                price={product.priceWithTax.value ?? product.priceWithTax.min}
-              />
-            </Flex>
-          </Flex>
-        ))}
-      </SimpleGrid>
-
-      {/* <SimpleGrid columns={[1, 2, 3, 4]} gap={4}>
-        {products.map((product, index) => (
-          <Box key={index} bgColor="green.50" borderRadius={6}>
-            <NextLink href={`/product/${product.slug}`}>
-              {product.productAsset != undefined && (
-                <AspectRatio ratio={1}>
-                  <Image
-                    src={product.productAsset.preview}
-                    width={500}
-                    height={500}
-                    alt=""
-                  />
-                </AspectRatio>
-              )}
-
-              <VStack pb={4} spacing={1}>
-                <VStack spacing={0}>
-                  <Text fontSize="xs">{collection.name}</Text>
-                  <Text fontWeight="semibold" textColor="black">
-                    {product.productName.toUpperCase()}
-                  </Text>
-                </VStack>
-
-                <Price
-                  price={
-                    product.priceWithTax.__typename == "PriceRange"
-                      ? product.priceWithTax.min
-                      : 0
-                  }
-                />
-              </VStack>
-            </NextLink>
-          </Box>
-        ))}
-      </SimpleGrid> */}
+      <ProductsGallery
+        products={products.map((product) => ({
+          href: `/product/${product.slug}`,
+          imageSource: product.productAsset?.preview,
+          name: product.productName,
+          description: "Workoplecak",
+          price: product.priceWithTax.value ?? product.priceWithTax.min,
+        }))}
+      />
     </PageLayout>
   );
 };
