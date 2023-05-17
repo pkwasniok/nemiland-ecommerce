@@ -6,7 +6,7 @@ import {
 import NextLink from "next/link";
 
 import { PageLayout } from "@/features/layout";
-import { Flex, Text, Button } from "@chakra-ui/react";
+import { Flex, Text, Button, Heading } from "@chakra-ui/react";
 import { Cart } from "@/features/ecommerce";
 
 import { FiInfo } from "react-icons/fi";
@@ -45,6 +45,8 @@ const CartPage = () => {
 
   return (
     <PageLayout title="Koszyk" showTitle>
+      <Heading size="md">Koszyk</Heading>
+
       <Flex direction={["column", "column", "column", "row"]} gap={6}>
         <Flex w="100%" direction="column" gap={6}>
           {activeOrder.lines.map((orderLine, index) => (
