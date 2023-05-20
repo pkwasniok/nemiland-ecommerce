@@ -1,13 +1,7 @@
-import { PageLayout } from "@/features/layout";
+import { AccountLayout } from "@/features/layout";
 
 const OrdersPage = () => {
-  return (
-    <PageLayout
-      title="Historia zamówień"
-      backlinkHref="/account"
-      showTitle
-    ></PageLayout>
-  );
+  return <AccountLayout title="Historia zamówień"></AccountLayout>;
 };
 
 export default OrdersPage;

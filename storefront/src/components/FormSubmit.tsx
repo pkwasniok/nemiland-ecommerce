@@ -5,7 +5,7 @@ interface FormSubmitProps
 
 const FormSubmit = ({ children, ...props }: FormSubmitProps) => {
   return (
-    <Button type="submit" colorScheme="green" {...props}>
+    <Button type="submit" {...props}>
       {children}
     </Button>
   );

@@ -1,141 +1,63 @@
-import { useState } from "react";
-import { useQuery, useMutation } from "@apollo/client";
-import {
-  GQL_MUTATION_DELETE_ADDRESS,
-  GQL_QUERY_ADDRESSES,
-} from "@/lib/vendure";
+import { useQuery } from "@apollo/client";
+import { GQL_QUERY_ADDRESSES } from "@/lib/vendure";
 
-import { PageLayout } from "@/features/layout";
-import { CreateAddressWidget, UpdateAddressWidget } from "@/features/address";
-import {
-  useToast,
-  useDisclosure,
-  Button,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-  Card,
-  Heading,
-  Text,
-  Flex,
-} from "@chakra-ui/react";
-import { FiPlus, FiTrash } from "react-icons/fi";
+import { AccountLayout } from "@/features/layout";
+import { useDisclosure, Button, Flex, SimpleGrid } from "@chakra-ui/react";
+import { FiPlus } from "react-icons/fi";
+
+import { Account } from "@/features/ecommerce";
 
 const AddressesPage = () => {
-  const toast = useToast();
+  const addressCreateModal = useDisclosure();
 
-  const [selectedAddress, setAddress] = useState<undefined | string>(undefined);
-  const createAddressModal = useDisclosure();
+  let addresses = undefined;
 
-  const { data: addressesData, loading } = useQuery(GQL_QUERY_ADDRESSES);
-  const addresses = addressesData?.activeCustomer?.addresses ?? undefined;
-
-  const [deleteAddressMutation] = useMutation(GQL_MUTATION_DELETE_ADDRESS, {
-    refetchQueries: [GQL_QUERY_ADDRESSES],
-    onCompleted: (data) => {
-      const result = data.deleteCustomerAddress.success;
-      if (result) {
-        toast({
-          title: "Usunięto adres",
-          status: "success",
-        });
-
-        setAddress(undefined);
-      } else {
-        toast({
-          title: "Wystąpił nieoczekiwany błąd",
-          description: "Spróbuj ponownie później.",
-          status: "error",
-        });
-      }
-    },
-  });
-
-  const handleDeleteAddress = async (addressId: string) => {
-    deleteAddressMutation({ variables: { id: addressId } });
-  };
+  {
+    const { data } = useQuery(GQL_QUERY_ADDRESSES);
+    addresses = data?.activeCustomer?.addresses ?? undefined;
+  }
 
   return (
     <>
-      <PageLayout
-        title="Moje adresy"
-        backlinkHref="/account"
-        isLoading={loading}
-        showTitle
-      >
-        {addresses?.map((address, index) => (
-          <Card
-            key={index}
-            variant="outline"
-            p={4}
-            onClick={() => setAddress(address.id)}
-          >
-            <Flex direction="column" gap={1}>
-              <Heading size="sm">{address.fullName}</Heading>
+      <AccountLayout title="Moje adresy">
+        <Flex direction="column" gap={6}>
+          <SimpleGrid columns={[1, 1, 1, 1, 2]} gap={6}>
+            {addresses?.map((address, index) => (
+              <Account.AddressCard
+                key={index}
+                fullName={address.fullName}
+                phoneNumber={address.phoneNumber}
+                streetLine1={address.streetLine1}
+                streetLine2={address.streetLine2}
+                postalCode={address.postalCode}
+                city={address.city}
+              />
+            ))}
 
-              <Text size="sm">{address.phoneNumber}</Text>
-              <Text size="sm">
-                {address.postalCode} {address.city}
-              </Text>
-              <Text size="sm">{address.streetLine1}</Text>
-            </Flex>
-          </Card>
-        ))}
-
-        <Button leftIcon={<FiPlus />} onClick={createAddressModal.onOpen}>
-          Dodaj nowy adres
-        </Button>
-      </PageLayout>
-
-      <Modal
-        isOpen={createAddressModal.isOpen}
-        onClose={createAddressModal.onClose}
-        size="sm"
-        isCentered
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Dodaj nowy adres</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <CreateAddressWidget onSuccess={createAddressModal.onClose} />
-          </ModalBody>
-          <ModalFooter></ModalFooter>
-        </ModalContent>
-      </Modal>
-
-      <Modal
-        isOpen={selectedAddress != undefined}
-        onClose={() => setAddress(undefined)}
-        size="sm"
-        isCentered
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Edytuj adres</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            {selectedAddress != undefined && (
-              <Flex direction="column" gap={2}>
-                <UpdateAddressWidget addressId={selectedAddress} />
+            <Flex direction="column">
+              <Flex
+                p={6}
+                direction="column"
+                gap={6}
+                borderRadius={6}
+                bgColor="white"
+              >
                 <Button
-                  variant="ghost"
-                  colorScheme="red"
-                  leftIcon={<FiTrash />}
-                  onClick={() => handleDeleteAddress(selectedAddress)}
+                  leftIcon={<FiPlus />}
+                  onClick={addressCreateModal.onOpen}
                 >
-                  Usuń adres
+                  Dodaj nowy adres
                 </Button>
               </Flex>
-            )}
-          </ModalBody>
-          <ModalFooter></ModalFooter>
-        </ModalContent>
-      </Modal>
+            </Flex>
+          </SimpleGrid>
+        </Flex>
+      </AccountLayout>
+
+      <Account.AddressCreateModal
+        isOpen={addressCreateModal.isOpen}
+        onClose={addressCreateModal.onClose}
+      />
     </>
   );
 };

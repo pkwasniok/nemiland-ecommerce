@@ -37,12 +37,7 @@ const LogoutWidget = ({ onSuccess }: LogoutWidgetProps) => {
   };
 
   return (
-    <Button
-      variant="ghost"
-      leftIcon={<FiLogOut />}
-      justifyContent="start"
-      onClick={handleLogout}
-    >
+    <Button leftIcon={<FiLogOut />} onClick={handleLogout} maxW="300px">
       Wyloguj się
     </Button>
   );
