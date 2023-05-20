@@ -1,9 +1,9 @@
-import CheckoutShippingMethodRadio from "./CheckoutShippingMethodSelectorWidget";
-import CheckoutPaymentMethodRadio from "./CheckoutPaymentMethodRadio";
+import CheckoutPriceSummary from "./CheckoutPriceSummary";
+import CheckoutOrderLine from "./CheckoutOrderLine";
 
 const Checkout = {
-  ShippingMethodSelectorWidget: CheckoutShippingMethodRadio,
-  PaymentMethodRadio: CheckoutPaymentMethodRadio,
+  PriceSummary: CheckoutPriceSummary,
+  OrderLine: CheckoutOrderLine,
 };
 
 export default Checkout;

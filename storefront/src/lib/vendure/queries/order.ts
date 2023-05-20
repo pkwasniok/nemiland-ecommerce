@@ -36,23 +36,3 @@ export const GQL_QUERY_ACTIVE_ORDER = graphql(`
     }
   }
 `);
-
-export const GQL_QUERY_SHIPPING_METHODS = graphql(`
-  query ShippingMethods {
-    eligibleShippingMethods {
-      id
-      priceWithTax
-      code
-      name
-      description
-    }
-  }
-`);
-
-export const GQL_MUTATION_SELECT_SHIPPING_METHOD = graphql(`
-  mutation SelectShippingMethod($shippingMethodId: [ID!]!) {
-    setOrderShippingMethod(shippingMethodId: $shippingMethodId) {
-      __typename
-    }
-  }
-`);

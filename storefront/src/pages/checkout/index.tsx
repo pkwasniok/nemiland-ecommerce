@@ -1,114 +1,107 @@
+import { useQuery } from "@apollo/client";
+import { GQL_QUERY_ACTIVE_ORDER } from "@/lib/vendure";
+
 import { PageLayout } from "@/features/layout";
+import { Checkout } from "@/features/ecommerce";
 import {
-  Grid,
-  GridItem,
+  SimpleGrid,
   Flex,
   Heading,
   Button,
-  Text,
-  SimpleGrid,
   Checkbox,
+  Divider,
 } from "@chakra-ui/react";
 import { FiInfo } from "react-icons/fi";
 
-import { Checkout } from "@/features/ecommerce";
-
 const CheckoutPage = () => {
+  let activeOrder = undefined;
+
+  {
+    const { data } = useQuery(GQL_QUERY_ACTIVE_ORDER);
+    activeOrder = data?.activeOrder ?? undefined;
+  }
+
   return (
     <PageLayout title="Kasa">
-      <Heading size="md">Kasa</Heading>
+      <SimpleGrid columns={3} gap={6}>
+        <Flex
+          p={6}
+          direction="column"
+          gap={6}
+          borderRadius={6}
+          bgColor="white"
+        ></Flex>
 
-      <Grid
-        templateColumns={[
-          "repeat(1, 1fr)",
-          "repeat(1, 1fr)",
-          "repeat(2, 1fr)",
-          "repeat(2, 1fr)",
-          "repeat(3, 1fr)",
-        ]}
-        gap={6}
-      >
-        <GridItem colSpan={[1, 1, 1, 1, 2]}>
-          <Grid
-            templateColumns={[
-              "repeat(1, 1fr)",
-              "repeat(1, 1fr)",
-              "repeat(1, 1fr)",
-              "repeat(1, 1fr)",
-              "repeat(2, 1fr)",
-            ]}
+        <Flex
+          p={6}
+          direction="column"
+          gap={6}
+          borderRadius={6}
+          bgColor="white"
+        ></Flex>
+
+        <Flex direction="column" gap={6}>
+          <Flex
+            p={6}
+            direction="column"
             gap={6}
+            borderRadius={6}
+            bgColor="white"
           >
-            <GridItem>
-              <Flex
-                p={6}
-                borderRadius={6}
-                bgColor="white"
-                direction="column"
-                gap={6}
-              >
-                <Heading size="md" textColor="gray.600">
-                  Dostawa
-                </Heading>
+            <Heading size="md" textColor="gray.700">
+              Podsumowanie
+            </Heading>
 
-                <Checkout.ShippingMethodSelectorWidget />
-              </Flex>
-            </GridItem>
+            <Flex direction="column" gap={3}>
+              {activeOrder?.lines.map((orderLine, index) => (
+                <Checkout.OrderLine
+                  key={index}
+                  imageSource={orderLine.featuredAsset?.source}
+                  name={orderLine.productVariant.name}
+                  quantity={orderLine.quantity}
+                  price={orderLine.linePriceWithTax}
+                />
+              ))}
+            </Flex>
 
-            <GridItem>
-              <Flex
-                p={6}
-                borderRadius={6}
-                bgColor="white"
-                direction="column"
-                gap={6}
-              >
-                <Heading size="md" textColor="gray.600">
-                  Płatność
-                </Heading>
+            <Checkout.PriceSummary
+              productsPrice={activeOrder?.subTotalWithTax}
+              shippingPrice={700}
+            />
+          </Flex>
 
-                <Checkout.PaymentMethodRadio />
-              </Flex>
-            </GridItem>
-          </Grid>
-        </GridItem>
+          <Flex
+            direction="column"
+            gap={6}
+            p={6}
+            borderRadius={6}
+            bgColor="white"
+          >
+            <Flex direction="column" gap={1}>
+              <Checkbox size="sm">
+                Zapoznałem się i akceptuję regulamin sklepu.
+              </Checkbox>
+              <Checkbox size="sm">
+                Zapoznałem się i akceptuję politykę prywatności sklepu.
+              </Checkbox>
+            </Flex>
 
-        <GridItem>
-          <Flex direction="column" gap={6}>
+            <Button size="lg" colorScheme="green">
+              Kupuję i płacę
+            </Button>
+
             <Flex
-              p={6}
-              borderRadius={6}
-              bgColor="white"
-              direction="column"
-              gap={6}
+              gap={1}
+              alignItems="center"
+              fontSize="sm"
+              textColor="gray.600"
             >
-              <Heading size="md" textColor="gray.600">
-                Podsumowanie
-              </Heading>
-
-              <Flex direction="column" gap={1}>
-                <Checkbox>Akceptuję regulamin sklepu</Checkbox>
-                <Checkbox>Akceptuję politykę prywatności sklepu</Checkbox>
-              </Flex>
-
-              <Button size="lg" colorScheme="green">
-                Kupuję i płacę
-              </Button>
-
-              <Flex
-                px={1}
-                alignItems="center"
-                gap={1}
-                fontSize={["xs", "sm", "sm", "sm"]}
-                textColor="gray.600"
-              >
-                <FiInfo />
-                <Text>Przed zakupem zapoznaj się z regulaminem sklepu</Text>
-              </Flex>
+              <FiInfo />
+              Przed zakupem zapoznaj się z regulaminem sklepu
             </Flex>
           </Flex>
-        </GridItem>
-      </Grid>
+        </Flex>
+      </SimpleGrid>
     </PageLayout>
   );
 };
