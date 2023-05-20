@@ -31,6 +31,8 @@ const documents = {
     "\n  mutation AddItemToOrder($productVariantId: ID!, $quantity: Int!) {\n    addItemToOrder(productVariantId: $productVariantId, quantity: $quantity) {\n      __typename\n    }\n  }\n": types.AddItemToOrderDocument,
     "\n  mutation AdjustOrderLine($orderLineId: ID!, $quantity: Int!) {\n    adjustOrderLine(orderLineId: $orderLineId, quantity: $quantity) {\n      __typename\n    }\n  }\n": types.AdjustOrderLineDocument,
     "\n  query ActiveOrder {\n    activeOrder {\n      subTotalWithTax\n      totalWithTax\n      lines {\n        id\n        unitPriceWithTax\n        linePriceWithTax\n        quantity\n        productVariant {\n          name\n        }\n        featuredAsset {\n          source\n        }\n      }\n    }\n  }\n": types.ActiveOrderDocument,
+    "\n  query ShippingMethods {\n    eligibleShippingMethods {\n      id\n      priceWithTax\n      code\n      name\n      description\n    }\n  }\n": types.ShippingMethodsDocument,
+    "\n  mutation SelectShippingMethod($shippingMethodId: [ID!]!) {\n    setOrderShippingMethod(shippingMethodId: $shippingMethodId) {\n      __typename\n    }\n  }\n": types.SelectShippingMethodDocument,
     "\n  query CollectionPagePaths {\n    collections {\n      items {\n        slug\n      }\n    }\n  }\n": types.CollectionPagePathsDocument,
     "\n  query CollectionPageProps($slug: String!) {\n    collection(slug: $slug) {\n      id\n      createdAt\n      updatedAt\n      slug\n      name\n    }\n    search(input: { collectionSlug: $slug, groupByProduct: true }) {\n      items {\n        slug\n        productId\n        productName\n        productAsset {\n          id\n          preview\n        }\n        priceWithTax {\n          ... on SinglePrice {\n            value\n          }\n          ... on PriceRange {\n            min\n            max\n          }\n        }\n      }\n    }\n  }\n": types.CollectionPagePropsDocument,
     "\n  query ProductPagePaths {\n    products {\n      items {\n        slug\n      }\n    }\n  }\n": types.ProductPagePathsDocument,
@@ -123,6 +125,14 @@ export function graphql(source: "\n  mutation AdjustOrderLine($orderLineId: ID!,
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query ActiveOrder {\n    activeOrder {\n      subTotalWithTax\n      totalWithTax\n      lines {\n        id\n        unitPriceWithTax\n        linePriceWithTax\n        quantity\n        productVariant {\n          name\n        }\n        featuredAsset {\n          source\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  query ActiveOrder {\n    activeOrder {\n      subTotalWithTax\n      totalWithTax\n      lines {\n        id\n        unitPriceWithTax\n        linePriceWithTax\n        quantity\n        productVariant {\n          name\n        }\n        featuredAsset {\n          source\n        }\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query ShippingMethods {\n    eligibleShippingMethods {\n      id\n      priceWithTax\n      code\n      name\n      description\n    }\n  }\n"): (typeof documents)["\n  query ShippingMethods {\n    eligibleShippingMethods {\n      id\n      priceWithTax\n      code\n      name\n      description\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation SelectShippingMethod($shippingMethodId: [ID!]!) {\n    setOrderShippingMethod(shippingMethodId: $shippingMethodId) {\n      __typename\n    }\n  }\n"): (typeof documents)["\n  mutation SelectShippingMethod($shippingMethodId: [ID!]!) {\n    setOrderShippingMethod(shippingMethodId: $shippingMethodId) {\n      __typename\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -6,13 +6,12 @@ import {
   Heading,
   Button,
   Text,
-  Divider,
   SimpleGrid,
   Checkbox,
 } from "@chakra-ui/react";
 import { FiInfo } from "react-icons/fi";
 
-import { AddressForm } from "@/features/form";
+import { Checkout } from "@/features/ecommerce";
 
 const CheckoutPage = () => {
   return (
@@ -52,64 +51,7 @@ const CheckoutPage = () => {
                   Dostawa
                 </Heading>
 
-                <SimpleGrid columns={[3, 3, 3, 4]} gap={6}>
-                  <Flex
-                    border="2px"
-                    borderRadius={3}
-                    borderColor="green.600"
-                    width="100%"
-                    height="100px"
-                    alignItems="center"
-                    justifyContent="center"
-                    overflow="hidden"
-                    direction="column"
-                    p={3}
-                    cursor="pointer"
-                  >
-                    <img src="/inpost_paczkomat_rectangle.png" />
-                  </Flex>
-                  <Flex
-                    border="1px"
-                    borderRadius={3}
-                    borderColor="gray.200"
-                    width="100%"
-                    height="100px"
-                    alignItems="center"
-                    justifyContent="center"
-                    overflow="hidden"
-                    p={3}
-                    cursor="pointer"
-                  >
-                    <img src="/inpost_kurier_rectangle.png" />
-                  </Flex>
-                  <Flex
-                    border="1px"
-                    borderRadius={3}
-                    borderColor="gray.200"
-                    width="100%"
-                    height="100px"
-                    alignItems="center"
-                    justifyContent="center"
-                    overflow="hidden"
-                    p={3}
-                    cursor="pointer"
-                  >
-                    <img src="/inpost_paczkomat_rectangle.png" />
-                  </Flex>
-                </SimpleGrid>
-
-                <Divider />
-
-                <AddressForm
-                  initialValues={{
-                    city: "",
-                    fullName: "",
-                    phoneNumber: "",
-                    postalCode: "",
-                    streetLine1: "",
-                    streetLine2: "",
-                  }}
-                />
+                <Checkout.ShippingMethodSelectorWidget />
               </Flex>
             </GridItem>
 
@@ -125,68 +67,7 @@ const CheckoutPage = () => {
                   Płatność
                 </Heading>
 
-                <SimpleGrid columns={[3, 3, 3, 4]} gap={6}>
-                  <Flex
-                    border="2px"
-                    borderRadius={3}
-                    borderColor="green.600"
-                    width="100%"
-                    height="100px"
-                    alignItems="center"
-                    justifyContent="center"
-                    overflow="hidden"
-                    direction="column"
-                    p={3}
-                    cursor="pointer"
-                  >
-                    <img src="/blik.png" />
-                  </Flex>
-                  <Flex
-                    border="1px"
-                    borderRadius={3}
-                    borderColor="gray.200"
-                    width="100%"
-                    height="100px"
-                    alignItems="center"
-                    justifyContent="center"
-                    overflow="hidden"
-                    p={3}
-                    cursor="pointer"
-                  >
-                    <img src="/apple_pay.png" />
-                  </Flex>
-                  <Flex
-                    border="1px"
-                    borderRadius={3}
-                    borderColor="gray.200"
-                    width="100%"
-                    height="100px"
-                    alignItems="center"
-                    justifyContent="center"
-                    overflow="hidden"
-                    p={3}
-                    cursor="pointer"
-                  >
-                    <img src="/google_pay.png" />
-                  </Flex>
-
-                  <Flex
-                    border="1px"
-                    borderRadius={3}
-                    borderColor="gray.200"
-                    width="100%"
-                    height="100px"
-                    alignItems="center"
-                    justifyContent="center"
-                    overflow="hidden"
-                    p={3}
-                    cursor="pointer"
-                  >
-                    <img src="/przelewy24.png" />
-                  </Flex>
-                </SimpleGrid>
-
-                <Checkbox>Akceptuję regulamin usługi Przelewy24</Checkbox>
+                <Checkout.PaymentMethodRadio />
               </Flex>
             </GridItem>
           </Grid>
