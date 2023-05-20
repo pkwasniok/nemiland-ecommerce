@@ -36,3 +36,15 @@ export const GQL_QUERY_ACTIVE_ORDER = graphql(`
     }
   }
 `);
+
+export const GQL_QUERY_SHIPPING_METHODS = graphql(`
+  query ShippingMethods {
+    eligibleShippingMethods {
+      id
+      code
+      name
+      description
+      priceWithTax
+    }
+  }
+`);

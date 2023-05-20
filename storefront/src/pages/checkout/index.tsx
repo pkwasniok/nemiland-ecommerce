@@ -21,10 +21,26 @@ const CheckoutPage = () => {
       <Flex direction={["column", "column", "column", "row"]} gap={6}>
         <SimpleGrid flex={1} columns={[1, 1, 1, 1, 2]} gap={6}>
           <Flex direction="column">
-            <Flex p={6} borderRadius={6} bgColor="white"></Flex>
+            <Flex
+              p={6}
+              direction="column"
+              gap={6}
+              borderRadius={6}
+              bgColor="white"
+            >
+              <Heading size="md" textColor="gray.700">
+                Dostawa
+              </Heading>
+
+              <Checkout.ShippingMethodWidget />
+            </Flex>
           </Flex>
           <Flex direction="column">
-            <Flex p={6} borderRadius={6} bgColor="white"></Flex>
+            <Flex p={6} borderRadius={6} bgColor="white">
+              <Heading size="md" textColor="gray.700">
+                Płatność
+              </Heading>
+            </Flex>
           </Flex>
         </SimpleGrid>
 
