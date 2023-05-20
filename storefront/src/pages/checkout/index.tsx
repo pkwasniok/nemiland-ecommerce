@@ -3,14 +3,7 @@ import { GQL_QUERY_ACTIVE_ORDER } from "@/lib/vendure";
 
 import { PageLayout } from "@/features/layout";
 import { Checkout } from "@/features/ecommerce";
-import {
-  SimpleGrid,
-  Flex,
-  Heading,
-  Button,
-  Checkbox,
-  Divider,
-} from "@chakra-ui/react";
+import { SimpleGrid, Flex, Heading, Button, Checkbox } from "@chakra-ui/react";
 import { FiInfo } from "react-icons/fi";
 
 const CheckoutPage = () => {
@@ -23,24 +16,19 @@ const CheckoutPage = () => {
 
   return (
     <PageLayout title="Kasa">
-      <SimpleGrid columns={3} gap={6}>
-        <Flex
-          p={6}
-          direction="column"
-          gap={6}
-          borderRadius={6}
-          bgColor="white"
-        ></Flex>
+      <Heading size="md">Kasa</Heading>
 
-        <Flex
-          p={6}
-          direction="column"
-          gap={6}
-          borderRadius={6}
-          bgColor="white"
-        ></Flex>
+      <Flex direction={["column", "column", "column", "row"]} gap={6}>
+        <SimpleGrid flex={1} columns={[1, 1, 1, 1, 2]} gap={6}>
+          <Flex direction="column">
+            <Flex p={6} borderRadius={6} bgColor="white"></Flex>
+          </Flex>
+          <Flex direction="column">
+            <Flex p={6} borderRadius={6} bgColor="white"></Flex>
+          </Flex>
+        </SimpleGrid>
 
-        <Flex direction="column" gap={6}>
+        <Flex maxW={["", "", "", "450px"]} w="100%" direction="column" gap={6}>
           <Flex
             p={6}
             direction="column"
@@ -57,7 +45,7 @@ const CheckoutPage = () => {
                 <Checkout.OrderLine
                   key={index}
                   imageSource={orderLine.featuredAsset?.source}
-                  name={orderLine.productVariant.name}
+                  name={orderLine.productVariant.name.toUpperCase()}
                   quantity={orderLine.quantity}
                   price={orderLine.linePriceWithTax}
                 />
@@ -101,7 +89,7 @@ const CheckoutPage = () => {
             </Flex>
           </Flex>
         </Flex>
-      </SimpleGrid>
+      </Flex>
     </PageLayout>
   );
 };
