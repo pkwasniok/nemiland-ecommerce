@@ -1,5 +1,5 @@
 import { Flex, Text, IconButton } from "@chakra-ui/react";
-import { FiEdit } from "react-icons/fi";
+import { FiEdit, FiTrash } from "react-icons/fi";
 
 interface AccountAddressCardProps {
   fullName: string;
@@ -9,6 +9,7 @@ interface AccountAddressCardProps {
   postalCode: string;
   city: string;
   onUpdateClick?: () => void;
+  onDeleteClick?: () => void;
 }
 
 const AccountAddressCard = ({
@@ -19,6 +20,7 @@ const AccountAddressCard = ({
   postalCode,
   city,
   onUpdateClick,
+  onDeleteClick,
 }: AccountAddressCardProps) => {
   return (
     <Flex
@@ -37,8 +39,8 @@ const AccountAddressCard = ({
         {postalCode} {city}
       </Text>
 
-      {onUpdate && (
-        <Flex position="absolute" top={4} right={4} gap={3}>
+      <Flex position="absolute" top={4} right={4} gap={3}>
+        {onUpdateClick && (
           <IconButton
             variant="ghost"
             size="sm"
@@ -46,8 +48,18 @@ const AccountAddressCard = ({
             aria-label="edit address"
             onClick={onUpdateClick}
           />
-        </Flex>
-      )}
+        )}
+
+        {onDeleteClick && (
+          <IconButton
+            variant="ghost"
+            size="sm"
+            icon={<FiTrash />}
+            aria-label="delete address"
+            onClick={onDeleteClick}
+          />
+        )}
+      </Flex>
     </Flex>
   );
 };

@@ -13,6 +13,14 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    "\n  query ActiveCustomerHook {\n    activeCustomer {\n      id\n      createdAt\n      updatedAt\n      firstName\n      lastName\n      emailAddress\n      addresses {\n        id\n        createdAt\n        updatedAt\n        fullName\n        phoneNumber\n        streetLine1\n        streetLine2\n        postalCode\n        city\n      }\n    }\n  }\n": types.ActiveCustomerHookDocument,
+    "\n  mutation ActiveCustomerUpdateHook($firstName: String, $lastName: String!) {\n    updateCustomer(input: { firstName: $firstName, lastName: $lastName }) {\n      __typename\n    }\n  }\n": types.ActiveCustomerUpdateHookDocument,
+    "\n  mutation ActiveCustomerHookCreateAddress(\n    $fullName: String!\n    $phoneNumber: String!\n    $streetLine1: String!\n    $streetLine2: String!\n    $city: String!\n    $postalCode: String!\n  ) {\n    createCustomerAddress(\n      input: {\n        fullName: $fullName\n        phoneNumber: $phoneNumber\n        streetLine1: $streetLine1\n        streetLine2: $streetLine2\n        city: $city\n        postalCode: $postalCode\n        countryCode: \"PL\"\n      }\n    ) {\n      __typename\n    }\n  }\n": types.ActiveCustomerHookCreateAddressDocument,
+    "\n  mutation ActiveCustomerHookDeleteAddress($id: ID!) {\n    deleteCustomerAddress(id: $id) {\n      success\n    }\n  }\n": types.ActiveCustomerHookDeleteAddressDocument,
+    "\n  mutation ActiveCustomerHookUpdateAddress(\n    $id: ID!\n    $fullName: String!\n    $phoneNumber: String!\n    $streetLine1: String!\n    $streetLine2: String!\n    $city: String!\n    $postalCode: String!\n  ) {\n    updateCustomerAddress(\n      input: {\n        id: $id\n        fullName: $fullName\n        phoneNumber: $phoneNumber\n        streetLine1: $streetLine1\n        streetLine2: $streetLine2\n        city: $city\n        postalCode: $postalCode\n        countryCode: \"PL\"\n      }\n    ) {\n      __typename\n    }\n  }\n": types.ActiveCustomerHookUpdateAddressDocument,
+    "\n  mutation LoginHook($email: String!, $password: String!) {\n    login(username: $email, password: $password) {\n      __typename\n    }\n  }\n": types.LoginHookDocument,
+    "\n  mutation LogoutHook {\n    logout {\n      success\n    }\n  }\n": types.LogoutHookDocument,
+    "\n  mutation RegisterHook(\n    $email: String!\n    $firstName: String!\n    $lastName: String!\n    $password: String!\n  ) {\n    registerCustomerAccount(\n      input: {\n        emailAddress: $email\n        firstName: $firstName\n        lastName: $lastName\n        password: $password\n      }\n    ) {\n      __typename\n    }\n  }\n": types.RegisterHookDocument,
     "\n  query Addresses {\n    activeCustomer {\n      addresses {\n        id\n        createdAt\n        updatedAt\n        fullName\n        streetLine1\n        streetLine2\n        city\n        province\n        postalCode\n        country {\n          code\n          name\n        }\n        phoneNumber\n        defaultShippingAddress\n        defaultBillingAddress\n      }\n    }\n  }\n": types.AddressesDocument,
     "\n  mutation CreateAddress(\n    $fullName: String!\n    $phoneNumber: String!\n    $streetLine1: String!\n    $streetLine2: String!\n    $city: String!\n    $postalCode: String!\n  ) {\n    createCustomerAddress(\n      input: {\n        fullName: $fullName\n        phoneNumber: $phoneNumber\n        streetLine1: $streetLine1\n        streetLine2: $streetLine2\n        city: $city\n        postalCode: $postalCode\n        countryCode: \"PL\"\n      }\n    ) {\n      __typename\n    }\n  }\n": types.CreateAddressDocument,
     "\n  mutation UpdateAddress(\n    $id: ID!\n    $fullName: String!\n    $phoneNumber: String!\n    $streetLine1: String!\n    $streetLine2: String!\n    $city: String!\n    $postalCode: String!\n  ) {\n    updateCustomerAddress(\n      input: {\n        id: $id\n        fullName: $fullName\n        phoneNumber: $phoneNumber\n        streetLine1: $streetLine1\n        streetLine2: $streetLine2\n        city: $city\n        postalCode: $postalCode\n        countryCode: \"PL\"\n      }\n    ) {\n      __typename\n    }\n  }\n": types.UpdateAddressDocument,
@@ -52,6 +60,38 @@ const documents = {
  */
 export function graphql(source: string): unknown;
 
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query ActiveCustomerHook {\n    activeCustomer {\n      id\n      createdAt\n      updatedAt\n      firstName\n      lastName\n      emailAddress\n      addresses {\n        id\n        createdAt\n        updatedAt\n        fullName\n        phoneNumber\n        streetLine1\n        streetLine2\n        postalCode\n        city\n      }\n    }\n  }\n"): (typeof documents)["\n  query ActiveCustomerHook {\n    activeCustomer {\n      id\n      createdAt\n      updatedAt\n      firstName\n      lastName\n      emailAddress\n      addresses {\n        id\n        createdAt\n        updatedAt\n        fullName\n        phoneNumber\n        streetLine1\n        streetLine2\n        postalCode\n        city\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation ActiveCustomerUpdateHook($firstName: String, $lastName: String!) {\n    updateCustomer(input: { firstName: $firstName, lastName: $lastName }) {\n      __typename\n    }\n  }\n"): (typeof documents)["\n  mutation ActiveCustomerUpdateHook($firstName: String, $lastName: String!) {\n    updateCustomer(input: { firstName: $firstName, lastName: $lastName }) {\n      __typename\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation ActiveCustomerHookCreateAddress(\n    $fullName: String!\n    $phoneNumber: String!\n    $streetLine1: String!\n    $streetLine2: String!\n    $city: String!\n    $postalCode: String!\n  ) {\n    createCustomerAddress(\n      input: {\n        fullName: $fullName\n        phoneNumber: $phoneNumber\n        streetLine1: $streetLine1\n        streetLine2: $streetLine2\n        city: $city\n        postalCode: $postalCode\n        countryCode: \"PL\"\n      }\n    ) {\n      __typename\n    }\n  }\n"): (typeof documents)["\n  mutation ActiveCustomerHookCreateAddress(\n    $fullName: String!\n    $phoneNumber: String!\n    $streetLine1: String!\n    $streetLine2: String!\n    $city: String!\n    $postalCode: String!\n  ) {\n    createCustomerAddress(\n      input: {\n        fullName: $fullName\n        phoneNumber: $phoneNumber\n        streetLine1: $streetLine1\n        streetLine2: $streetLine2\n        city: $city\n        postalCode: $postalCode\n        countryCode: \"PL\"\n      }\n    ) {\n      __typename\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation ActiveCustomerHookDeleteAddress($id: ID!) {\n    deleteCustomerAddress(id: $id) {\n      success\n    }\n  }\n"): (typeof documents)["\n  mutation ActiveCustomerHookDeleteAddress($id: ID!) {\n    deleteCustomerAddress(id: $id) {\n      success\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation ActiveCustomerHookUpdateAddress(\n    $id: ID!\n    $fullName: String!\n    $phoneNumber: String!\n    $streetLine1: String!\n    $streetLine2: String!\n    $city: String!\n    $postalCode: String!\n  ) {\n    updateCustomerAddress(\n      input: {\n        id: $id\n        fullName: $fullName\n        phoneNumber: $phoneNumber\n        streetLine1: $streetLine1\n        streetLine2: $streetLine2\n        city: $city\n        postalCode: $postalCode\n        countryCode: \"PL\"\n      }\n    ) {\n      __typename\n    }\n  }\n"): (typeof documents)["\n  mutation ActiveCustomerHookUpdateAddress(\n    $id: ID!\n    $fullName: String!\n    $phoneNumber: String!\n    $streetLine1: String!\n    $streetLine2: String!\n    $city: String!\n    $postalCode: String!\n  ) {\n    updateCustomerAddress(\n      input: {\n        id: $id\n        fullName: $fullName\n        phoneNumber: $phoneNumber\n        streetLine1: $streetLine1\n        streetLine2: $streetLine2\n        city: $city\n        postalCode: $postalCode\n        countryCode: \"PL\"\n      }\n    ) {\n      __typename\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation LoginHook($email: String!, $password: String!) {\n    login(username: $email, password: $password) {\n      __typename\n    }\n  }\n"): (typeof documents)["\n  mutation LoginHook($email: String!, $password: String!) {\n    login(username: $email, password: $password) {\n      __typename\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation LogoutHook {\n    logout {\n      success\n    }\n  }\n"): (typeof documents)["\n  mutation LogoutHook {\n    logout {\n      success\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation RegisterHook(\n    $email: String!\n    $firstName: String!\n    $lastName: String!\n    $password: String!\n  ) {\n    registerCustomerAccount(\n      input: {\n        emailAddress: $email\n        firstName: $firstName\n        lastName: $lastName\n        password: $password\n      }\n    ) {\n      __typename\n    }\n  }\n"): (typeof documents)["\n  mutation RegisterHook(\n    $email: String!\n    $firstName: String!\n    $lastName: String!\n    $password: String!\n  ) {\n    registerCustomerAccount(\n      input: {\n        emailAddress: $email\n        firstName: $firstName\n        lastName: $lastName\n        password: $password\n      }\n    ) {\n      __typename\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

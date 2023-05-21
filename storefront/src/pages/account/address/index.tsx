@@ -1,28 +1,19 @@
-import { useQuery } from "@apollo/client";
-import { GQL_QUERY_ADDRESSES } from "@/lib/vendure";
-
+import { useActiveCustomer, Account } from "@/features/ecommerce";
 import { AccountLayout } from "@/features/layout";
 import { useDisclosure, Button, Flex, SimpleGrid } from "@chakra-ui/react";
 import { FiPlus } from "react-icons/fi";
 
-import { Account } from "@/features/ecommerce";
-
 const AddressesPage = () => {
   const addressCreateModal = useDisclosure();
 
-  let addresses = undefined;
-
-  {
-    const { data } = useQuery(GQL_QUERY_ADDRESSES);
-    addresses = data?.activeCustomer?.addresses ?? undefined;
-  }
+  const { activeCustomer, deleteAddress } = useActiveCustomer();
 
   return (
     <>
       <AccountLayout title="Moje adresy">
         <Flex direction="column" gap={6}>
           <SimpleGrid columns={[1, 1, 1, 1, 2]} gap={6}>
-            {addresses?.map((address, index) => (
+            {activeCustomer?.addresses?.map((address, index) => (
               <Account.AddressCard
                 key={index}
                 fullName={address.fullName}
@@ -31,6 +22,7 @@ const AddressesPage = () => {
                 streetLine2={address.streetLine2}
                 postalCode={address.postalCode}
                 city={address.city}
+                onDeleteClick={() => deleteAddress({ id: address.id })}
               />
             ))}
 

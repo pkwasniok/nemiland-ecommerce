@@ -1,12 +1,6 @@
-import { useMutation } from "@apollo/client";
-import {
-  GQL_MUTATION_CREATE_ADDRESS,
-  GQL_QUERY_ADDRESSES,
-} from "@/lib/vendure";
-
+import { useActiveCustomer } from "@/features/ecommerce";
 import { AddressForm, AddressFormValues } from "./forms/AddressForm";
 import {
-  useToast,
   Modal,
   ModalProps,
   ModalBody,
@@ -23,25 +17,10 @@ interface AccountAddressCreateModalProps extends Omit<ModalProps, "children"> {
 const AccountAddressCreateModal = ({
   ...props
 }: AccountAddressCreateModalProps) => {
-  const toast = useToast();
-
-  const [createAddressMutation] = useMutation(GQL_MUTATION_CREATE_ADDRESS, {
-    refetchQueries: [GQL_QUERY_ADDRESSES],
-    onCompleted: (data) => {
-      const result = data.createCustomerAddress.__typename;
-
-      if (result == "Address") {
-        toast({
-          title: "Utworzono nowy adres",
-          status: "success",
-        });
-        props.onClose();
-      }
-    },
-  });
+  const { createAddress } = useActiveCustomer();
 
   const handleSubmit = (values: AddressFormValues) => {
-    createAddressMutation({ variables: values });
+    createAddress(values);
   };
 
   return (

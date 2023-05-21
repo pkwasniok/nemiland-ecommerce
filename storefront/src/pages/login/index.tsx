@@ -2,8 +2,8 @@ import { useRouter } from "next/router";
 import NextLink from "next/link";
 
 import { PageLayout } from "@/features/layout";
-import { LoginWidget } from "@/features/account";
 import { Flex, Button, Heading } from "@chakra-ui/react";
+import { Account } from "@/features/ecommerce";
 
 import { FiMail, FiSearch, FiList, FiEdit3 } from "react-icons/fi";
 
@@ -33,7 +33,7 @@ const LoginPage = () => {
           >
             <Heading size="md">Logowanie</Heading>
 
-            <LoginWidget onSuccess={() => router.push("/account")} />
+            <Account.LoginWidget onSuccess={() => router.push("/account")} />
 
             <Button as={NextLink} href="/password-reset">
               Zresetuj hasło

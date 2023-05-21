@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import NextLink from "next/link";
 
 import { PageLayout } from "@/features/layout";
-import { RegisterWidget } from "@/features/account";
+import { Account } from "@/features/ecommerce";
 import { Flex, Heading, Button } from "@chakra-ui/react";
 
 const RegisterPage = () => {
@@ -31,7 +31,7 @@ const RegisterPage = () => {
           >
             <Heading size="md">Rejestracja</Heading>
 
-            <RegisterWidget onSuccess={() => router.push("/login")} />
+            <Account.RegisterWidget onSuccess={() => router.push("/login")} />
           </Flex>
         </Flex>
 

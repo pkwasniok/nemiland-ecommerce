@@ -1,16 +1,18 @@
 import { useRouter } from "next/router";
-import { useQuery } from "@apollo/client";
-import { GQL_QUERY_ACTIVE_CUSTOMER } from "@/lib/vendure";
 
+import { useLogout, useActiveCustomer, Account } from "@/features/ecommerce";
 import { AccountLayout } from "@/features/layout";
-import { UpdateCustomerWidget, LogoutWidget } from "@/features/account";
-import { Flex, Heading } from "@chakra-ui/react";
+import { Flex, Heading, Button } from "@chakra-ui/react";
+import { FiLogOut } from "react-icons/fi";
 
 const SettingsPage = () => {
   const router = useRouter();
 
-  const { data: activeCustomerData } = useQuery(GQL_QUERY_ACTIVE_CUSTOMER);
-  const activeCustomer = activeCustomerData?.activeCustomer ?? undefined;
+  const { activeCustomer } = useActiveCustomer();
+
+  const { logout } = useLogout({
+    onSuccess: () => router.push("/login"),
+  });
 
   if (activeCustomer == undefined) {
     return <div></div>;
@@ -20,12 +22,14 @@ const SettingsPage = () => {
     <AccountLayout title="Ustawienia konta">
       <Flex p={6} direction="column" gap={6} borderRadius={6} bgColor="white">
         <Heading size="sm">Moje dane</Heading>
-        <UpdateCustomerWidget />
+        <Account.UpdateWidget />
       </Flex>
 
       <Flex p={6} direction="column" gap={6} borderRadius={6} bgColor="white">
         <Heading size="sm">Zarządzaj kontem</Heading>
-        <LogoutWidget onSuccess={() => router.push("/login")} />
+        <Button leftIcon={<FiLogOut />} onClick={logout}>
+          Wyloguj się
+        </Button>
       </Flex>
     </AccountLayout>
   );

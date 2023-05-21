@@ -1,6 +1,4 @@
-import { useMutation } from "@apollo/client";
-import { GQL_MUTATION_LOGOUT, GQL_QUERY_ACTIVE_CUSTOMER } from "@/lib/vendure";
-
+import { useLogout } from "@/features/ecommerce";
 import { useToast, Button } from "@chakra-ui/react";
 import { FiLogOut } from "react-icons/fi";
 
@@ -10,34 +8,19 @@ interface LogoutWidgetProps {
 
 const LogoutWidget = ({ onSuccess }: LogoutWidgetProps) => {
   const toast = useToast();
+  const { logout } = useLogout();
 
-  const [logoutMutation] = useMutation(GQL_MUTATION_LOGOUT, {
-    refetchQueries: [GQL_QUERY_ACTIVE_CUSTOMER],
-    onCompleted: (data) => {
-      const result = data.logout.__typename;
-      if (result == "Success") {
-        toast({
-          title: "Wylogowano",
-          status: "success",
-        });
-
-        onSuccess?.();
-      } else {
-        toast({
-          title: "Wystąpił nieoczekiwany błąd",
-          description: "Spróbuj ponownie później.",
-          status: "error",
-        });
-      }
-    },
-  });
-
-  const handleLogout = async () => {
-    logoutMutation({});
+  const handleClick = async () => {
+    logout();
+    onSuccess?.();
+    toast({
+      title: "Wylogowano",
+      status: "success",
+    });
   };
 
   return (
-    <Button leftIcon={<FiLogOut />} onClick={handleLogout} maxW="300px">
+    <Button leftIcon={<FiLogOut />} onClick={handleClick} maxW="300px">
       Wyloguj się
     </Button>
   );

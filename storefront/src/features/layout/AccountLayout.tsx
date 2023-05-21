@@ -1,8 +1,7 @@
 import { ReactNode } from "react";
 import NextLink from "next/link";
-import { useQuery } from "@apollo/client";
-import { GQL_QUERY_ACTIVE_CUSTOMER } from "@/lib/vendure";
 
+import { useActiveCustomer } from "@/features/ecommerce";
 import { PageLayout } from ".";
 import { Button, Flex, Heading, Text } from "@chakra-ui/react";
 
@@ -14,12 +13,7 @@ interface AccountLayoutProps {
 }
 
 const AccountLayout = ({ children, title }: AccountLayoutProps) => {
-  let activeCustomer = undefined;
-
-  {
-    const { data } = useQuery(GQL_QUERY_ACTIVE_CUSTOMER);
-    activeCustomer = data?.activeCustomer ?? undefined;
-  }
+  const { activeCustomer } = useActiveCustomer();
 
   return (
     <PageLayout title={title} isLoading={activeCustomer == undefined}>
