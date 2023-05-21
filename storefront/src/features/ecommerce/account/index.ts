@@ -7,6 +7,7 @@ import AccountRegisterWidget from "./AccountRegisterWidget";
 import AccountUpdateWidget from "./AccountUpdateWidget";
 import AccountAddressCard from "./AccountAddressCard";
 import AccountAddressCreateModal from "./AccountAddressCreateModal";
+import AccountAddressUpdateModal from "./AccountAddressUpdateModal";
 
 const Account = {
   LoginWidget: AccountLoginWidget,
@@ -14,6 +15,7 @@ const Account = {
   UpdateWidget: AccountUpdateWidget,
   AddressCard: AccountAddressCard,
   AddressCreateModal: AccountAddressCreateModal,
+  AddressUpdateModal: AccountAddressUpdateModal,
 };
 
 export { useLogin, useRegister, useLogout, useActiveCustomer, Account };

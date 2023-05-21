@@ -1,12 +1,18 @@
+import { useState } from "react";
+
 import { useActiveCustomer, Account } from "@/features/ecommerce";
 import { AccountLayout } from "@/features/layout";
 import { useDisclosure, Button, Flex, SimpleGrid } from "@chakra-ui/react";
+
 import { FiPlus } from "react-icons/fi";
 
 const AddressesPage = () => {
   const addressCreateModal = useDisclosure();
-
   const { activeCustomer, deleteAddress } = useActiveCustomer();
+
+  const [selectedAddress, setSelectedAddress] = useState<number | undefined>(
+    undefined
+  );
 
   return (
     <>
@@ -22,6 +28,7 @@ const AddressesPage = () => {
                 streetLine2={address.streetLine2}
                 postalCode={address.postalCode}
                 city={address.city}
+                onUpdateClick={() => setSelectedAddress(address.id)}
                 onDeleteClick={() => deleteAddress({ id: address.id })}
               />
             ))}
@@ -50,6 +57,14 @@ const AddressesPage = () => {
         isOpen={addressCreateModal.isOpen}
         onClose={addressCreateModal.onClose}
       />
+
+      {selectedAddress != undefined && (
+        <Account.AddressUpdateModal
+          addressId={selectedAddress}
+          isOpen={selectedAddress != undefined}
+          onClose={() => setSelectedAddress(undefined)}
+        />
+      )}
     </>
   );
 };

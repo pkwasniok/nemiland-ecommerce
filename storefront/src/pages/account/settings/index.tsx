@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useLogout, useActiveCustomer, Account } from "@/features/ecommerce";
 import { AccountLayout } from "@/features/layout";
 import { Flex, Heading, Button } from "@chakra-ui/react";
+
 import { FiLogOut } from "react-icons/fi";
 
 const SettingsPage = () => {
