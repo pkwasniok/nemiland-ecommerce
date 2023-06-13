@@ -23,14 +23,14 @@ const documents = {
     "\n  mutation RegisterHook(\n    $email: String!\n    $firstName: String!\n    $lastName: String!\n    $password: String!\n  ) {\n    registerCustomerAccount(\n      input: {\n        emailAddress: $email\n        firstName: $firstName\n        lastName: $lastName\n        password: $password\n      }\n    ) {\n      __typename\n    }\n  }\n": types.RegisterHookDocument,
     "\n  mutation VerificationHookRequestVerification($email: String!) {\n    refreshCustomerVerification(emailAddress: $email) {\n      __typename\n    }\n  }\n": types.VerificationHookRequestVerificationDocument,
     "\n  mutation VerificationHookVerify($token: String!) {\n    verifyCustomerAccount(token: $token) {\n      __typename\n    }\n  }\n": types.VerificationHookVerifyDocument,
+    "\n  mutation Login($email: String!, $password: String!) {\n    login(username: $email, password: $password) {\n      __typename\n    }\n  }\n": types.LoginDocument,
+    "\n  mutation Logout {\n    logout {\n      __typename\n    }\n  }\n": types.LogoutDocument,
+    "\n  mutation Register(\n    $email: String!\n    $firstName: String!\n    $lastName: String!\n    $password: String!\n  ) {\n    registerCustomerAccount(\n      input: {\n        emailAddress: $email\n        firstName: $firstName\n        lastName: $lastName\n        password: $password\n      }\n    ) {\n      __typename\n    }\n  }\n": types.RegisterDocument,
     "\n  query Addresses {\n    activeCustomer {\n      addresses {\n        id\n        createdAt\n        updatedAt\n        fullName\n        streetLine1\n        streetLine2\n        city\n        province\n        postalCode\n        country {\n          code\n          name\n        }\n        phoneNumber\n        defaultShippingAddress\n        defaultBillingAddress\n      }\n    }\n  }\n": types.AddressesDocument,
     "\n  mutation CreateAddress(\n    $fullName: String!\n    $phoneNumber: String!\n    $streetLine1: String!\n    $streetLine2: String!\n    $city: String!\n    $postalCode: String!\n  ) {\n    createCustomerAddress(\n      input: {\n        fullName: $fullName\n        phoneNumber: $phoneNumber\n        streetLine1: $streetLine1\n        streetLine2: $streetLine2\n        city: $city\n        postalCode: $postalCode\n        countryCode: \"PL\"\n      }\n    ) {\n      __typename\n    }\n  }\n": types.CreateAddressDocument,
     "\n  mutation UpdateAddress(\n    $id: ID!\n    $fullName: String!\n    $phoneNumber: String!\n    $streetLine1: String!\n    $streetLine2: String!\n    $city: String!\n    $postalCode: String!\n  ) {\n    updateCustomerAddress(\n      input: {\n        id: $id\n        fullName: $fullName\n        phoneNumber: $phoneNumber\n        streetLine1: $streetLine1\n        streetLine2: $streetLine2\n        city: $city\n        postalCode: $postalCode\n        countryCode: \"PL\"\n      }\n    ) {\n      __typename\n    }\n  }\n": types.UpdateAddressDocument,
     "\n  mutation DeleteAddress($id: ID!) {\n    deleteCustomerAddress(id: $id) {\n      success\n    }\n  }\n": types.DeleteAddressDocument,
     "\n  query Collections {\n    collections {\n      items {\n        id\n        createdAt\n        updatedAt\n        slug\n        name\n      }\n    }\n  }\n": types.CollectionsDocument,
-    "\n  mutation Register(\n    $firstName: String!\n    $lastName: String!\n    $email: String!\n    $password: String!\n  ) {\n    registerCustomerAccount(\n      input: {\n        firstName: $firstName\n        lastName: $lastName\n        emailAddress: $email\n        password: $password\n      }\n    ) {\n      __typename\n    }\n  }\n": types.RegisterDocument,
-    "\n  mutation Login($email: String!, $password: String!) {\n    login(username: $email, password: $password) {\n      __typename\n    }\n  }\n": types.LoginDocument,
-    "\n  mutation Logout {\n    logout {\n      __typename\n    }\n  }\n": types.LogoutDocument,
     "\n  mutation RequestPasswordReset($email: String!) {\n    requestPasswordReset(emailAddress: $email) {\n      __typename\n    }\n  }\n": types.RequestPasswordResetDocument,
     "\n  mutation ResetPassword($token: String!, $newPassword: String!) {\n    resetPassword(token: $token, password: $newPassword) {\n      __typename\n    }\n  }\n": types.ResetPasswordDocument,
     "\n  mutation RequestVerification($email: String!) {\n    refreshCustomerVerification(emailAddress: $email) {\n      __typename\n    }\n  }\n": types.RequestVerificationDocument,
@@ -105,6 +105,18 @@ export function graphql(source: "\n  mutation VerificationHookVerify($token: Str
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "\n  mutation Login($email: String!, $password: String!) {\n    login(username: $email, password: $password) {\n      __typename\n    }\n  }\n"): (typeof documents)["\n  mutation Login($email: String!, $password: String!) {\n    login(username: $email, password: $password) {\n      __typename\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation Logout {\n    logout {\n      __typename\n    }\n  }\n"): (typeof documents)["\n  mutation Logout {\n    logout {\n      __typename\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation Register(\n    $email: String!\n    $firstName: String!\n    $lastName: String!\n    $password: String!\n  ) {\n    registerCustomerAccount(\n      input: {\n        emailAddress: $email\n        firstName: $firstName\n        lastName: $lastName\n        password: $password\n      }\n    ) {\n      __typename\n    }\n  }\n"): (typeof documents)["\n  mutation Register(\n    $email: String!\n    $firstName: String!\n    $lastName: String!\n    $password: String!\n  ) {\n    registerCustomerAccount(\n      input: {\n        emailAddress: $email\n        firstName: $firstName\n        lastName: $lastName\n        password: $password\n      }\n    ) {\n      __typename\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "\n  query Addresses {\n    activeCustomer {\n      addresses {\n        id\n        createdAt\n        updatedAt\n        fullName\n        streetLine1\n        streetLine2\n        city\n        province\n        postalCode\n        country {\n          code\n          name\n        }\n        phoneNumber\n        defaultShippingAddress\n        defaultBillingAddress\n      }\n    }\n  }\n"): (typeof documents)["\n  query Addresses {\n    activeCustomer {\n      addresses {\n        id\n        createdAt\n        updatedAt\n        fullName\n        streetLine1\n        streetLine2\n        city\n        province\n        postalCode\n        country {\n          code\n          name\n        }\n        phoneNumber\n        defaultShippingAddress\n        defaultBillingAddress\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -122,18 +134,6 @@ export function graphql(source: "\n  mutation DeleteAddress($id: ID!) {\n    del
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query Collections {\n    collections {\n      items {\n        id\n        createdAt\n        updatedAt\n        slug\n        name\n      }\n    }\n  }\n"): (typeof documents)["\n  query Collections {\n    collections {\n      items {\n        id\n        createdAt\n        updatedAt\n        slug\n        name\n      }\n    }\n  }\n"];
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(source: "\n  mutation Register(\n    $firstName: String!\n    $lastName: String!\n    $email: String!\n    $password: String!\n  ) {\n    registerCustomerAccount(\n      input: {\n        firstName: $firstName\n        lastName: $lastName\n        emailAddress: $email\n        password: $password\n      }\n    ) {\n      __typename\n    }\n  }\n"): (typeof documents)["\n  mutation Register(\n    $firstName: String!\n    $lastName: String!\n    $email: String!\n    $password: String!\n  ) {\n    registerCustomerAccount(\n      input: {\n        firstName: $firstName\n        lastName: $lastName\n        emailAddress: $email\n        password: $password\n      }\n    ) {\n      __typename\n    }\n  }\n"];
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(source: "\n  mutation Login($email: String!, $password: String!) {\n    login(username: $email, password: $password) {\n      __typename\n    }\n  }\n"): (typeof documents)["\n  mutation Login($email: String!, $password: String!) {\n    login(username: $email, password: $password) {\n      __typename\n    }\n  }\n"];
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(source: "\n  mutation Logout {\n    logout {\n      __typename\n    }\n  }\n"): (typeof documents)["\n  mutation Logout {\n    logout {\n      __typename\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

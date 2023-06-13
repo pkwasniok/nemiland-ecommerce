@@ -1,3 +1,4 @@
+import useCustomer from "./hooks/useCustomer";
 import useLogin from "./hooks/useLogin";
 import useRegister from "./hooks/useRegister";
 import useLogout from "./hooks/useLogout";
@@ -22,6 +23,7 @@ const Account = {
 };
 
 export {
+  useCustomer,
   useLogin,
   useRegister,
   useLogout,

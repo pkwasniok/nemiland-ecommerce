@@ -9,7 +9,11 @@ import { Flex, Heading, Button } from "@chakra-ui/react";
 const VerificationPage = () => {
   const router = useRouter();
 
-  const { verify } = useVerification();
+  const { verify } = useVerification({
+    onSuccess: () => {
+      router.push("/login");
+    },
+  });
 
   useEffect(() => {
     if (router.isReady && router.query.token != undefined) {

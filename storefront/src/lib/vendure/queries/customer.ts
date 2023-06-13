@@ -1,41 +1,5 @@
 import { graphql } from "@/__graphql__";
 
-export const GQL_MUTATION_REGISTER = graphql(`
-  mutation Register(
-    $firstName: String!
-    $lastName: String!
-    $email: String!
-    $password: String!
-  ) {
-    registerCustomerAccount(
-      input: {
-        firstName: $firstName
-        lastName: $lastName
-        emailAddress: $email
-        password: $password
-      }
-    ) {
-      __typename
-    }
-  }
-`);
-
-export const GQL_MUTATION_LOGIN = graphql(`
-  mutation Login($email: String!, $password: String!) {
-    login(username: $email, password: $password) {
-      __typename
-    }
-  }
-`);
-
-export const GQL_MUTATION_LOGOUT = graphql(`
-  mutation Logout {
-    logout {
-      __typename
-    }
-  }
-`);
-
 export const GQL_MUTATION_REQUEST_PASSWORD_RESET = graphql(`
   mutation RequestPasswordReset($email: String!) {
     requestPasswordReset(emailAddress: $email) {
